@@ -1,0 +1,29 @@
+<!-- <div class="mat-card">
+    <mat-tab-group (selectedTabChange)="onTabSelected($event.index)" mat-align-tabs="start">
+        <mat-tab class="active" (click)="onTabSelected(1)" label="All Order">
+            <app-table (onAnyAction)="onAnyAction($event)" (addClick)="addOrderClick($event)" (deleteClick)="deleteOrderClicked($event)" (reloadData)="getDatFromServer($event)" [config]="OrdersTableConfig"></app-table>
+        </mat-tab>
+        <mat-tab (click)="onTabSelected(2)" label="Awaiting Payment">
+            <app-table (onAnyAction)="onAnyAction($event)" (addClick)="addOrderClick($event)" (deleteClick)="deleteOrderClicked($event)" (reloadData)="getDatFromServer($event)" [config]="OrdersTableConfig"></app-table>
+        </mat-tab>
+        <mat-tab (click)="onTabSelected(3)" label="Awaiting Fullfillment">
+            <app-table (onAnyAction)="onAnyAction($event)" (addClick)="addOrderClick($event)" (deleteClick)="deleteOrderClicked($event)" (reloadData)="getDatFromServer($event)" [config]="OrdersTableConfig"></app-table>
+        </mat-tab>
+        <mat-tab (click)="onTabSelected(4)" label="Awaiting Shipment">
+            <app-table (onAnyAction)="onAnyAction($event)" (addClick)="addOrderClick($event)" (deleteClick)="deleteOrderClicked($event)" (reloadData)="getDatFromServer($event)" [config]="OrdersTableConfig"></app-table>
+        </mat-tab>
+        <mat-tab (click)="onTabSelected(5)" label="High Risk">
+            <app-table (onAnyAction)="onAnyAction($event)" (addClick)="addOrderClick($event)" (deleteClick)="deleteOrderClicked($event)" (reloadData)="getDatFromServer($event)" [config]="OrdersTableConfig"></app-table>
+        </mat-tab>
+        <mat-tab (click)="onTabSelected(6)" label="Pre-Orders">
+            <app-table (onAnyAction)="onAnyAction($event)" (addClick)="addOrderClick($event)" (deleteClick)="deleteOrderClicked($event)" (reloadData)="getDatFromServer($event)" [config]="OrdersTableConfig"></app-table>
+        </mat-tab>
+        <mat-tab (click)="onTabSelected(7)" label="More">
+            <app-table (onAnyAction)="onAnyAction($event)" (addClick)="addOrderClick($event)" (deleteClick)="deleteOrderClicked($event)" (reloadData)="getDatFromServer($event)" [config]="OrdersTableConfig"></app-table>
+        </mat-tab>
+    </mat-tab-group>
+</div> -->
+<div class="mat-card">
+    <app-table *ngIf="selectedOrderIndex == -1" (onAnyAction)="onAnyAction($event)" (addClick)="addOrderClick($event)" (deleteClick)="deleteOrderClicked($event)" (reloadData)="getDatFromServer($event)" [config]="OrdersTableConfig"></app-table>
+    <app-order-detail *ngIf="selectedOrderIndex != -1" [currentOrder]="currentOrder"></app-order-detail>
+</div>
