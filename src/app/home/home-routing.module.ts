@@ -26,6 +26,7 @@ import { CategoriesSupplierComponent } from './products/categories-supplier/cate
 import { MarkettingComponent } from './marketting/marketting.component';
 import { BannersComponent } from './marketting/banners/banners.component';
 import { CouponcodeComponent } from './marketting/couponcode/couponcode.component';
+import { WheelGameComponent } from './marketting/wheel-game/wheel-game.component';
 
 const routes: Routes = [
   {
@@ -98,6 +99,10 @@ const routes: Routes = [
       {
         path: 'marketting', component: MarkettingComponent,
         children: [
+          {
+            path: 'wheel-game',
+            component: WheelGameComponent
+          },
           {
             path: 'banners',
             component: BannersComponent

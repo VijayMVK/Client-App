@@ -31,21 +31,19 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { ProductsModule } from './products/products.module';
 import { ProductsComponent } from './products/products.component';
 import { OrdersModule } from './orders/orders.module';
+import { MarkettingModule } from './marketting/marketting.module';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { CouponcodeComponent } from './marketting/couponcode/couponcode.component';
-import { BannersComponent } from './marketting/banners/banners.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
-
 
 @NgModule({
   declarations: [HomeComponent, UsersComponent,  
     CustomersComponent, StorefrontComponent, MarkettingComponent, StoresetupComponent,
      AdvSettingsComponent, AccSettingsComponent, ProfileComponent,  
-     ProductsComponent,OrdersComponent, CouponcodeComponent, BannersComponent],
+     ProductsComponent,OrdersComponent],
   imports: [
     CommonModule,
     HomeRoutingModule,
@@ -68,6 +66,7 @@ import { FormsModule } from '@angular/forms';
     MatPaginatorModule,
     ProductsModule,
     OrdersModule,
+    MarkettingModule,
     MatButtonModule, 
     MatInputModule, 
     PerfectScrollbarModule,

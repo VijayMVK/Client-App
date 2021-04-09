@@ -1,0 +1,196 @@
+<div class="mat-card">
+    <div fxLayout="row wrap" fxLayoutAlign="space-between" class="listView_toolBar">
+        <div fxLayoutAlign="start center" fxFlex="100" style="background: white;">
+            <div fxLayoutAlign="start center" fxFlex="70">
+                <div fxLayoutAlign="center center" fxFlex="20" fxLayout="column">
+                    <div fxFlex="100" fxLayoutAlign="center center">
+                        <img class="user-image" src="{{row.user.image}}"
+                            onerror="this.src='./assets/img/noImg_placeholder.jpeg';this.onerror='';" height="125"
+                            width="125">
+                    </div>
+                </div>
+                <div fxLayoutAlign="start start">
+                    <table style="margin-left: 10px;">
+                        <tr>
+                            <td colspan="2" style="font-weight: bold;font-size: large;">
+                                <span>{{row.title}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> <span style="font-weight: bold;">
+                                    <mat-icon fontSet="fontawesome" fontIcon="fa-envelope" style="color: midnightblue;">
+                                    </mat-icon>Text Size (7)
+                                </span></td>
+                            <td>: <mat-slider thumbLabel tickInterval="1" min="1" max="100"></mat-slider>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> <span style="font-weight: bold;">
+                                    <mat-icon fontSet="fontawesome" fontIcon="fa-map" style="color: midnightblue;">
+                                    </mat-icon>Slice Repeat (1)
+                                </span></td>
+                            <td>: <mat-slider thumbLabel tickInterval="1" min="1" max="100"></mat-slider>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> <span style="font-weight: bold;">
+                                    <mat-icon fontSet="fontawesome" fontIcon="fa-globe" style="color: midnightblue;">
+                                    </mat-icon>Spin Time (4x)
+                                </span></td>
+                            <td>: <mat-slider thumbLabel tickInterval="1" min="1" max="100"></mat-slider>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> <span style="font-weight: bold;">
+                                    <mat-icon fontSet="fontawesome" fontIcon="fa-map-marker"
+                                        style="color: midnightblue;">
+                                    </mat-icon>Fair Mode
+                                </span></td>
+                            <td>: <mat-slide-toggle></mat-slide-toggle>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div fxLayoutAlign="center center" class="f-10" fxFlex="30" fxLayout="column">
+                <div fxLayout="row">
+                    <div fxLayout="column" fxFlex="42">
+                        <div fxFlex="100">
+                            <div class="mat-card">
+                                <div><span>Creation Date</span></div>
+                                <div><b>15/Mar/2021 02:07:59 PM</b></div>
+                            </div>
+                        </div>
+                        <div fxFlex="100">
+                            <div class="mat-card">
+                                <div><span>Active</span></div>
+                                <div>
+                                    <mat-slide-toggle></mat-slide-toggle>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div fxLayout="column" fxFlex="58">
+                        <div fxFlex="100">
+                            <div class="mat-card">
+                                <div><span>Upcoming Schedule Date & Time</span></div>
+                                <div><b>15/Mar/2021 02:07:59 PM</b></div>
+                            </div>
+                        </div>
+                        <div fxFlex="100">
+                            <div class="mat-card">
+                                <div><span>Choice</span></div>
+                                <div>
+                                    <span>
+                                        <mat-icon class="fa-md" fontSet="fontawesome" fontIcon="fa-clone"></mat-icon>
+                                        <mat-icon class="fa-md" fontSet="fontawesome" fontIcon="fa-envelope"></mat-icon>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div fxLayout="row wrap" fxLayoutAlign="space-between" class="listView_toolBar">
+    <div fxLayout="column" fxFlex="70%">
+        <div class="mat-card">
+            <div class="gene-card-title">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <svg class="cash" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M3,6H21V18H3V6M12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9M7,8A2,2 0 0,1 5,10V14A2,2 0 0,1 7,16H17A2,2 0 0,1 19,14V10A2,2 0 0,1 17,8H7Z" />
+                    </svg>
+                    <b>Slices (10/12)</b>
+                    <span fxFlex></span>
+                </div>
+                <mat-divider></mat-divider>
+            </div>
+            <div class="gene-card-content">
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef> ID </th>
+                        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="button">
+                        <th mat-header-cell *matHeaderCellDef> Previous </th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-raised-button mat-button-sm color="primary">{{element.name}}</button>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef>Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="textColor">
+                        <th mat-header-cell *matHeaderCellDef> Text Colour </th>
+                        <td mat-cell *matCellDef="let element"> {{element.textColor}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="bgColor">
+                        <th mat-header-cell *matHeaderCellDef> BG Colour </th>
+                        <td mat-cell *matCellDef="let element"> {{element.bgColor}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="image">
+                        <th mat-header-cell *matHeaderCellDef> Image </th>
+                        <td mat-cell *matCellDef="let element">
+                            <img class="img-circle" src="{{element.image}}"
+                                onerror="this.src='./assets/img/noImg_placeholder.jpeg';this.onerror='';" height="50"
+                                width="50">
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="toggle">
+                        <th mat-header-cell *matHeaderCellDef> Status </th>
+                        <td mat-cell *matCellDef="let element">
+                            <mat-slide-toggle></mat-slide-toggle>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef> Action </th>
+                        <td mat-cell *matCellDef="let element">
+                            <mat-icon class="mat-icon gene-text-xl">edit
+                            </mat-icon>
+                            <mat-icon class="mat-icon gene-text-xl">delete
+                            </mat-icon>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div fxLayout="column" fxFlex="30%">
+        <div fxFlex="100">
+            <div class="mat-card">
+                <div class="gene-card-title">
+                    <div fxLayout="row" fxLayoutAlign="start start">
+                        <svg class="cash" viewBox="0 0 24 24">
+                            <path fill="currentColor"
+                                d="M3,6H21V18H3V6M12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9M7,8A2,2 0 0,1 5,10V14A2,2 0 0,1 7,16H17A2,2 0 0,1 19,14V10A2,2 0 0,1 17,8H7Z" />
+                        </svg>
+                        <b>Devices</b>
+                        <span fxFlex></span>
+                    </div>
+                    <mat-divider></mat-divider>
+                </div>
+                <div class="gene-card-content">
+                    <div fxLayout="row" fxLayoutAlign="space-between">
+                        <b>Android</b>
+                        <span>Active <mat-slide-toggle></mat-slide-toggle></span>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="space-between">
+                        <b>iPhone</b>
+                        <span>Active <mat-slide-toggle></mat-slide-toggle></span>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="space-between">
+                        <b>Website</b>
+                        <span>Active <mat-slide-toggle></mat-slide-toggle></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -105,7 +105,7 @@ const MENUITEMS = [
         state: 'affliate', name: 'Affiliate Marketing'
       },
       {
-        state: 'wheelgame', name: 'Wheel Game Setup'
+        state: 'wheel-game', name: 'Wheel Game Setup'
       },
       {
         state: 'couponcode', name: 'Coupon Codes'
