@@ -2,11 +2,12 @@
     <div fxLayout="row wrap" fxLayoutAlign="space-between" class="listView_toolBar">
         <div fxLayoutAlign="start center" fxFlex="100" style="background: white;">
             <div fxLayoutAlign="start center" fxFlex="70">
-                <div fxLayoutAlign="center center" fxFlex="20" fxLayout="column">
+                <div fxLayoutAlign="center center" fxFlex="30" fxLayout="column">
                     <div fxFlex="100" fxLayoutAlign="center center">
-                        <img class="user-image" src="{{row.user.image}}"
-                            onerror="this.src='./assets/img/noImg_placeholder.jpeg';this.onerror='';" height="125"
-                            width="125">
+                        <ngx-wheel #wheel width='200' height='200' spinDuration='8' [items]='items' [innerRadius]='10'
+                            [spinAmount]='10' [textOrientation]='textOrientation' [textAlignment]='textAlignment'
+                            pointerStrokeColor='black' pointerFillColor='gold' [idToLandOn]='idToLandOn'></ngx-wheel>
+                        <span class="material-icons maxi" title="Maximize">fullscreen</span>
                     </div>
                 </div>
                 <div fxLayoutAlign="start start">

@@ -27,6 +27,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTableModule } from '@angular/material/table';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
+import { NgxWheelModule } from 'ngx-wheel';
 
 @NgModule({
     declarations: [
@@ -58,7 +59,8 @@ import { MatSliderModule } from '@angular/material/slider';
         MatExpansionModule,
         MatTableModule,
         MatSlideToggleModule,
-        MatSliderModule
+        MatSliderModule,
+        NgxWheelModule
     ]
 })
 export class MarkettingModule { }

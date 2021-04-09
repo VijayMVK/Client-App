@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { GridModel } from 'src/app/models/grid.model';
+import { NgxWheelComponent, TextAlignment, TextOrientation } from 'ngx-wheel'
 import { AppconstantsService } from 'src/app/service/appconstants.service';
 import { HttpUtilityService } from 'src/app/service/httputility.service';
 
@@ -9,8 +10,9 @@ import { HttpUtilityService } from 'src/app/service/httputility.service';
   styleUrls: ['./wheel-game-detail.component.scss']
 })
 export class WheelGameDetailComponent implements OnInit {
-
   @Input('currentOrder') row: {};
+  @ViewChild(NgxWheelComponent, { static: false }) wheel;
+
   step = 0;
   orderFields: any[] = [
     {
@@ -34,10 +36,10 @@ export class WheelGameDetailComponent implements OnInit {
       options: AppconstantsService.countryList
     }
   ];
-  displayedColumns: string[] = ['id', 'button', 'name', 'textColor', 'bgColor','image','toggle','action'];
+  displayedColumns: string[] = ['id', 'button', 'name', 'textColor', 'bgColor', 'image', 'toggle', 'action'];
   dataSource: any[] = [
-    {id: '1', name: 'Supplier 1', textColor: '#RRFFE', bgColor: '#FETYYU', image: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg",},
-    {id: '2', name: 'Supplier 2', textColor: '#FFF', bgColor: '#FFFTTT', image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg",}
+    { id: '1', name: 'Supplier 1', textColor: '#RRFFE', bgColor: '#FETYYU', image: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg", },
+    { id: '2', name: 'Supplier 2', textColor: '#FFF', bgColor: '#FFFTTT', image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg", }
   ];;
   sampleData: any[] = [
     {
@@ -50,7 +52,7 @@ export class WheelGameDetailComponent implements OnInit {
         address: "E-112, Austin Street, New York, USA",
         isNew: true
       },
-      id:1,
+      id: 1,
       displayName: "BarCode : 123456789",
       image: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg",
       reference: '70d4d7d0',
@@ -79,7 +81,7 @@ export class WheelGameDetailComponent implements OnInit {
         address: "E-112, Austin Street, New York, USA",
         isNew: true
       },
-      id:2,
+      id: 2,
       displayName: "BarCode : 123456789",
       image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg",
       reference: '70d4d7d0',
@@ -108,7 +110,7 @@ export class WheelGameDetailComponent implements OnInit {
         address: "E-112, Austin Street, New York, USA",
         isNew: false
       },
-      id:3,
+      id: 3,
       displayName: "BarCode : 123456789",
       image: "https://wp.zillowstatic.com/8/Chris-Morrison-97ef0b-300x300.jpg",
       reference: '70d4d7d0',
@@ -204,6 +206,12 @@ export class WheelGameDetailComponent implements OnInit {
     sortOrder: 1
   };
 
+  seed = [...Array(12).keys()]
+  idToLandOn: any;
+  items: any[];
+  textOrientation: TextOrientation = TextOrientation.HORIZONTAL
+  textAlignment: TextAlignment = TextAlignment.OUTER
+
   constructor(private http: HttpUtilityService) {
     let gridModel = {
       start: 0,
@@ -216,7 +224,25 @@ export class WheelGameDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.row);
+    this.idToLandOn = this.seed[Math.floor(Math.random() * this.seed.length)];
+    const colors = ['#FF0000', '#000000']
+    this.items = this.seed.map((value) => ({
+      fillStyle: colors[value % 2],
+      text: `Prize ${value}`,
+      id: value,
+      textFillStyle: 'white',
+      textFontSize: '10'
+    }))
+  }
+
+  reset() {
+    this.wheel.reset()
+  }
+
+  async spin(prize) {
+    this.idToLandOn = prize
+    await new Promise(resolve => setTimeout(resolve, 0));
+    this.wheel.spin()
   }
 
   setStep(index: number) {
