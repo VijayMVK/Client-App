@@ -1,5 +1,6 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
 import { GridModel } from 'src/app/models/grid.model';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxWheelComponent, TextAlignment, TextOrientation } from 'ngx-wheel'
 import { AppconstantsService } from 'src/app/service/appconstants.service';
 import { HttpUtilityService } from 'src/app/service/httputility.service';
@@ -7,13 +8,20 @@ import { HttpUtilityService } from 'src/app/service/httputility.service';
 @Component({
   selector: 'app-wheel-game-detail',
   templateUrl: './wheel-game-detail.component.html',
-  styleUrls: ['./wheel-game-detail.component.scss']
+  styleUrls: ['./wheel-game-detail.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class WheelGameDetailComponent implements OnInit {
   @Input('currentOrder') row: {};
+  imagePath: any = "./assets/img/noImg_placeholder.jpeg";
+  @ViewChild('fileToUpload') fileUploaded?: ElementRef<HTMLElement>;
+  File: any;
   @ViewChild(NgxWheelComponent, { static: false }) wheel;
 
   step = 0;
+  public color: string = '#e920e9';
+  isMaximize: boolean = false;
+  isEdit: boolean = false;
   orderFields: any[] = [
     {
       fieldId: "status",
@@ -130,7 +138,6 @@ export class WheelGameDetailComponent implements OnInit {
       isHover: false
     }
   ];
-
   OrderDetailsConfig: GridModel = {
     EnableSearch: true,
     tableHeader: 'Order',
@@ -205,14 +212,26 @@ export class WheelGameDetailComponent implements OnInit {
     sortCol: 'CreateAt',
     sortOrder: 1
   };
+  popupFlds: any[] = [
+    {
+      fieldId: "sliceText",
+      label: "Slice Text",
+      fieldValue: "",
+      type: "text",
+      isValid: true,
+      errorMesg: "",
+      required: true,
+    },
+  ]
 
   seed = [...Array(12).keys()]
   idToLandOn: any;
   items: any[];
+  maxItems: any[];
   textOrientation: TextOrientation = TextOrientation.HORIZONTAL
   textAlignment: TextAlignment = TextAlignment.OUTER
 
-  constructor(private http: HttpUtilityService) {
+  constructor(private http: HttpUtilityService, private modalService: NgbModal) {
     let gridModel = {
       start: 0,
       limit: this.OrderDetailsConfig.currentPageSize,
@@ -233,10 +252,59 @@ export class WheelGameDetailComponent implements OnInit {
       textFillStyle: 'white',
       textFontSize: '10'
     }))
+    this.maxItems = this.seed.map((value) => ({
+      fillStyle: colors[value % 2],
+      text: `Prize ${value}`,
+      id: value,
+      textFillStyle: 'white',
+      textFontSize: '20'
+    }))
   }
 
   reset() {
     this.wheel.reset()
+  }
+
+  triggerFileClick() {
+    if (this.fileUploaded) {
+      let el: HTMLElement = this.fileUploaded.nativeElement;
+      el.click();
+    }
+  }
+
+  onFileUploaded(event: any) {
+    var file = event.target.files;
+    this.File = file[0];
+    let fileReader = new FileReader();
+    fileReader.onload = (e) => {
+      if (fileReader.result) {
+        this.imagePath = fileReader.result.toString();
+      }
+    }
+    fileReader.readAsDataURL(file[0]);
+  }
+
+  uploadFile(fileToUpload: File, fileName) {
+    const formData: FormData = new FormData();
+    formData.append('Image', fileToUpload, fileToUpload.name);
+    // this.httpc.post('api/upload/PostFormData/' + fileName, formData, { reportProgress: true, observe: 'events' })
+    //   .subscribe(event => {});
+  }
+
+  openModel(clr: any, isEdit: boolean) {
+    this.isEdit = isEdit;
+    this.modalService.open(clr, { size: 'md', backdrop: 'static', centered: true });
+  }
+
+  openWheel(clr: any) {
+    this.isMaximize = true;
+    this.modalService.open(clr, { size: 'lg', backdrop: 'static', centered: true, windowClass: 'cont' });
+  }
+
+  closeModel() {
+    this.isEdit = false;
+    this.isMaximize = false;
+    this.modalService.dismissAll();
   }
 
   async spin(prize) {

@@ -12,23 +12,4 @@
         </mat-tab>
     </mat-tab-group>
 </div>
-<div class="progress mat-card" *ngIf="selectedOrderIndex == -1">
-    <img class="img-circle" src="./assets/img/orderStatus/pending.png"
-        onerror="this.src='./assets/img/noImg_placeholder.jpeg';this.onerror='';" height="30" width="30">
-    <span style="padding: 2px 10px 2px 10px;background: royalblue;color: white;border-radius: 6px;margin-left: 5px;">Platinum</span>
-    <b class="mrgn-r-md">{{'If user Created but save as draft' | uppercase}}</b>
-    <img class="img-circle" src="./assets/img/orderStatus/ready-pickup.png"
-        onerror="this.src='./assets/img/noImg_placeholder.jpeg';this.onerror='';" height="30" width="30">
-    <span style="padding: 2px 10px 2px 10px;background: green;color: white;border-radius: 6px;margin-left: 5px;">Gold</span>
-    <b class="mrgn-r-md">{{'completed' | uppercase}}</b>
-    <img class="img-circle" src="./assets/img/orderStatus/processing.png"
-        onerror="this.src='./assets/img/noImg_placeholder.jpeg';this.onerror='';" height="30" width="30">
-    <span style="padding: 2px 10px 2px 10px;background: green;color: white;border-radius: 6px;margin-left: 5px;">Platinum</span>
-    <b class="mrgn-r-md">{{'presently active' | uppercase}}</b>
-    <img class="img-circle" src="./assets/img/orderStatus/ordered.png"
-        onerror="this.src='./assets/img/noImg_placeholder.jpeg';this.onerror='';" height="30" width="30">
-    <span style="padding: 2px 10px 2px 10px;background: red;color: white;border-radius: 6px;margin-left: 5px;">Silver</span>
-    <b class="mrgn-r-md">{{'Schedule the game' | uppercase}}</b>
-</div>
-
 <app-wheel-game-detail *ngIf="selectedOrderIndex != -1" [currentOrder]="currentOrder"></app-wheel-game-detail>
