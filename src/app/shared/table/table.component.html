@@ -174,67 +174,80 @@
       </mat-paginator>
    </div>
 </div>
+
 <div fxLayout="row wrap table_view" fxLayoutAlign="start stretch" class="grid_view" *ngIf="showType == 'grid'">
    <div class="table-responsive" [style.height]="height" style="background: white;">
-      <div class="user-grid" fxLayout="row wrap" fxLayoutGap="5px">
-         <div *ngFor="let row of config.data;let i=index">
-            <mat-card class="mat-elevation-z1 max-width">
-               <div class="social-media">
-                  <img src="https://coindoo.com/wp-content/uploads/2019/01/facebook-icon.png" height="20" width="20">
-                  <img
-                     src="http://1.bp.blogspot.com/-iDRg-ul3_dA/VEyBcqECHFI/AAAAAAAAQQ0/q1q3RjbYBbw/s1600/twitter%2Bb%2Bp1%2Bv3.png"
-                     height="20" width="20" style="margin-left: 10px;">
-                  <img
-                     src="https://www.fsusd.org/cms/lib/CA01001943/Centricity/Shared/Social%20Media%20Icons/GooglePlus.png"
-                     height="20" width="20" style="margin-left: 10px;">
-                  <img src="https://www.silversands.co.uk/wp-content/uploads/LinkedIn-Icon.png" height="20" width="20"
-                     style="margin-left: 10px;">
-               </div>
-               <img src="{{row.user.image}}" mat-card-image alt="background">
-               <mat-card-content (mouseenter)="row.isHover=!row.isHover" (mouseleave)="row.isHover=!row.isHover">
-                  <div style="display: inline-block;width: 60%;">
-                     <div style="display: inline-block;">
-                        <img class="img-circle user-image img-top" src="{{row.user.image}}"
-                           onerror="this.src='./assets/img/noImg_placeholder.jpeg';this.onerror='';" height="50"
-                           width="50">
-                        <div style="display: inline-block;">
-                           <span
-                              style="font-weight: bold;font-size: medium;margin-top:10px;">{{row.user.displayName}}</span><br />
-                           <span style="font-weight: bold;">({{row.user.id}})</span><span *ngIf="row.user.isNew"
-                              style="padding: 2px 10px 2px 10px;background: royalblue;color: white;border-radius: 6px;margin-left: 5px;">New</span>
+      <div class="user-grid-list-wrap">
+         <div fxLayout="row wrap">
+            <div fxFlex.xs="100" fxFlex.sm="50" fxFlex.md="33.33" fxFlex.lg="25" fxFlex.xl="25"
+            *ngFor="let row of config.data;let i=index">
+               <mat-card class="grid-list-card mat-pad-none">
+                  <div class="grid-image">
+                     <img class="h-200" src="{{row.user.image}}" height="450" width="700">
+                     <div class="img-overlay" fxLayoutAlign="end start">
+                        <div class="social-icon-wrapper warn-bg">
+                           <a href="javascript:void(0)" class="icon facebook">
+                              <mat-icon class="fa fa-facebook"></mat-icon>
+                           </a>
+                           <a href="javascript:void(0)" class="icon google">
+                              <mat-icon class="fa fa-google"></mat-icon>
+                           </a>
+                           <a href="javascript:void(0)" class="icon twitter">
+                              <mat-icon class="fa fa-twitter"></mat-icon>
+                           </a>
+                           <a href="javascript:void(0)" class="icon twitter">
+                              <mat-icon class="fa fa-github-alt"></mat-icon>
+                           </a>
                         </div>
                      </div>
-                     <div>Reference: {{row.reference}}</div>
-                     <div>Total: {{row.total}}</div>
-                     <div>QTY: {{row.qty}}</div>
-                     <div>Account Type: {{row.accountType}}</div>
                   </div>
-                  <div style="display: inline-block;text-align: right;width: 40%;vertical-align: top;">
-                     <span>Status</span>
-                     <div class="progress">
-                        <img class="img-circle" src="{{row.status.statusIcon}}"
-                           onerror="this.src='./assets/img/noImg_placeholder.jpeg';this.onerror='';" height="30"
-                           width="30">
-                        <span *ngIf="row.status.type == 'Platinum'"
-                           style="padding: 2px 10px 2px 10px;background: royalblue;color: white;border-radius: 6px;margin-left: 5px;">{{row.status.type}}</span>
-                        <span *ngIf="row.status.type == 'Gold'"
-                           style="padding: 2px 10px 2px 10px;background: green;color: white;border-radius: 6px;margin-left: 5px;">{{row.status.type}}</span>
-                        <span *ngIf="row.status.type == 'Silver'"
-                           style="padding: 2px 10px 2px 10px;background: red;color: white;border-radius: 6px;margin-left: 5px;">{{row.status.type}}</span>
-                     </div>
-                     <div style="font-weight: bold;">Date Created</div>
-                     <div>{{row.dateCreated}}</div>
-                     <div class="actionIcon">
-                        <mat-icon class="mat-icon gene-text-xl" (click)="setActionRow(row, columnHeader,i)">edit
-                        </mat-icon>
-                        <mat-icon class="mat-icon gene-text-xl" (click)="setActionRow(row, columnHeader,i)">print
-                        </mat-icon>
-                        <mat-icon class="mat-icon gene-text-xl" (click)="setActionRow(row, columnHeader,i)">delete
-                        </mat-icon>
-                     </div>
+                  <div class="pad-x-sm pad-b-sm">
+                     <mat-card-content (mouseenter)="row.isHover=!row.isHover" (mouseleave)="row.isHover=!row.isHover">
+                        <div style="display: inline-block;width: 60%;">
+                           <div style="display: inline-block;">
+                              <img class="img-circle user-image img-top" src="{{row.user.image}}"
+                                 onerror="this.src='./assets/img/noImg_placeholder.jpeg';this.onerror='';" height="50"
+                                 width="50">
+                              <div style="display: inline-block;">
+                                 <span
+                                    style="font-weight: bold;font-size: medium;margin-top:10px;">{{row.user.displayName}}</span><br />
+                                 <span style="font-weight: bold;">({{row.user.id}})</span><span *ngIf="row.user.isNew"
+                                    style="padding: 2px 10px 2px 10px;background: royalblue;color: white;border-radius: 6px;margin-left: 5px;">New</span>
+                              </div>
+                           </div>
+                           <div>Reference: {{row.reference}}</div>
+                           <div>Total: {{row.total}}</div>
+                           <div>QTY: {{row.qty}}</div>
+                           <div>Account Type: {{row.accountType}}</div>
+                        </div>
+                        <div style="display: inline-block;text-align: right;width: 40%;vertical-align: top;">
+                           <span>Status</span>
+                           <div class="progress">
+                              <img class="img-circle" src="{{row.status.statusIcon}}"
+                                 onerror="this.src='./assets/img/noImg_placeholder.jpeg';this.onerror='';" height="30"
+                                 width="30">
+                              <span *ngIf="row.status.type == 'Platinum'"
+                                 style="padding: 2px 10px 2px 10px;background: royalblue;color: white;border-radius: 6px;margin-left: 5px;">{{row.status.type}}</span>
+                              <span *ngIf="row.status.type == 'Gold'"
+                                 style="padding: 2px 10px 2px 10px;background: green;color: white;border-radius: 6px;margin-left: 5px;">{{row.status.type}}</span>
+                              <span *ngIf="row.status.type == 'Silver'"
+                                 style="padding: 2px 10px 2px 10px;background: red;color: white;border-radius: 6px;margin-left: 5px;">{{row.status.type}}</span>
+                           </div>
+                           <div style="font-weight: bold;">Date Created</div>
+                           <div>{{row.dateCreated}}</div>
+                           <div class="actionIcon" *ngIf="row.isHover">
+                              <mat-icon class="mat-icon gene-text-xl" (click)="setActionRow(row, columnHeader,i)">edit
+                              </mat-icon>
+                              <mat-icon class="mat-icon gene-text-xl" (click)="setActionRow(row, columnHeader,i)">print
+                              </mat-icon>
+                              <mat-icon class="mat-icon gene-text-xl" (click)="setActionRow(row, columnHeader,i)">delete
+                              </mat-icon>
+                           </div>
+                        </div>
+                     </mat-card-content>
                   </div>
-               </mat-card-content>
-            </mat-card>
+               </mat-card>
+            </div>
          </div>
       </div>
       <div *ngIf="!config.data || config.data.length == 0" style="text-align:center;padding:10px">No Data Available
@@ -246,6 +259,7 @@
       </mat-paginator>
    </div>
 </div>
+
 <mat-menu #menu="matMenu" x-position="before">
    <button (click)="actionBtnClick('viewDetails')" mat-menu-item>
       <mat-icon>more</mat-icon>
