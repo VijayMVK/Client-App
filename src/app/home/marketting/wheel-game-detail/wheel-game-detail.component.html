@@ -7,7 +7,8 @@
                         <ngx-wheel #wheel width='200' height='200' spinDuration='8' [items]='items' [innerRadius]='10'
                             [spinAmount]='10' [textOrientation]='textOrientation' [textAlignment]='textAlignment'
                             pointerStrokeColor='black' pointerFillColor='gold' [idToLandOn]='idToLandOn'></ngx-wheel>
-                        <span class="material-icons maxi" (click)="openWheel(wheelBox)" title="Maximize">fullscreen</span>
+                        <span class="material-icons maxi" (click)="openWheel(wheelBox)"
+                            title="Maximize">fullscreen</span>
                     </div>
                 </div>
                 <div fxLayoutAlign="start start">
@@ -66,7 +67,8 @@
                             <div class="mat-card">
                                 <div><span>Active</span></div>
                                 <div>
-                                    <mat-slide-toggle></mat-slide-toggle>
+                                    <mat-slide-toggle [(ngModel)]="triggerAll.value" (change)="toggle($event,true)">
+                                    </mat-slide-toggle>
                                 </div>
                             </div>
                         </div>
@@ -180,18 +182,11 @@
                     </div>
                     <mat-divider></mat-divider>
                 </div>
-                <div class="gene-card-content">
+                <div class="gene-card-content" *ngFor="let device of deviceList">
                     <div fxLayout="row" fxLayoutAlign="space-between">
-                        <b>Android</b>
-                        <span>Active <mat-slide-toggle></mat-slide-toggle></span>
-                    </div>
-                    <div fxLayout="row" fxLayoutAlign="space-between">
-                        <b>iPhone</b>
-                        <span>Active <mat-slide-toggle></mat-slide-toggle></span>
-                    </div>
-                    <div fxLayout="row" fxLayoutAlign="space-between">
-                        <b>Website</b>
-                        <span>Active <mat-slide-toggle></mat-slide-toggle></span>
+                        <b>{{device.code}}</b>
+                        <span>Active <mat-slide-toggle (change)="toggle($event,false,device)"
+                                [(ngModel)]="device.value"></mat-slide-toggle></span>
                     </div>
                 </div>
             </div>
@@ -312,8 +307,8 @@
         <button mat-fab-button mat-button-sm color="warn" class="close" (click)="closeModel()">x</button>
     </div>
     <mat-dialog-content>
-        <ngx-wheel *ngIf="isMaximize" #wheels width='500' height='500' spinDuration='8' [items]='maxItems' [innerRadius]='20' [spinAmount]='10'
-            [textOrientation]='textOrientation' [textAlignment]='textAlignment' pointerStrokeColor='black'
-            pointerFillColor='gold' [idToLandOn]='idToLandOn'></ngx-wheel>
+        <ngx-wheel *ngIf="isMaximize" #wheels width='500' height='500' spinDuration='8' [items]='maxItems'
+            [innerRadius]='20' [spinAmount]='10' [textOrientation]='textOrientation' [textAlignment]='textAlignment'
+            pointerStrokeColor='black' pointerFillColor='gold' [idToLandOn]='idToLandOn'></ngx-wheel>
     </mat-dialog-content>
 </ng-template>

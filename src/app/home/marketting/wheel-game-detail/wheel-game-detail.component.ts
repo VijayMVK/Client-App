@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxWheelComponent, TextAlignment, TextOrientation } from 'ngx-wheel'
 import { AppconstantsService } from 'src/app/service/appconstants.service';
 import { HttpUtilityService } from 'src/app/service/httputility.service';
+import { DeviceModel } from '../marketting.model';
 
 @Component({
   selector: 'app-wheel-game-detail',
@@ -22,6 +23,12 @@ export class WheelGameDetailComponent implements OnInit {
   public color: string = '#e920e9';
   isMaximize: boolean = false;
   isEdit: boolean = false;
+  triggerAll: DeviceModel = { code: 'Active', value: false };
+  deviceList: DeviceModel[] = [
+    { code: 'Android', value: false },
+    { code: 'iPhone', value: false },
+    { code: 'Website', value: false },
+  ];
   orderFields: any[] = [
     {
       fieldId: "status",
@@ -263,6 +270,15 @@ export class WheelGameDetailComponent implements OnInit {
 
   reset() {
     this.wheel.reset()
+  }
+
+  toggle(e: any, isAll: boolean, device: DeviceModel) {
+    if (isAll) {
+      this.deviceList.map(x => x.value = e.checked);
+    } else {
+      device.value = e.checked;
+      this.triggerAll.value = this.deviceList.filter(x => x.value).length == this.deviceList.length ? true : false;
+    }
   }
 
   triggerFileClick() {
