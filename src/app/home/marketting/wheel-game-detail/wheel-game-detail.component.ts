@@ -4,7 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxWheelComponent, TextAlignment, TextOrientation } from 'ngx-wheel'
 import { AppconstantsService } from 'src/app/service/appconstants.service';
 import { HttpUtilityService } from 'src/app/service/httputility.service';
-import { DeviceModel } from '../marketting.model';
+import { DeviceModel, WheelModel } from '../marketting.model';
 
 @Component({
   selector: 'app-wheel-game-detail',
@@ -51,11 +51,21 @@ export class WheelGameDetailComponent implements OnInit {
       options: AppconstantsService.countryList
     }
   ];
-  displayedColumns: string[] = ['id', 'button', 'name', 'textColor', 'bgColor', 'image', 'toggle', 'action'];
-  dataSource: any[] = [
-    { id: '1', name: 'Supplier 1', textColor: '#RRFFE', bgColor: '#FETYYU', image: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg", },
-    { id: '2', name: 'Supplier 2', textColor: '#FFF', bgColor: '#FFFTTT', image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg", }
-  ];;
+  displayedColumns: string[] = ['id', 'button', 'name', 'textColor', 'bgColor', 'image', 'status', 'action'];
+  dataSource: WheelModel[] = [
+    { id: '1', name: 'Supplier 1', textColor: '#804c00', bgColor: '#74efff', status: true, image: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg" },
+    { id: '2', name: 'Supplier 2', textColor: '#804c00', bgColor: '#97cef9', status: true, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
+    { id: '3', name: 'Supplier 2', textColor: '#804c00', bgColor: '#da92e7', status: false, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
+    { id: '4', name: 'Supplier 2', textColor: '#804c00', bgColor: '#fbbab5', status: true, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
+    { id: '5', name: 'Supplier 2', textColor: '#804c00', bgColor: '#ffc673', status: true, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
+    { id: '6', name: 'Supplier 2', textColor: '#804c00', bgColor: '#fff6a3', status: false, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
+    { id: '7', name: 'Supplier 2', textColor: '#804c00', bgColor: '#e8efa3', status: true, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
+    { id: '8', name: 'Supplier 1', textColor: '#804c00', bgColor: '#74efff', status: true, image: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg" },
+    { id: '9', name: 'Supplier 2', textColor: '#804c00', bgColor: '#97cef9', status: true, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
+    { id: '10', name: 'Supplier 2', textColor: '#804c00', bgColor: '#da92e7', status: false, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
+    { id: '11', name: 'Supplier 2', textColor: '#804c00', bgColor: '#fbbab5', status: true, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
+    { id: '12', name: 'Supplier 2', textColor: '#804c00', bgColor: '#ffc673', status: true, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" }   
+  ];
   sampleData: any[] = [
     {
       user: {
