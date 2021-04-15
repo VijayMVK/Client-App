@@ -3,7 +3,7 @@
         <mat-tab class="active" (click)="onTabSelected(1)" label="Supplier">
             <app-table (onAnyAction)="onAnyAction($event)" (addClick)="addOrderClick($event)"
                 (deleteClick)="deleteOrderClicked($event)" (reloadData)="getDatFromServer($event)"
-                [config]="OrdersTableConfig"></app-table>
+                [config]="OrdersTableConfig" showBackgroundImage=true></app-table>
         </mat-tab>
         <mat-tab (click)="onTabSelected(2)" label="All Kind">
             <app-table (onAnyAction)="onAnyAction($event)" (addClick)="addOrderClick($event)"

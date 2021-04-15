@@ -42,6 +42,7 @@ export class WheelGameComponent implements OnInit {
         address:"E-112, Austin Street, New York, USA",
         isNew: true
       },
+      backgroundImage: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg",
       displayName: "Steven Gonzalez",
       title: 'Spin the Wheel to get Price of the Week',
       total: 'AED 501',
@@ -68,6 +69,7 @@ export class WheelGameComponent implements OnInit {
         address:"E-112, Austin Street, New York, USA",
         isNew: true
       },
+      backgroundImage: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg",
       displayName: "Josephine Goodman",
       title: 'Get Ramadan Deal, Are You ready to Spin?',
       total: 'AED 501',
@@ -94,6 +96,7 @@ export class WheelGameComponent implements OnInit {
         address:"E-112, Austin Street, New York, USA",
         isNew: false
       },
+      backgroundImage: "https://wp.zillowstatic.com/8/Chris-Morrison-97ef0b-300x300.jpg",
       displayName: "Mario Harmon",
       title: 'Spin the Wheel to get Price of the Week',
       total: 'AED 501',

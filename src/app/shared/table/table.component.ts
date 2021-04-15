@@ -20,6 +20,7 @@ export class TableComponent implements OnInit {
   searchVal:string = "";
   page:number=0;
   @Input() selectedRow: any = {};
+  @Input() showBackgroundImage: boolean = false;
   showType:string = 'list';
   actionRow:any;
   actionHeader:any;

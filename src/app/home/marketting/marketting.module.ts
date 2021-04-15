@@ -29,6 +29,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { NgxWheelModule } from 'ngx-wheel';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
     declarations: [
@@ -62,7 +63,8 @@ import { ColorPickerModule } from 'ngx-color-picker';
         MatSlideToggleModule,
         MatSliderModule,
         NgxWheelModule,
-        ColorPickerModule
+        ColorPickerModule,
+        MatCardModule
     ]
 })
 export class MarkettingModule { }
