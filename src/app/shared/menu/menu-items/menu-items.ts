@@ -65,15 +65,14 @@ const MENUITEMS = [
     ]
   },
   {
-    state: 'home/customers',
-    name: 'Customers',
+    state: 'home/user',
+    name: 'User',
     type: 'sub',
     icon: 'import_contacts',
     children: [
-      { state: 'view', name: 'View' },
-      { state: 'add', name: 'Add' },
-      { state: 'import', name: 'Import' },
-      { state: 'group', name: 'Customer Group' },
+      { state: 'customer', name: 'Customer' },
+      { state: 'supplier', name: 'Supplier' },
+      { state: 'employee', name: 'Employee' }
     ]
   },
   {
@@ -114,7 +113,7 @@ const MENUITEMS = [
     ]
   },
   {
-    state: 'home/user',
+    state: 'home/profile',
     name: 'My Profile',
     type: 'sub',
     icon: 'account_balance_wallet',

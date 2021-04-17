@@ -94,7 +94,7 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'customer', component: HomeComponent,
+        path: 'user', component: HomeComponent,
       },
       {
         path: 'marketting', component: MarkettingComponent,
@@ -114,10 +114,10 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'user', component: UsersComponent,
+        path: 'profile', component: UsersComponent,
         children: [
           {
-            path: 'user',
+            path: 'profile',
             component: UserManageListComponent
           },
           {
