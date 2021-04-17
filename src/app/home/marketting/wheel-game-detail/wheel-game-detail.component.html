@@ -164,7 +164,7 @@
                             <mat-icon class="mat-icon gene-text-xl point" title="Edit"
                                 (click)="openModel(element,colorPicker, true)">edit
                             </mat-icon>
-                            <mat-icon class="mat-icon gene-text-xl point" title="Delete" (click)="delete(element.id)">
+                            <mat-icon class="mat-icon gene-text-xl point" title="Delete" (click)="formData.id = element.id;onDelete(confirmationModel)">
                                 delete
                             </mat-icon>
                         </td>
@@ -276,9 +276,23 @@
 
     </mat-dialog-content>
     <mat-dialog-actions class="mrgn-b-xs pad-b-none mrgn-t-md center">
-        <button *ngIf="isEdit" class="cust_line_btn txt_blue mrgn-l-sm" (click)="delete(formData.id)">Delete</button>
+        <button *ngIf="isEdit" class="cust_line_btn txt_blue mrgn-l-sm" (click)="onDelete(confirmationModel)">Delete</button>
         <button class="cust_line_btn txt_blue mrgn-l-sm" (click)="closeModel()">Cancel</button>
         <button class="cust_line_btn txt_blue mrgn-l-sm" (click)="apply()">OK</button>
+    </mat-dialog-actions>
+</ng-template>
+
+<ng-template #confirmationModel let-d="dismiss">
+    <div class="mrgn-b-xs cont" id="wheel">
+        <h2 mat-dialog-title>Confirmation</h2>
+        <button mat-fab-button mat-button-sm color="warn" class="close" (click)="closeModel()">x</button>
+    </div>
+    <mat-dialog-content>
+        <h4>Are you sure you want to delete this list permanently?</h4>
+    </mat-dialog-content>
+    <mat-dialog-actions class="mrgn-b-xs pad-b-none mrgn-t-md center">
+        <button class="cust_line_btn txt_blue mrgn-l-sm" (click)="delete(formData.id)">OK</button>
+        <button class="cust_line_btn txt_blue mrgn-l-sm" (click)="closeModel()">Cancel</button>
     </mat-dialog-actions>
 </ng-template>
 

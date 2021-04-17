@@ -15,11 +15,11 @@ export class WheelComponent implements AfterViewInit, OnInit {
   outerSegment: any[] = [];
   wheelSpinning = false;
   private _textSize: number;
-  private _spinTime: number;
   private _repeat: number;
   private _fairMode: number;
   @Output() result = new EventEmitter<string>();
   @Input() numSegments: number = 8;
+  @Input() spinTime: number = 1;
   @Input() repeat: number = 1;
   @Input() fairMode: boolean = false;
   @Input() height: string = '200';
@@ -37,53 +37,9 @@ export class WheelComponent implements AfterViewInit, OnInit {
       }
     }
   }
-  @Input() set spinTime(value: number) {
-    if (value) {
-      if (!this._spinTime) {
-        this._spinTime = value;
-      }
-      else {
-        this.outerWheel.animation.spins = value;
-        this.innerWheel.draw();
-        this.outerWheel.draw(false);
-      }
-    }
-  }
   @Input() set action(value: WheelActionModel) {
     if (value) {
-      switch (value.action) {
-        case ActionItems.ADD: {
-          this.updateSegments(value.param);
-          this.innerWheel.addSegment(this.innerSegment[0], value.index);
-          this.outerWheel.addSegment(this.outerSegment[0], value.index);
-          // The draw method of the wheel object must be called in order for the changes
-          // to be rendered.
-          this.innerWheel.draw();
-          this.outerWheel.draw(false);
-          break;
-        }
-        case ActionItems.UPDATE: {
-          this.updateSegments(value.param);
-          this.innerWheel[value.index] = this.innerSegment;
-          this.outerWheel[value.index] = this.outerSegment;
-          // The draw method of the wheel object must be called
-          // in order for the changes to be rendered.
-          this.innerWheel.draw();
-          this.outerWheel.draw(false);
-          break;
-        }
-        case ActionItems.DELETE: {
-          this.innerWheel.deleteSegment(value.index);
-          this.outerWheel.deleteSegment(value.index);
-          // The draw method of the wheel object must be called to render the changes.
-          this.innerWheel.draw();
-          this.outerWheel.draw(false);
-          break;
-        }
-        default: {
-          break;
-        }
-      }
+      this.manipulateSegments(value);
     }
   }
 
@@ -101,7 +57,16 @@ export class WheelComponent implements AfterViewInit, OnInit {
       'centerY': (parseInt(this.width) / 2),
       'lineWidth': 0.1,
       'textFontSize': this._textSize,
-      'segments': this.innerSegment
+      'segments': this.innerSegment,
+      'animation':
+      {
+        'type': 'spinToStop',
+        'direction': 'clockwise',                   // Define animation more or less as normal, except for the callbackAfter().
+        'duration': 5,
+        'spins': this.spinTime,
+        'callbackAfter': this.drawTriangle.bind(this),     // Call back after each frame of the animation a function we can draw the inner wheel from.
+        'callbackFinished': this.alertPrize.bind(this)
+      }
     });
 
     // Define the outer wheel, we will treat this as the PRIMARY which means it clears the canvas when drawing and also
@@ -118,25 +83,23 @@ export class WheelComponent implements AfterViewInit, OnInit {
       'segments': this.outerSegment,
       'animation':
       {
-        'type': 'spinToStop',                     // Define animation more or less as normal, except for the callbackAfter().
-        'duration': 5,
-        'spins': this._spinTime,
-        'easing': 'Power3.easeOut',
-        'callbackAfter': this.drawTriangle.bind(this),     // Call back after each frame of the animation a function we can draw the inner wheel from.
-        'callbackFinished': this.alertPrize.bind(this)
+        'type': 'spinToStop',
+        'direction': 'clockwise',
+        'spins': this.spinTime,
+        'duration': 5,                  // Define animation more or less as normal, except for the callbackAfter().
       }
     });
     // Call draw on the outerWheel then the inner wheel to ensure that both are rendered on the canvas.
-    this.outerWheel.draw();
-    this.innerWheel.draw(false);   // Pass false to stop it clearing the canvas and wiping the outer wheel.
+    this.innerWheel.draw();
+    this.outerWheel.draw(false);   // Pass false to stop it clearing the canvas and wiping the outer wheel.
   }
 
   // This function is called after the outer wheel has drawn during the animation.
-  drawInnerWheel() {
+  drawOuterWheel() {
     // Update the rotationAngle of the innnerWheel to match that of the outer wheel - this is a big part of what
     // links them to appear as one 2-part wheel. Call the draw function passing false so the outer wheel is not wiped.
-    this.innerWheel.rotationAngle = this.outerWheel.rotationAngle;
-    this.innerWheel.draw(false);
+    this.outerWheel.rotationAngle = this.innerWheel.rotationAngle;
+    this.outerWheel.draw(false);
   }
 
   // Called when the animation has finished.
@@ -147,13 +110,16 @@ export class WheelComponent implements AfterViewInit, OnInit {
     this.result.emit(winningInnerSegment.text);
     // Set things so power and spin button can be clicked again.
     this.wheelSpinning = false;
+    this.innerWheel.stopAnimation(false);
+    this.innerWheel.rotationAngle = 0;
   }
 
   startSpin() {
     // Ensure that spinning can't be clicked again while already running.
-    if (!this.wheelSpinning) {
+    if (this.wheelSpinning == false) {
+      this.innerWheel.animation.spins = this.spinTime * 2;
       // Begin the spin animation by calling startAnimation on the wheel object.
-      this.outerWheel.startAnimation(new TweenMax(new TimelineMax()));
+      this.innerWheel.startAnimation(new TweenMax(new TimelineMax()));
       // Set to true so that power can't be changed and spin button re-enabled during
       // the current animation. The user will have to reset before spinning again.
       this.wheelSpinning = true;
@@ -161,7 +127,7 @@ export class WheelComponent implements AfterViewInit, OnInit {
   }
 
   drawTriangle() {
-    this.drawInnerWheel();
+    this.drawOuterWheel();
     let tx = this.outerWheel.ctx;
     tx.strokeStyle = '#000000';     // Set line colour.
     tx.fillStyle = 'black';        // Set fill colour.
@@ -183,6 +149,36 @@ export class WheelComponent implements AfterViewInit, OnInit {
       this.innerSegment.push({ 'fillStyle': x.bgColor, 'text': x.name, 'textFillStyle': x.textColor });
       this.outerSegment.push({ 'fillStyle': this.lightenColor(x.bgColor, 20) });
     });
+  }
+
+  manipulateSegments(value: WheelActionModel) {
+    switch (value.action) {
+      case ActionItems.ADD: {
+        this.updateSegments(value.param);
+        this.innerWheel.addSegment(this.innerSegment[0], value.index);
+        this.outerWheel.addSegment(this.outerSegment[0], value.index);
+        break;
+      }
+      case ActionItems.UPDATE: {
+        value.index = value.index + 1;
+        this.innerWheel.segments[value.index].fillStyle = value.param[0]['bgColor'];
+        this.innerWheel.segments[value.index].textFillStyle = value.param[0]['textColor'];
+        this.innerWheel.segments[value.index].text = value.param[0]['name'];
+        this.outerWheel.segments[value.index].fillStyle = this.lightenColor(value.param[0]['bgColor'], 20);
+        break;
+      }
+      case ActionItems.DELETE: {
+        this.innerWheel.deleteSegment(value.index);
+        this.outerWheel.deleteSegment(value.index);
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+    // The draw method of the wheel object must be called to render the changes.
+    this.innerWheel.draw();
+    this.outerWheel.draw(false);
   }
 
   lightenColor(color, percent) {

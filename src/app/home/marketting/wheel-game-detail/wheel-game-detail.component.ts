@@ -300,15 +300,20 @@ export class WheelGameDetailComponent implements OnInit {
     const index: number = this.dataSource.findIndex(x => x.id == this.formData.id);
     if (index !== -1 && this.isEdit) {
       this.dataSource[index] = JSON.parse(JSON.stringify(this.formData));
-      this.action = { index: index, action: ActionItems.UPDATE, param:[ this.formData] };
+      this.action = { index: index, action: ActionItems.UPDATE, param: [this.formData] };
     } else {
       const lastItem: any = this.dataSource.length ? this.dataSource[this.dataSource.length - 1] : 0;
-      this.formData.id = lastItem && lastItem.id ? parseInt(lastItem.id + 1).toString() : '1';
+      this.formData.id = lastItem && lastItem.id ? (parseInt(lastItem.id) + 1).toString() : '1';
       this.dataSource.push(this.formData);
       this.action = { index: this.dataSource.length - 1, action: ActionItems.ADD, param: [this.formData] };
     }
+    this.dataSource = this.dataSource.filter(x => x.id);
     this.closeModel();
   }
+
+  onDelete(model){
+    this.modalService.open(model, { size: 'md', backdrop: 'static', centered: true });
+	}
 
   delete(id: string) {
     this.action = { index: this.dataSource.findIndex(x => x.id == id), action: ActionItems.DELETE, param: null };
@@ -324,6 +329,7 @@ export class WheelGameDetailComponent implements OnInit {
 
   openWheel(model: any) {
     this.isMaximize = true;
+    this.action = undefined; 
     this.modalService.open(model, { size: 'lg', backdrop: 'static', centered: true, windowClass: 'cont' });
   }
 
