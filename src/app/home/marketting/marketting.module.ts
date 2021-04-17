@@ -27,7 +27,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTableModule } from '@angular/material/table';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
-import { NgxWheelModule } from 'ngx-wheel';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { MatCardModule } from '@angular/material/card';
 
@@ -62,7 +61,6 @@ import { MatCardModule } from '@angular/material/card';
         MatTableModule,
         MatSlideToggleModule,
         MatSliderModule,
-        NgxWheelModule,
         ColorPickerModule,
         MatCardModule
     ]

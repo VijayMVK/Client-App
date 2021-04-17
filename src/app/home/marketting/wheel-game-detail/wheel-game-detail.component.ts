@@ -1,10 +1,9 @@
 import { Component, Input, OnInit, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
 import { GridModel } from 'src/app/models/grid.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { NgxWheelComponent, TextAlignment, TextOrientation } from 'ngx-wheel'
 import { AppconstantsService } from 'src/app/service/appconstants.service';
 import { HttpUtilityService } from 'src/app/service/httputility.service';
-import { DeviceModel, WheelModel } from '../marketting.model';
+import { CodeValueModel, WheelModel, WheelConfigModel, WheelActionModel, ActionItems } from '../marketting.model';
 
 @Component({
   selector: 'app-wheel-game-detail',
@@ -17,54 +16,55 @@ export class WheelGameDetailComponent implements OnInit {
   imagePath: any = "./assets/img/noImg_placeholder.jpeg";
   @ViewChild('fileToUpload') fileUploaded?: ElementRef<HTMLElement>;
   File: any;
-  @ViewChild(NgxWheelComponent, { static: false }) wheel;
-
-  step = 0;
-  public color: string = '#e920e9';
   isMaximize: boolean = false;
   isEdit: boolean = false;
-  triggerAll: DeviceModel = { code: 'Active', value: false };
-  deviceList: DeviceModel[] = [
+  formData: WheelModel = new WheelModel();
+  wheelConfig: WheelConfigModel = new WheelConfigModel();
+  action: WheelActionModel;
+  triggerAll: CodeValueModel = { code: 'Active', value: false };
+  deviceList: CodeValueModel[] = [
     { code: 'Android', value: false },
     { code: 'iPhone', value: false },
-    { code: 'Website', value: false },
+    { code: 'Website', value: false }
   ];
-  orderFields: any[] = [
-    {
-      fieldId: "status",
-      label: "Status",
-      fieldValue: "",
-      type: "select",
-      isValid: true,
-      errorMesg: "",
-      required: true,
-      options: AppconstantsService.countryList
-    },
-    {
-      fieldId: "delivery",
-      label: "Delivery Men",
-      fieldValue: "",
-      type: "select",
-      isValid: true,
-      errorMesg: "",
-      required: true,
-      options: AppconstantsService.countryList
-    }
+  textColors: CodeValueModel[] = [
+    { code: '#7c90c1', value: true },
+    { code: '#9d8594', value: true },
+    { code: '#dad0d8', value: true },
+    { code: '#3f7a89', value: true },
+    { code: '#96c582', value: true },
+    { code: '#b7d5c4', value: true },
+    { code: '#bcd6e7', value: true },
+    { code: '#f3746a', value: true },
+    { code: '#50e49a', value: true },
+    { code: '#33a5ef', value: true },
+    { code: '#7d23da', value: true },
+    { code: '#1023ac', value: true },
+    { code: '#294716', value: true },
+    { code: '#c455e4', value: true },
+    { code: '#e969e0', value: true },
+    { code: '#d4fc9d', value: true },
+    { code: '#02d153', value: true },
+    { code: '#0b52ce', value: true },
+    { code: '#b5ebfb', value: true },
+    { code: '#0d3681', value: true },
+    { code: '#60c715', value: true }
   ];
+  bgColors: CodeValueModel[] = [];
   displayedColumns: string[] = ['id', 'button', 'name', 'textColor', 'bgColor', 'image', 'status', 'action'];
   dataSource: WheelModel[] = [
     { id: '1', name: 'Supplier 1', textColor: '#804c00', bgColor: '#74efff', status: true, image: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg" },
     { id: '2', name: 'Supplier 2', textColor: '#804c00', bgColor: '#97cef9', status: true, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
-    { id: '3', name: 'Supplier 2', textColor: '#804c00', bgColor: '#da92e7', status: false, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
-    { id: '4', name: 'Supplier 2', textColor: '#804c00', bgColor: '#fbbab5', status: true, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
-    { id: '5', name: 'Supplier 2', textColor: '#804c00', bgColor: '#ffc673', status: true, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
-    { id: '6', name: 'Supplier 2', textColor: '#804c00', bgColor: '#fff6a3', status: false, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
-    { id: '7', name: 'Supplier 2', textColor: '#804c00', bgColor: '#e8efa3', status: true, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
-    { id: '8', name: 'Supplier 1', textColor: '#804c00', bgColor: '#74efff', status: true, image: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg" },
-    { id: '9', name: 'Supplier 2', textColor: '#804c00', bgColor: '#97cef9', status: true, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
-    { id: '10', name: 'Supplier 2', textColor: '#804c00', bgColor: '#da92e7', status: false, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
-    { id: '11', name: 'Supplier 2', textColor: '#804c00', bgColor: '#fbbab5', status: true, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
-    { id: '12', name: 'Supplier 2', textColor: '#804c00', bgColor: '#ffc673', status: true, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" }   
+    { id: '3', name: 'Supplier 3', textColor: '#804c00', bgColor: '#da92e7', status: false, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
+    { id: '4', name: 'Supplier 4', textColor: 'white', bgColor: '#fbbab5', status: true, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
+    { id: '5', name: 'Supplier 5', textColor: '#804c00', bgColor: '#ffc673', status: true, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
+    { id: '6', name: 'Supplier 6', textColor: '#804c00', bgColor: '#fff6a3', status: false, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
+    { id: '7', name: 'Supplier 7', textColor: 'white', bgColor: '#e8efa3', status: true, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
+    { id: '8', name: 'Supplier 8', textColor: '#804c00', bgColor: '#74efff', status: true, image: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg" },
+    { id: '9', name: 'Supplier 9', textColor: '#804c00', bgColor: '#97cef9', status: true, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
+    { id: '10', name: 'Supplier 10', textColor: 'black', bgColor: '#da92e7', status: false, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
+    { id: '11', name: 'Supplier 11', textColor: '#804c00', bgColor: '#fbbab5', status: true, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
+    { id: '12', name: 'Supplier 12', textColor: '#804c00', bgColor: '#ffc673', status: true, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" }
   ];
   sampleData: any[] = [
     {
@@ -229,24 +229,6 @@ export class WheelGameDetailComponent implements OnInit {
     sortCol: 'CreateAt',
     sortOrder: 1
   };
-  popupFlds: any[] = [
-    {
-      fieldId: "sliceText",
-      label: "Slice Text",
-      fieldValue: "",
-      type: "text",
-      isValid: true,
-      errorMesg: "",
-      required: true,
-    },
-  ]
-
-  seed = [...Array(12).keys()]
-  idToLandOn: any;
-  items: any[];
-  maxItems: any[];
-  textOrientation: TextOrientation = TextOrientation.HORIZONTAL
-  textAlignment: TextAlignment = TextAlignment.OUTER
 
   constructor(private http: HttpUtilityService, private modalService: NgbModal) {
     let gridModel = {
@@ -260,29 +242,17 @@ export class WheelGameDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.idToLandOn = this.seed[Math.floor(Math.random() * this.seed.length)];
-    const colors = ['#FF0000', '#000000']
-    this.items = this.seed.map((value) => ({
-      fillStyle: colors[value % 2],
-      text: `Prize ${value}`,
-      id: value,
-      textFillStyle: 'white',
-      textFontSize: '10'
-    }))
-    this.maxItems = this.seed.map((value) => ({
-      fillStyle: colors[value % 2],
-      text: `Prize ${value}`,
-      id: value,
-      textFillStyle: 'white',
-      textFontSize: '20'
-    }))
+    this.textColors.unshift({ code: 'paint', value: true });
+    this.textColors.splice(8, 0, { code: 'time', value: true });
+    this.textColors.splice(16, 0, { code: 'brush', value: true });
+    this.bgColors = JSON.parse(JSON.stringify(this.textColors));
   }
 
-  reset() {
-    this.wheel.reset()
+  wheelResult(result: string) {
+    console.log(result);
   }
 
-  toggle(e: any, isAll: boolean, device: DeviceModel) {
+  toggle(e: any, isAll: boolean, device: CodeValueModel) {
     if (isAll) {
       this.deviceList.map(x => x.value = e.checked);
     } else {
@@ -297,6 +267,15 @@ export class WheelGameDetailComponent implements OnInit {
       el.click();
     }
   }
+
+  lightenColor(color, percent) {
+    var num = parseInt(color.replace("#", ""), 16),
+      amt = Math.round(2.55 * percent),
+      R = (num >> 16) + amt,
+      B = (num >> 8 & 0x00FF) + amt,
+      G = (num & 0x0000FF) + amt;
+    return '#' + ((0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 + (B < 255 ? B < 1 ? 0 : B : 255) * 0x100 + (G < 255 ? G < 1 ? 0 : G : 255)).toString(16).slice(1));
+  };
 
   onFileUploaded(event: any) {
     var file = event.target.files;
@@ -317,30 +296,42 @@ export class WheelGameDetailComponent implements OnInit {
     //   .subscribe(event => {});
   }
 
-  openModel(clr: any, isEdit: boolean) {
-    this.isEdit = isEdit;
-    this.modalService.open(clr, { size: 'md', backdrop: 'static', centered: true });
+  apply() {
+    const index: number = this.dataSource.findIndex(x => x.id == this.formData.id);
+    if (index !== -1 && this.isEdit) {
+      this.dataSource[index] = JSON.parse(JSON.stringify(this.formData));
+      this.action = { index: index, action: ActionItems.UPDATE, param:[ this.formData] };
+    } else {
+      const lastItem: any = this.dataSource.length ? this.dataSource[this.dataSource.length - 1] : 0;
+      this.formData.id = lastItem && lastItem.id ? parseInt(lastItem.id + 1).toString() : '1';
+      this.dataSource.push(this.formData);
+      this.action = { index: this.dataSource.length - 1, action: ActionItems.ADD, param: [this.formData] };
+    }
+    this.closeModel();
   }
 
-  openWheel(clr: any) {
+  delete(id: string) {
+    this.action = { index: this.dataSource.findIndex(x => x.id == id), action: ActionItems.DELETE, param: null };
+    this.dataSource = this.dataSource.filter(x => x.id !== id);
+    this.closeModel();
+  }
+
+  openModel(record: WheelModel, model: any, isEdit: boolean) {
+    this.isEdit = isEdit;
+    this.formData = isEdit && record ? JSON.parse(JSON.stringify(record)) : new WheelModel();
+    this.modalService.open(model, { size: 'md', backdrop: 'static', centered: true });
+  }
+
+  openWheel(model: any) {
     this.isMaximize = true;
-    this.modalService.open(clr, { size: 'lg', backdrop: 'static', centered: true, windowClass: 'cont' });
+    this.modalService.open(model, { size: 'lg', backdrop: 'static', centered: true, windowClass: 'cont' });
   }
 
   closeModel() {
     this.isEdit = false;
     this.isMaximize = false;
+    this.formData = new WheelModel();
     this.modalService.dismissAll();
-  }
-
-  async spin(prize) {
-    this.idToLandOn = prize
-    await new Promise(resolve => setTimeout(resolve, 0));
-    this.wheel.spin()
-  }
-
-  setStep(index: number) {
-    this.step = index;
   }
 
   setTableData(data: any, gridModel: any) {

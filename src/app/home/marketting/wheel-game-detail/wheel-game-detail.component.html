@@ -4,9 +4,10 @@
             <div fxLayoutAlign="start center" fxFlex="70">
                 <div fxLayoutAlign="center center" fxFlex="30" fxLayout="column">
                     <div *ngIf="!isMaximize" fxFlex="100" fxLayoutAlign="center center">
-                        <ngx-wheel #wheel width='200' height='200' spinDuration='8' [items]='items' [innerRadius]='10'
-                            [spinAmount]='10' [textOrientation]='textOrientation' [textAlignment]='textAlignment'
-                            pointerStrokeColor='black' pointerFillColor='gold' [idToLandOn]='idToLandOn'></ngx-wheel>
+                        <app-wheel [segmentData]="dataSource" [width]="wheelConfig.width" [height]="wheelConfig.height"
+                            [textSize]="wheelConfig.textSize" [repeat]="wheelConfig.repeat" [action]="action"
+                            [numSegments]="dataSource.length" [spinTime]="wheelConfig.spinTime"
+                            [fairMode]="wheelConfig.fairMode" (result)="wheelResult($event)"></app-wheel>
                         <span class="material-icons maxi" (click)="openWheel(wheelBox)"
                             title="Maximize">fullscreen</span>
                     </div>
@@ -21,25 +22,28 @@
                         <tr>
                             <td> <span style="font-weight: bold;">
                                     <mat-icon fontSet="fontawesome" fontIcon="fa-envelope" style="color: midnightblue;">
-                                    </mat-icon>Text Size (7)
+                                    </mat-icon>Text Size ({{wheelConfig.textSize}})
                                 </span></td>
-                            <td>: <mat-slider thumbLabel tickInterval="1" min="1" max="100"></mat-slider>
+                            <td>: <mat-slider [(ngModel)]="wheelConfig.textSize" thumbLabel tickInterval="1" min="7"
+                                    max="50"></mat-slider>
                             </td>
                         </tr>
                         <tr>
                             <td> <span style="font-weight: bold;">
                                     <mat-icon fontSet="fontawesome" fontIcon="fa-map" style="color: midnightblue;">
-                                    </mat-icon>Slice Repeat (1)
+                                    </mat-icon>Slice Repeat ({{wheelConfig.repeat}})
                                 </span></td>
-                            <td>: <mat-slider thumbLabel tickInterval="1" min="1" max="100"></mat-slider>
+                            <td>: <mat-slider [(ngModel)]="wheelConfig.repeat" thumbLabel tickInterval="1" min="1"
+                                    max="10"></mat-slider>
                             </td>
                         </tr>
                         <tr>
                             <td> <span style="font-weight: bold;">
                                     <mat-icon fontSet="fontawesome" fontIcon="fa-globe" style="color: midnightblue;">
-                                    </mat-icon>Spin Time (4x)
+                                    </mat-icon>Spin Time ({{wheelConfig.spinTime}}x)
                                 </span></td>
-                            <td>: <mat-slider thumbLabel tickInterval="1" min="1" max="100"></mat-slider>
+                            <td>: <mat-slider [(ngModel)]="wheelConfig.spinTime" thumbLabel tickInterval="1" min="1"
+                                    max="7"></mat-slider>
                             </td>
                         </tr>
                         <tr>
@@ -48,7 +52,7 @@
                                         style="color: midnightblue;">
                                     </mat-icon>Fair Mode
                                 </span></td>
-                            <td>: <mat-slide-toggle></mat-slide-toggle>
+                            <td>: <mat-slide-toggle [(ngModel)]="wheelConfig.fairMode"></mat-slide-toggle>
                             </td>
                         </tr>
                     </table>
@@ -111,7 +115,7 @@
                     <span fxFlex></span>
                 </div>
                 <mat-icon class="mat-icon gene-text-xl point add-Btn" title="Add"
-                    (click)="openModel(colorPicker,false)">add </mat-icon>
+                    (click)="openModel(null,colorPicker,false)">add </mat-icon>
                 <mat-divider></mat-divider>
             </div>
             <div class="gene-card-content">
@@ -123,7 +127,9 @@
                     <ng-container matColumnDef="button">
                         <th mat-header-cell *matHeaderCellDef> Preview </th>
                         <td mat-cell *matCellDef="let element">
-                            <button [style.color]="element.textColor" [style.background-color]="element.bgColor" mat-raised-button mat-button-sm>{{element.name}}</button>
+                            <button class="left-border" [style.border-left-color]="lightenColor(element.bgColor, 20)"
+                                [style.color]="element.textColor" [style.background-color]="element.bgColor"
+                                mat-raised-button mat-button-sm>{{element.name}}</button>
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="name">
@@ -156,9 +162,10 @@
                         <th mat-header-cell *matHeaderCellDef> Action </th>
                         <td mat-cell *matCellDef="let element">
                             <mat-icon class="mat-icon gene-text-xl point" title="Edit"
-                                (click)="openModel(colorPicker, true)">edit
+                                (click)="openModel(element,colorPicker, true)">edit
                             </mat-icon>
-                            <mat-icon class="mat-icon gene-text-xl point" title="Delete">delete
+                            <mat-icon class="mat-icon gene-text-xl point" title="Delete" (click)="delete(element.id)">
+                                delete
                             </mat-icon>
                         </td>
                     </ng-container>
@@ -201,84 +208,58 @@
     </div>
     <mat-dialog-content>
         <h5 class="center">
-            <button mat-raised-button mat-button-sm [style.background]="color" [(colorPicker)]="color">Fathima
-                khazAnah</button>
+            <button mat-raised-button mat-button-sm class="left-border"
+                [style.border-left-color]="lightenColor(formData.bgColor, 20)" [style.color]="formData.textColor"
+                [style.background-color]="formData.bgColor">{{formData.name}}</button>
         </h5>
-        <app-input [config]="popupFlds[0]"></app-input>
+        <mat-form-field class="full-wid">
+            <mat-label>Slice Text</mat-label>
+            <input class="mrgn-t-none" matInput [(ngModel)]="formData.name">
+        </mat-form-field>
         <div>Text Colour</div>
         <div class="opened">
             <div class="colors">
-                <div class="round-color" style="background: green">
-                    <mat-icon class="mat-icon selected-Icon">palette </mat-icon>
-                </div>
-                <div class="round-color" style="background: #fff"></div>
-                <div class="round-color" style="background: #000105"></div>
-                <div class="round-color" style="background: #3e6158"></div>
-                <div class="round-color" style="background: #3f7a89"></div>
-                <div class="round-color" style="background: #96c582">
-                    <mat-icon class="mat-icon selected-Icon">done </mat-icon>
-                </div>
-                <div class="round-color" style="background: #b7d5c4"></div>
-                <div class="round-color" style="background: #bcd6e7"></div>
-                <div class="round-color" style="background: #92998e">
-                    <mat-icon class="mat-icon selected-Icon">schedule </mat-icon>
-                </div>
-                <div class="round-color" style="background: #7c90c1"></div>
-                <div class="round-color" style="background: #9d8594"></div>
-                <div class="round-color" style="background: #dad0d8"></div>
-                <div class="round-color" style="background: #3f7a89"></div>
-                <div class="round-color" style="background: #96c582"></div>
-                <div class="round-color" style="background: #b7d5c4"></div>
-                <div class="round-color" style="background: #bcd6e7"></div>
-                <div class="round-color" style="background: #92998e">
-                    <mat-icon class="mat-icon selected-Icon">auto_fix_high </mat-icon>
-                </div>
-                <div class="round-color" style="background: #7c90c1"></div>
-                <div class="round-color" style="background: #9d8594"></div>
-                <div class="round-color" style="background: #dad0d8"></div>
-                <div class="round-color" style="background: #3f7a89"></div>
-                <div class="round-color" style="background: #96c582"></div>
-                <div class="round-color" style="background: #b7d5c4"></div>
-                <div class="round-color" style="background: #bcd6e7"></div>
-
+                <ng-container *ngFor="let color of textColors">
+                    <div *ngIf="color.code == 'paint'" class="round-color" style="background: green">
+                        <mat-icon class="mat-icon selected-Icon">palette </mat-icon>
+                    </div>
+                    <div *ngIf="color.code == 'time'" class="round-color" style="background: #92998e">
+                        <mat-icon class="mat-icon selected-Icon">schedule </mat-icon>
+                    </div>
+                    <div *ngIf="color.code == 'brush'" class="round-color" style="background: #92998e"
+                        [(colorPicker)]="formData.textColor">
+                        <mat-icon class="mat-icon selected-Icon">auto_fix_high </mat-icon>
+                    </div>
+                    <div *ngIf="color.code !== 'paint' && color.code !== 'time' && color.code !== 'brush'"
+                        class="round-color" [style.background-color]="color.code"
+                        (click)="formData.textColor = color.code">
+                        <mat-icon *ngIf="color.code == formData.textColor" class="mat-icon selected-Icon">done
+                        </mat-icon>
+                    </div>
+                </ng-container>
             </div>
         </div>
         <mat-divider class="mrgn-b-md"></mat-divider>
         <div>Background Colour</div>
         <div class="opened">
             <div class="colors">
-                <div class="round-color" style="background: green">
-                    <mat-icon class="mat-icon selected-Icon">palette </mat-icon>
-                </div>
-                <div class="round-color" style="background: #fff"></div>
-                <div class="round-color" style="background: #000105"></div>
-                <div class="round-color" style="background: #3e6158"></div>
-                <div class="round-color" style="background: #3f7a89"></div>
-                <div class="round-color" style="background: #96c582"></div>
-                <div class="round-color" style="background: #b7d5c4"></div>
-                <div class="round-color" style="background: #bcd6e7"></div>
-                <div class="round-color" style="background: #92998e">
-                    <mat-icon class="mat-icon selected-Icon">schedule </mat-icon>
-                </div>
-                <div class="round-color" style="background: #7c90c1"></div>
-                <div class="round-color" style="background: #9d8594">
-                    <mat-icon class="mat-icon selected-Icon">done </mat-icon>
-                </div>
-                <div class="round-color" style="background: #dad0d8"></div>
-                <div class="round-color" style="background: #3f7a89"></div>
-                <div class="round-color" style="background: #96c582"></div>
-                <div class="round-color" style="background: #b7d5c4"></div>
-                <div class="round-color" style="background: #bcd6e7"></div>
-                <div class="round-color" style="background: #92998e">
-                    <mat-icon class="mat-icon selected-Icon">auto_fix_high </mat-icon>
-                </div>
-                <div class="round-color" style="background: #7c90c1"></div>
-                <div class="round-color" style="background: #9d8594"></div>
-                <div class="round-color" style="background: #dad0d8"></div>
-                <div class="round-color" style="background: #3f7a89"></div>
-                <div class="round-color" style="background: #96c582"></div>
-                <div class="round-color" style="background: #b7d5c4"></div>
-                <div class="round-color" style="background: #bcd6e7"></div>
+                <ng-container *ngFor="let color of bgColors">
+                    <div *ngIf="color.code == 'paint'" class="round-color" style="background: green">
+                        <mat-icon class="mat-icon selected-Icon">palette </mat-icon>
+                    </div>
+                    <div *ngIf="color.code == 'time'" class="round-color" style="background: #92998e">
+                        <mat-icon class="mat-icon selected-Icon">schedule </mat-icon>
+                    </div>
+                    <div *ngIf="color.code == 'brush'" class="round-color" style="background: #92998e"
+                        [(colorPicker)]="formData.bgColor">
+                        <mat-icon class="mat-icon selected-Icon">auto_fix_high </mat-icon>
+                    </div>
+                    <div *ngIf="color.code !== 'paint' && color.code !== 'time' && color.code !== 'brush'"
+                        class="round-color" [style.background-color]="color.code"
+                        (click)="formData.bgColor = color.code">
+                        <mat-icon *ngIf="color.code == formData.bgColor" class="mat-icon selected-Icon">done</mat-icon>
+                    </div>
+                </ng-container>
             </div>
         </div>
         <mat-divider class="mrgn-b-md"></mat-divider>
@@ -295,9 +276,9 @@
 
     </mat-dialog-content>
     <mat-dialog-actions class="mrgn-b-xs pad-b-none mrgn-t-md center">
-        <button *ngIf="isEdit" class="cust_line_btn txt_blue mrgn-l-sm">Delete</button>
-        <button class="cust_line_btn txt_blue mrgn-l-sm">Cancel</button>
-        <button class="cust_line_btn txt_blue mrgn-l-sm">OK</button>
+        <button *ngIf="isEdit" class="cust_line_btn txt_blue mrgn-l-sm" (click)="delete(formData.id)">Delete</button>
+        <button class="cust_line_btn txt_blue mrgn-l-sm" (click)="closeModel()">Cancel</button>
+        <button class="cust_line_btn txt_blue mrgn-l-sm" (click)="apply()">OK</button>
     </mat-dialog-actions>
 </ng-template>
 
@@ -307,8 +288,9 @@
         <button mat-fab-button mat-button-sm color="warn" class="close" (click)="closeModel()">x</button>
     </div>
     <mat-dialog-content>
-        <ngx-wheel *ngIf="isMaximize" #wheels width='500' height='500' spinDuration='8' [items]='maxItems'
-            [innerRadius]='20' [spinAmount]='10' [textOrientation]='textOrientation' [textAlignment]='textAlignment'
-            pointerStrokeColor='black' pointerFillColor='gold' [idToLandOn]='idToLandOn'></ngx-wheel>
+        <app-wheel *ngIf="isMaximize" [segmentData]="dataSource" width="500" height="500"
+            [textSize]="wheelConfig.textSize" [repeat]="wheelConfig.repeat" [action]="action"
+            [numSegments]="dataSource.length" [spinTime]="wheelConfig.spinTime" [fairMode]="wheelConfig.fairMode"
+            (result)="wheelResult($event)"></app-wheel>
     </mat-dialog-content>
 </ng-template>

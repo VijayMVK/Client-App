@@ -45,11 +45,12 @@ import { TosterComponent } from './toster/toster.component';
 import { TreeviewComponent } from './treeview/treeview.component';
 import { MatTreeModule } from '@angular/material/tree';
 import { EditorComponent } from './editor/editor.component';
+import { WheelComponent } from './wheel/wheel.component';
 import { QuillModule } from 'ngx-quill';
 
 
 @NgModule({
-  declarations: [SharedComponent, SidebarComponent, TableComponent, TabsComponent,ImgZoomComponent, InputComponent, SelectComponent, TextareaComponent, TosterComponent, TreeviewComponent, EditorComponent],
+  declarations: [SharedComponent, SidebarComponent, TableComponent, TabsComponent,ImgZoomComponent, InputComponent, SelectComponent, TextareaComponent, TosterComponent, TreeviewComponent, EditorComponent,WheelComponent],
   imports: [
     RouterModule,
 	PerfectScrollbarModule,
@@ -98,7 +99,8 @@ import { QuillModule } from 'ngx-quill';
 	TextareaComponent,
 	TosterComponent,
 	TreeviewComponent,
-	EditorComponent
+	EditorComponent,
+	WheelComponent
   ]
 })
 export class SharedModule { }
