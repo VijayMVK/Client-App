@@ -51,9 +51,8 @@ table>tr>td {
     padding-left: 4px;
 }
 .img-Btn {
-    border-radius: 50%;
-    float: right;
-    margin-top: -13px;
+    background-repeat: no-repeat;
+    background-size: contain;
 }
 .point{
     cursor: pointer;
@@ -104,7 +103,3 @@ table>tr>td {
     border-left-style: solid;
     border-left-width: 10px;
   }
-  
-//   .round-color:nth-child(5n) {
-//     margin-right: 0;
-//   }

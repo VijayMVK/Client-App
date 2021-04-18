@@ -8,7 +8,7 @@ export class WheelModel {
     name: string = '';
     textColor: string = '';
     bgColor: string = '';
-    image?: string = '';
+    image?: any;
     status: boolean = true;
 }
 

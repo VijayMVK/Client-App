@@ -20,7 +20,6 @@ export class WheelComponent implements AfterViewInit, OnInit {
   @Output() result = new EventEmitter<string>();
   @Input() numSegments: number = 8;
   @Input() spinTime: number = 1;
-  @Input() repeat: number = 1;
   @Input() fairMode: boolean = false;
   @Input() height: string = '200';
   @Input() width: string = '200';
@@ -42,6 +41,16 @@ export class WheelComponent implements AfterViewInit, OnInit {
       this.manipulateSegments(value);
     }
   }
+  @Input() set repeat(value: number) {
+    if (value) {
+      if (!this._repeat) {
+        this._repeat = value;
+      }
+      else {
+        this.sliceRepeat(value);
+      }
+    }
+  }
 
   ngOnInit() {
     this.updateSegments(this.segmentData);
@@ -56,6 +65,9 @@ export class WheelComponent implements AfterViewInit, OnInit {
       'centerX': (parseInt(this.width) / 2),
       'centerY': (parseInt(this.width) / 2),
       'lineWidth': 0.1,
+      // 'drawText': true,
+      // 'imageDirection' : 'S',
+      // 'drawMode': 'segmentImage',    // Must be segmentImage to draw wheel using one image per segemnt.
       'textFontSize': this._textSize,
       'segments': this.innerSegment,
       'animation':
@@ -146,7 +158,7 @@ export class WheelComponent implements AfterViewInit, OnInit {
     this.innerSegment = [];
     this.outerSegment = [];
     segmentData.map(x => {
-      this.innerSegment.push({ 'fillStyle': x.bgColor, 'text': x.name, 'textFillStyle': x.textColor });
+      this.innerSegment.push({ 'fillStyle': x.bgColor, 'text': x.name, 'textFillStyle': x.textColor, 'image': x.image ? x.image : null });
       this.outerSegment.push({ 'fillStyle': this.lightenColor(x.bgColor, 20) });
     });
   }
@@ -160,20 +172,87 @@ export class WheelComponent implements AfterViewInit, OnInit {
         break;
       }
       case ActionItems.UPDATE: {
-        value.index = value.index + 1;
-        this.innerWheel.segments[value.index].fillStyle = value.param[0]['bgColor'];
-        this.innerWheel.segments[value.index].textFillStyle = value.param[0]['textColor'];
-        this.innerWheel.segments[value.index].text = value.param[0]['name'];
-        this.outerWheel.segments[value.index].fillStyle = this.lightenColor(value.param[0]['bgColor'], 20);
+        if (this._repeat > 1) {
+          let indexes = [];
+          const record = this.innerWheel.segments[value.index + 1];
+          this.innerWheel.segments.map((x, i) => {
+            if (x && x.text == record.text && x.fillStyle == record.fillStyle && x.textFillStyle == record.textFillStyle) {
+              indexes.push(i);
+            }
+          })
+          indexes.map((x, i) => {
+            const index: number = x;
+            this.innerWheel.segments[index].fillStyle = value.param[0]['bgColor'];
+            this.innerWheel.segments[index].textFillStyle = value.param[0]['textColor'];
+            this.innerWheel.segments[index].text = value.param[0]['name'];
+            this.innerWheel.segments[index].image = value.param[0]['image'] ? value.param[0]['image'] : null;
+            this.outerWheel.segments[index].fillStyle = this.lightenColor(value.param[0]['bgColor'], 20);
+            if (value.param[0]['image']) {
+              this.innerWheel.segments[index].image = value.param[0]['image'];
+            }
+          })
+        } else {
+          value.index = value.index + 1;
+          this.innerWheel.segments[value.index].fillStyle = value.param[0]['bgColor'];
+          this.innerWheel.segments[value.index].textFillStyle = value.param[0]['textColor'];
+          this.innerWheel.segments[value.index].text = value.param[0]['name'];
+          this.innerWheel.segments[value.index].image = value.param[0]['image'] ? value.param[0]['image'] : null;
+          this.outerWheel.segments[value.index].fillStyle = this.lightenColor(value.param[0]['bgColor'], 20);
+          if (value.param[0]['image']) {
+            this.innerWheel.segments[value.index].image = value.param[0]['image'];
+          }
+        }
         break;
       }
       case ActionItems.DELETE: {
-        this.innerWheel.deleteSegment(value.index);
-        this.outerWheel.deleteSegment(value.index);
+        if (this._repeat > 1) {
+          let indexes = [];
+          this.innerWheel.segments.map((x, i) => {
+            if (x && x.text == value.param[0]['name'] && x.fillStyle == value.param[0]['bgColor'] && x.textFillStyle == value.param[0]['textColor']) {
+              indexes.push(i);
+            }
+          })
+          indexes.map((x, i) => {
+            const index: number = i == 0 ? x : (x - 1);
+            this.innerWheel.deleteSegment(index);
+            this.outerWheel.deleteSegment(index);
+          })
+        } else {
+          this.innerWheel.deleteSegment(value.index);
+          this.outerWheel.deleteSegment(value.index);
+        }
         break;
       }
       default: {
         break;
+      }
+    }
+    // The draw method of the wheel object must be called to render the changes.
+    this.innerWheel.draw();
+    this.outerWheel.draw(false);
+  }
+
+  sliceRepeat(value: number) {
+    this.updateSegments(this.segmentData);
+    if (value > this._repeat) {
+      const loopCount = value - this._repeat;
+      this._repeat = value;
+      this.innerWheel.segments = this.innerWheel.segments.filter(x => x !== undefined);
+      this.outerWheel.segments = this.outerWheel.segments.filter(x => x !== undefined);
+      for (let i = 0; i < loopCount; i++) {
+        for (let j = 0; j < this.segmentData.length; j++) {
+          this.innerWheel.addSegment(this.innerSegment[j], this.innerWheel.segments.length);
+          this.outerWheel.addSegment(this.outerSegment[j], this.outerWheel.segments.length);
+        }
+      }
+    } else {
+      const loopCount = this._repeat - value;
+      this._repeat = value;
+      for (let i = 0; i < loopCount; i++) {
+        for (let j = 0; j < this.segmentData.length; j++) {
+          this.innerWheel.deleteSegment();
+          this.outerWheel.deleteSegment();
+        }
       }
     }
     // The draw method of the wheel object must be called to render the changes.

@@ -34,7 +34,7 @@
                                     </mat-icon>Slice Repeat ({{wheelConfig.repeat}})
                                 </span></td>
                             <td>: <mat-slider [(ngModel)]="wheelConfig.repeat" thumbLabel tickInterval="1" min="1"
-                                    max="10"></mat-slider>
+                                    [max]="getMaxRepeat()"></mat-slider>
                             </td>
                         </tr>
                         <tr>
@@ -127,7 +127,9 @@
                     <ng-container matColumnDef="button">
                         <th mat-header-cell *matHeaderCellDef> Preview </th>
                         <td mat-cell *matCellDef="let element">
-                            <button class="left-border" [style.border-left-color]="lightenColor(element.bgColor, 20)"
+                            <button class="left-border" [ngClass]="{ 'img-Btn': element.image }"
+                                [style.background-image]="'url(' + element.image  + ')'"
+                                [style.border-left-color]="lightenColor(element.bgColor, 20)"
                                 [style.color]="element.textColor" [style.background-color]="element.bgColor"
                                 mat-raised-button mat-button-sm>{{element.name}}</button>
                         </td>
@@ -164,7 +166,8 @@
                             <mat-icon class="mat-icon gene-text-xl point" title="Edit"
                                 (click)="openModel(element,colorPicker, true)">edit
                             </mat-icon>
-                            <mat-icon class="mat-icon gene-text-xl point" title="Delete" (click)="formData.id = element.id;onDelete(confirmationModel)">
+                            <mat-icon class="mat-icon gene-text-xl point" title="Delete"
+                                (click)="formData = element;onDelete(confirmationModel)">
                                 delete
                             </mat-icon>
                         </td>
@@ -200,7 +203,7 @@
         </div>
     </div>
 </div>
-
+<input #fileToUpload (change)="onFileUploaded($event)" type="file" accept="image/*" style="display:none;" />
 <ng-template #colorPicker let-d="dismiss">
     <div class="mrgn-b-xs">
         <h2 mat-dialog-title>{{isEdit ? 'Edit Slice' : 'New Slice' }}</h2>
@@ -208,7 +211,8 @@
     </div>
     <mat-dialog-content>
         <h5 class="center">
-            <button mat-raised-button mat-button-sm class="left-border"
+            <button mat-raised-button mat-button-sm class="left-border" [ngClass]="{ 'img-Btn': formData.image }"
+                [style.background-image]="'url(' + formData.image  + ')'"
                 [style.border-left-color]="lightenColor(formData.bgColor, 20)" [style.color]="formData.textColor"
                 [style.background-color]="formData.bgColor">{{formData.name}}</button>
         </h5>
@@ -264,19 +268,36 @@
         </div>
         <mat-divider class="mrgn-b-md"></mat-divider>
         <div>Image
-            <span>
+            <!-- <span>
                 <button (click)="triggerFileClick()" class="img-Btn add-btn pointer-cursor hover-focus" md-mini-fab
                     type="button">
                     <mat-icon>add</mat-icon>
                 </button>
-            </span>
+            </span> -->
+            <div class="product-image-gallery-item add-icon">
+                <a id="img{{isEdit}}" class="p-link border-active" href="javascript:void(0)">
+                    <img [src]="formData.image" alt="" width="500" height="200">
+                </a>
+                <button *ngIf="!formData.image" (click)="triggerFileClick()" class="add-btn pointer-cursor hover-focus"
+                    md-mini-fab type="button">
+                    <mat-icon>add</mat-icon>
+                </button>
+                <button *ngIf="formData.image" (click)="triggerDeleteImgClick()"
+                    class="delete-btn add-btn pointer-cursor hover-focus" md-mini-fab type="button">
+                    <mat-icon>remove</mat-icon>
+                </button>
+                <button *ngIf="formData.image" (click)="previewImage(formData.image)"
+                    class="eye-btn add-btn pointer-cursor hover-focus" md-mini-fab type="button">
+                    <mat-icon>remove_red_eye</mat-icon>
+                </button>
+            </div>
         </div>
-        <input #fileToUpload (change)="onFileUploaded($event)" type="file" accept="image/*" style="display:none;" />
         <mat-divider class="mrgn-b-md"></mat-divider>
 
     </mat-dialog-content>
     <mat-dialog-actions class="mrgn-b-xs pad-b-none mrgn-t-md center">
-        <button *ngIf="isEdit" class="cust_line_btn txt_blue mrgn-l-sm" (click)="onDelete(confirmationModel)">Delete</button>
+        <button *ngIf="isEdit" class="cust_line_btn txt_blue mrgn-l-sm"
+            (click)="onDelete(confirmationModel)">Delete</button>
         <button class="cust_line_btn txt_blue mrgn-l-sm" (click)="closeModel()">Cancel</button>
         <button class="cust_line_btn txt_blue mrgn-l-sm" (click)="apply()">OK</button>
     </mat-dialog-actions>

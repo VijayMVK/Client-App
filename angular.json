@@ -34,9 +34,9 @@
               "src/scss/style.scss"
             ],
             "scripts": [
+              "src/assets/js/Winwheel.js",
               "node_modules/gsap/src/minified/TimelineMax.min.js",
-              "node_modules/gsap/src/minified/TweenMax.min.js",
-              "src/assets/is/Winwheel.js"
+              "node_modules/gsap/src/minified/TweenMax.min.js"
             ]
           },
           "configurations": {

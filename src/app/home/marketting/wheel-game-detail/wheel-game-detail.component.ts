@@ -21,6 +21,15 @@ export class WheelGameDetailComponent implements OnInit {
   formData: WheelModel = new WheelModel();
   wheelConfig: WheelConfigModel = new WheelConfigModel();
   action: WheelActionModel;
+
+  mainImgPath: string = "";
+  colorsArray: string[] = ["Red", "Blue", "Yellow", "Green"];
+  sizeArray: number[] = [36, 38, 40, 42, 44, 46, 48];
+  quantityArray: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  mainImage?: File;
+  galleryFiles: File[] = [];
+  selectedImage: any = "http://via.placeholder.com/625x800";
+
   triggerAll: CodeValueModel = { code: 'Active', value: false };
   deviceList: CodeValueModel[] = [
     { code: 'Android', value: false },
@@ -54,17 +63,17 @@ export class WheelGameDetailComponent implements OnInit {
   displayedColumns: string[] = ['id', 'button', 'name', 'textColor', 'bgColor', 'image', 'status', 'action'];
   dataSource: WheelModel[] = [
     { id: '1', name: 'Supplier 1', textColor: '#804c00', bgColor: '#74efff', status: true, image: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg" },
-    { id: '2', name: 'Supplier 2', textColor: '#804c00', bgColor: '#97cef9', status: true, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
-    { id: '3', name: 'Supplier 3', textColor: '#804c00', bgColor: '#da92e7', status: false, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
-    { id: '4', name: 'Supplier 4', textColor: 'white', bgColor: '#fbbab5', status: true, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
-    { id: '5', name: 'Supplier 5', textColor: '#804c00', bgColor: '#ffc673', status: true, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
-    { id: '6', name: 'Supplier 6', textColor: '#804c00', bgColor: '#fff6a3', status: false, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
-    { id: '7', name: 'Supplier 7', textColor: 'white', bgColor: '#e8efa3', status: true, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
+    { id: '2', name: 'Supplier 2', textColor: '#804c00', bgColor: '#97cef9', status: true, image: "" },
+    { id: '3', name: 'Supplier 3', textColor: '#804c00', bgColor: '#da92e7', status: false, image: "" },
+    { id: '4', name: 'Supplier 4', textColor: 'white', bgColor: '#fbbab5', status: true, image: "" },
+    { id: '5', name: 'Supplier 5', textColor: '#804c00', bgColor: '#ffc673', status: true, image: "" },
+    { id: '6', name: 'Supplier 6', textColor: '#804c00', bgColor: '#fff6a3', status: false, image: "" },
+    { id: '7', name: 'Supplier 7', textColor: 'white', bgColor: '#e8efa3', status: true, image: "" },
     { id: '8', name: 'Supplier 8', textColor: '#804c00', bgColor: '#74efff', status: true, image: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg" },
-    { id: '9', name: 'Supplier 9', textColor: '#804c00', bgColor: '#97cef9', status: true, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
-    { id: '10', name: 'Supplier 10', textColor: 'black', bgColor: '#da92e7', status: false, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
-    { id: '11', name: 'Supplier 11', textColor: '#804c00', bgColor: '#fbbab5', status: true, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" },
-    { id: '12', name: 'Supplier 12', textColor: '#804c00', bgColor: '#ffc673', status: true, image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg" }
+    { id: '9', name: 'Supplier 9', textColor: '#804c00', bgColor: '#97cef9', status: true, image: "" },
+    { id: '10', name: 'Supplier 10', textColor: 'black', bgColor: '#da92e7', status: false, image: "" },
+    { id: '11', name: 'Supplier 11', textColor: '#804c00', bgColor: '#fbbab5', status: true, image: "" },
+    { id: '12', name: 'Supplier 12', textColor: '#804c00', bgColor: '#ffc673', status: true, image: "" }
   ];
   sampleData: any[] = [
     {
@@ -246,6 +255,42 @@ export class WheelGameDetailComponent implements OnInit {
     this.textColors.splice(8, 0, { code: 'time', value: true });
     this.textColors.splice(16, 0, { code: 'brush', value: true });
     this.bgColors = JSON.parse(JSON.stringify(this.textColors));
+    this.mainImgPath = this.formData.image;
+  }
+
+  previewImage(src: string) {
+    this.selectedImage = src;
+  }
+
+  triggerDeleteImgClick(i: number) {
+    this.galleryFiles.splice(i, 1);
+  }
+
+  triggerFileClick() {
+    if (this.fileUploaded) {
+      // this.selectedIMageIndex = imageIndex;
+      let el: HTMLElement = this.fileUploaded.nativeElement;
+      el.click();
+    }
+  }
+
+  onFileUploaded(event: any) {
+    var file = event.target.files;
+    let fileReader = new FileReader();
+    fileReader.onload = (e) => {
+      if (fileReader.result) {
+        this.formData.image = fileReader.result;
+        this.selectedImage = fileReader.result;
+      }
+    }
+    fileReader.readAsDataURL(file[0]);
+    this.formData.image = file[0];
+  }
+
+
+  uploadFile(fileToUpload: File, fileName) {
+    const formData: FormData = new FormData();
+    formData.append('Image', fileToUpload, fileToUpload.name);
   }
 
   wheelResult(result: string) {
@@ -261,13 +306,6 @@ export class WheelGameDetailComponent implements OnInit {
     }
   }
 
-  triggerFileClick() {
-    if (this.fileUploaded) {
-      let el: HTMLElement = this.fileUploaded.nativeElement;
-      el.click();
-    }
-  }
-
   lightenColor(color, percent) {
     var num = parseInt(color.replace("#", ""), 16),
       amt = Math.round(2.55 * percent),
@@ -276,25 +314,6 @@ export class WheelGameDetailComponent implements OnInit {
       G = (num & 0x0000FF) + amt;
     return '#' + ((0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 + (B < 255 ? B < 1 ? 0 : B : 255) * 0x100 + (G < 255 ? G < 1 ? 0 : G : 255)).toString(16).slice(1));
   };
-
-  onFileUploaded(event: any) {
-    var file = event.target.files;
-    this.File = file[0];
-    let fileReader = new FileReader();
-    fileReader.onload = (e) => {
-      if (fileReader.result) {
-        this.imagePath = fileReader.result.toString();
-      }
-    }
-    fileReader.readAsDataURL(file[0]);
-  }
-
-  uploadFile(fileToUpload: File, fileName) {
-    const formData: FormData = new FormData();
-    formData.append('Image', fileToUpload, fileToUpload.name);
-    // this.httpc.post('api/upload/PostFormData/' + fileName, formData, { reportProgress: true, observe: 'events' })
-    //   .subscribe(event => {});
-  }
 
   apply() {
     const index: number = this.dataSource.findIndex(x => x.id == this.formData.id);
@@ -311,12 +330,12 @@ export class WheelGameDetailComponent implements OnInit {
     this.closeModel();
   }
 
-  onDelete(model){
+  onDelete(model) {
     this.modalService.open(model, { size: 'md', backdrop: 'static', centered: true });
-	}
+  }
 
   delete(id: string) {
-    this.action = { index: this.dataSource.findIndex(x => x.id == id), action: ActionItems.DELETE, param: null };
+    this.action = { index: this.dataSource.findIndex(x => x.id == id), action: ActionItems.DELETE, param: [this.formData] };
     this.dataSource = this.dataSource.filter(x => x.id !== id);
     this.closeModel();
   }
@@ -329,7 +348,7 @@ export class WheelGameDetailComponent implements OnInit {
 
   openWheel(model: any) {
     this.isMaximize = true;
-    this.action = undefined; 
+    this.action = undefined;
     this.modalService.open(model, { size: 'lg', backdrop: 'static', centered: true, windowClass: 'cont' });
   }
 
@@ -349,6 +368,32 @@ export class WheelGameDetailComponent implements OnInit {
   getDatFromServer(gridModel: any) {
     this.OrderDetailsConfig.currentPageSize = gridModel.limit;
     this.setTableData(this.sampleData, gridModel);
+  }
+
+  getMaxRepeat() {
+    const count = this.dataSource.length;
+    let max: number;
+    switch (true) {
+      case count <= 2: max = 12;
+        break;
+      case count <= 3: max = 8;
+        break;
+      case count <= 4: max = 6;
+        break;
+      case count <= 5: max = 5;
+        break;
+      case count <= 7: max = 4;
+        break;
+      case count <= 11: max = 3;
+        break;
+      case count <= 23: max = 2;
+        break;
+      case count >= 24: max = 1;
+        break;
+      default: max = 1;
+        break;
+    }
+    return max;
   }
 
   getStatusColor(status) {
