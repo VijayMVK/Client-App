@@ -16,11 +16,11 @@ export class WheelComponent implements AfterViewInit, OnInit {
   wheelSpinning = false;
   private _textSize: number;
   private _repeat: number;
-  private _fairMode: number;
   @Output() result = new EventEmitter<string>();
   @Input() numSegments: number = 8;
   @Input() spinTime: number = 1;
   @Input() fairMode: boolean = false;
+  @Input() segment: string = '';
   @Input() height: string = '200';
   @Input() width: string = '200';
   @Input() segmentData: any[] = [];
@@ -65,11 +65,13 @@ export class WheelComponent implements AfterViewInit, OnInit {
       'centerX': (parseInt(this.width) / 2),
       'centerY': (parseInt(this.width) / 2),
       'lineWidth': 0.1,
-      // 'drawText': true,
-      // 'imageDirection' : 'S',
-      // 'drawMode': 'segmentImage',    // Must be segmentImage to draw wheel using one image per segemnt.
+      'drawText': true,
+      'imageOverlay': true,
+      'imageDirection': 'S',
+      'drawMode': 'segmentImage',    // Must be segmentImage to draw wheel using one image per segemnt.
       'textFontSize': this._textSize,
       'segments': this.innerSegment,
+      'changeImage': this.imageChanged.bind(this),
       'animation':
       {
         'type': 'spinToStop',
@@ -126,12 +128,26 @@ export class WheelComponent implements AfterViewInit, OnInit {
     this.innerWheel.rotationAngle = 0;
   }
 
+  imageChanged() {
+    console.log(this.innerWheel);
+  }
+
   startSpin() {
     // Ensure that spinning can't be clicked again while already running.
     if (this.wheelSpinning == false) {
       this.innerWheel.animation.spins = this.spinTime * 2;
-      // Begin the spin animation by calling startAnimation on the wheel object.
-      this.innerWheel.startAnimation(new TweenMax(new TimelineMax()));
+      if (!this.fairMode && this.segment) {
+        // Get random angle inside specified segment of the wheel.
+        const index = this.innerWheel.segments.findIndex(x => x && x.text == this.segment);
+        let stopAt = this.innerWheel.getRandomForSegment(index);
+        // Important thing is to set the stopAngle of the animation before stating the spin.
+        this.innerWheel.animation.stopAngle = stopAt;
+        // Start the spin animation here.
+        this.innerWheel.startAnimation(new TweenMax(new TimelineMax()));
+      } else {
+        // Begin the spin animation by calling startAnimation on the wheel object.
+        this.innerWheel.startAnimation(new TweenMax(new TimelineMax()));
+      }
       // Set to true so that power can't be changed and spin button re-enabled during
       // the current animation. The user will have to reset before spinning again.
       this.wheelSpinning = true;

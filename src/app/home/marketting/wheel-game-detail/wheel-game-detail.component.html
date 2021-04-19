@@ -7,7 +7,8 @@
                         <app-wheel [segmentData]="dataSource" [width]="wheelConfig.width" [height]="wheelConfig.height"
                             [textSize]="wheelConfig.textSize" [repeat]="wheelConfig.repeat" [action]="action"
                             [numSegments]="dataSource.length" [spinTime]="wheelConfig.spinTime"
-                            [fairMode]="wheelConfig.fairMode" (result)="wheelResult($event)"></app-wheel>
+                            [fairMode]="wheelConfig.fairMode" [segment]="wheelConfig.segment"
+                            (result)="wheelResult($event)"></app-wheel>
                         <span class="material-icons maxi" (click)="openWheel(wheelBox)"
                             title="Maximize">fullscreen</span>
                     </div>
@@ -53,6 +54,13 @@
                                     </mat-icon>Fair Mode
                                 </span></td>
                             <td>: <mat-slide-toggle [(ngModel)]="wheelConfig.fairMode"></mat-slide-toggle>
+                                <mat-form-field class="mrgn-l-sm" *ngIf="!wheelConfig.fairMode">
+                                    <mat-label>Select Segment</mat-label>
+                                    <mat-select [(ngModel)]="wheelConfig.segment">
+                                        <mat-option *ngFor="let data of dataSource" [value]="data.name">{{data.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
                             </td>
                         </tr>
                     </table>
@@ -218,8 +226,11 @@
         </h5>
         <mat-form-field class="full-wid">
             <mat-label>Slice Text</mat-label>
-            <input class="mrgn-t-none" matInput [(ngModel)]="formData.name">
+            <input class="mrgn-t-none" name="sliceText{{isEdit}}" matInput [(ngModel)]="formData.name" required #sliceText>
         </mat-form-field>
+        <mat-error *ngIf="!formData.name">
+            Slice Text is <strong>required</strong>
+        </mat-error>
         <div>Text Colour</div>
         <div class="opened">
             <div class="colors">
@@ -268,12 +279,6 @@
         </div>
         <mat-divider class="mrgn-b-md"></mat-divider>
         <div>Image
-            <!-- <span>
-                <button (click)="triggerFileClick()" class="img-Btn add-btn pointer-cursor hover-focus" md-mini-fab
-                    type="button">
-                    <mat-icon>add</mat-icon>
-                </button>
-            </span> -->
             <div class="product-image-gallery-item add-icon">
                 <a id="img{{isEdit}}" class="p-link border-active" href="javascript:void(0)">
                     <img [src]="formData.image" alt="" width="500" height="200">
@@ -299,7 +304,7 @@
         <button *ngIf="isEdit" class="cust_line_btn txt_blue mrgn-l-sm"
             (click)="onDelete(confirmationModel)">Delete</button>
         <button class="cust_line_btn txt_blue mrgn-l-sm" (click)="closeModel()">Cancel</button>
-        <button class="cust_line_btn txt_blue mrgn-l-sm" (click)="apply()">OK</button>
+        <button class="cust_line_btn txt_blue mrgn-l-sm" [disabled]="!formData.name" (click)="apply()">OK</button>
     </mat-dialog-actions>
 </ng-template>
 
