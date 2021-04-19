@@ -226,7 +226,8 @@
         </h5>
         <mat-form-field class="full-wid">
             <mat-label>Slice Text</mat-label>
-            <input class="mrgn-t-none" name="sliceText{{isEdit}}" matInput [(ngModel)]="formData.name" required #sliceText>
+            <input class="mrgn-t-none" name="sliceText{{isEdit}}" matInput [(ngModel)]="formData.name" required
+                #sliceText>
         </mat-form-field>
         <mat-error *ngIf="!formData.name">
             Slice Text is <strong>required</strong>
@@ -329,8 +330,8 @@
     </div>
     <mat-dialog-content>
         <app-wheel *ngIf="isMaximize" [segmentData]="dataSource" width="500" height="500"
-            [textSize]="wheelConfig.textSize" [repeat]="wheelConfig.repeat" [action]="action"
-            [numSegments]="dataSource.length" [spinTime]="wheelConfig.spinTime" [fairMode]="wheelConfig.fairMode"
-            (result)="wheelResult($event)"></app-wheel>
+            [segment]="wheelConfig.segment" [textSize]="wheelConfig.textSize" [repeat]="wheelConfig.repeat"
+            [action]="action" [numSegments]="dataSource.length" [spinTime]="wheelConfig.spinTime"
+            [fairMode]="wheelConfig.fairMode" (result)="wheelResult($event)"></app-wheel>
     </mat-dialog-content>
 </ng-template>
