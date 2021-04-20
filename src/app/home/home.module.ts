@@ -32,6 +32,7 @@ import { ProductsModule } from './products/products.module';
 import { ProductsComponent } from './products/products.component';
 import { OrdersModule } from './orders/orders.module';
 import { MarkettingModule } from './marketting/marketting.module';
+import { UsersModule } from './users/users.module';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
@@ -66,6 +67,7 @@ import { FormsModule } from '@angular/forms';
     MatPaginatorModule,
     ProductsModule,
     OrdersModule,
+    UsersModule,
     MarkettingModule,
     MatButtonModule, 
     MatInputModule, 

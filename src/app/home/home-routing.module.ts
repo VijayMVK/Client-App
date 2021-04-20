@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home.component';
 import { UsersComponent } from './users/users.component';
+import { UserManagementComponent } from './user-management/user-management.component';
 import { UserManageListComponent } from './user-management/user-manage-list/user-manage-list.component';
 import { UserLogoutComponent } from './user-management/user-logout/user-logout.component';
 import { OrdersComponent } from './orders/orders.component';
@@ -27,6 +28,7 @@ import { MarkettingComponent } from './marketting/marketting.component';
 import { BannersComponent } from './marketting/banners/banners.component';
 import { CouponcodeComponent } from './marketting/couponcode/couponcode.component';
 import { WheelGameComponent } from './marketting/wheel-game/wheel-game.component';
+import { SupplierComponent } from './users/supplier/supplier.component';
 
 const routes: Routes = [
   {
@@ -94,7 +96,13 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'user', component: HomeComponent,
+        path: 'user', component: UsersComponent,
+        children: [
+          {
+            path: 'supplier',
+            component: SupplierComponent
+          }
+        ]
       },
       {
         path: 'marketting', component: MarkettingComponent,
@@ -114,7 +122,7 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'profile', component: UsersComponent,
+        path: 'profile', component: UserManagementComponent,
         children: [
           {
             path: 'profile',
