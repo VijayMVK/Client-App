@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SupplierComponent } from './supplier/supplier.component';
+import { SupplierListComponent } from './supplier-list/supplier-list.component';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -30,7 +31,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FileUploadModule } from 'ng2-file-upload';
 
 @NgModule({
-    declarations: [SupplierComponent],
+    declarations: [SupplierComponent, SupplierListComponent],
     imports: [
         CommonModule,
         RouterModule,

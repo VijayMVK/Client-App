@@ -65,10 +65,10 @@ export class WheelComponent implements AfterViewInit, OnInit {
       'centerX': (parseInt(this.width) / 2),
       'centerY': (parseInt(this.width) / 2),
       'lineWidth': 0.1,
-      'drawText': true,
-      'imageOverlay': true,
-      'imageDirection': 'S',
-      'drawMode': 'segmentImage',    // Must be segmentImage to draw wheel using one image per segemnt.
+      // 'drawText': true,
+      // 'imageOverlay': true,
+      // 'imageDirection': 'S',
+      // 'drawMode': 'segmentImage',    // Must be segmentImage to draw wheel using one image per segemnt.
       'textFontSize': this._textSize,
       'segments': this.innerSegment,
       'changeImage': this.imageChanged.bind(this),

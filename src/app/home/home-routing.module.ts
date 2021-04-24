@@ -28,16 +28,16 @@ import { MarkettingComponent } from './marketting/marketting.component';
 import { BannersComponent } from './marketting/banners/banners.component';
 import { CouponcodeComponent } from './marketting/couponcode/couponcode.component';
 import { WheelGameComponent } from './marketting/wheel-game/wheel-game.component';
-import { SupplierComponent } from './users/supplier/supplier.component';
+import { SupplierListComponent } from './users/supplier-list/supplier-list.component';
 
 const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    children:[
+    children: [
       {
         path: 'products', component: ProductsComponent,
-        children:[
+        children: [
           {
             path: 'view', component: ViewComponent,
           },
@@ -47,7 +47,7 @@ const routes: Routes = [
           {
             path: 'detailedAdd', component: AddProductDetailsComponent,
           },
-         
+
           {
             path: 'import', component: ImportProductComponent,
           },
@@ -66,12 +66,12 @@ const routes: Routes = [
           {
             path: 'brands', component: BrandsComponent,
           },
-          { path: 'addProduct', component: AddProductDetailsComponent,}
+          { path: 'addProduct', component: AddProductDetailsComponent, }
         ]
       },
       {
         path: 'orders', component: OrdersComponent,
-        children:[
+        children: [
           {
             path: 'view', component: ViewOrdersComponent,
           },
@@ -100,7 +100,7 @@ const routes: Routes = [
         children: [
           {
             path: 'supplier',
-            component: SupplierComponent
+            component: SupplierListComponent
           }
         ]
       },
@@ -134,7 +134,7 @@ const routes: Routes = [
           }
         ]
       }
-     
+
     ]
   },
 ]

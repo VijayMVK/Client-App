@@ -13,7 +13,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class SupplierComponent implements OnInit {
   step = 0;
-  row = {};
+  @Input('currentOrder') row: {};
   expiryCount: number = 150;
   expiryDate: Date = new Date();
   minDate: Date = new Date();
@@ -290,7 +290,7 @@ export class SupplierComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.row = this.sampleData[0];
+    // this.row = this.sampleData[0];
   }
 
   setStep(index: number) {
