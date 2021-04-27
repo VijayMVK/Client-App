@@ -23,12 +23,11 @@
         </mat-tab>
     </mat-tab-group>
 </div> -->
-<div class="mat-card" >
-    <app-table *ngIf="selectedOrderIndex == -1" (onAnyAction)="onAnyAction($event)" (addClick)="addOrderClick($event)" (deleteClick)="deleteOrderClicked($event)" (reloadData)="getDatFromServer($event)" [config]="OrdersTableConfig"></app-table>
-   <div *ngIf="selectedOrderIndex != -1">
-       <span><span (click)="selectedOrderIndex = -1" class="navigationHome">Order</span> > Order Detail</span>
-    <app-order-detail  [currentOrder]="currentOrder"></app-order-detail>
-   </div>
-    
-</div>
 
+<app-table *ngIf="selectedOrderIndex == -1" (onAnyAction)="onAnyAction($event)" (addClick)="addOrderClick($event)"
+    (deleteClick)="deleteOrderClicked($event)" (reloadData)="getDatFromServer($event)" [config]="OrdersTableConfig">
+</app-table>
+<div *ngIf="selectedOrderIndex != -1">
+    <span style="margin-left: 130px;top: 25px;position: fixed;"><span (click)="selectedOrderIndex = -1" class="navigationHome">Order</span> > Order Detail</span>
+    <app-order-detail [currentOrder]="currentOrder"></app-order-detail>
+</div>
