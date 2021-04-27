@@ -335,17 +335,18 @@ Winwheel.prototype.draw = function(clearTheCanvas)
             }
         } else if (this.drawMode == 'segmentImage') {
             // Draw the wheel by rendering the image for each segment.
-            // If image overlay is true then call function to draw the segments over the top of the image.
-            // This is useful during development to check alignment between where the code thinks the segments are and where they appear on the image.
-            if (this.imageOverlay == true) {
-                this.drawSegments();
-            }
             this.drawSegmentImages();
 
             // If we are to draw the text, do so before the overlay is drawn
             // as this allows the overlay to be used to create some interesting effects.
             if (this.drawText == true) {
                 this.drawSegmentText();
+            }
+
+            // If image overlay is true then call function to draw the segments over the top of the image.
+            // This is useful during development to check alignment between where the code thinks the segments are and where they appear on the image.
+            if (this.imageOverlay == true) {
+                this.drawSegments();
             }
         } else {
             // The default operation is to draw the segments using code via the canvas arc() method.
@@ -522,7 +523,7 @@ Winwheel.prototype.drawSegmentImages = function()
                 let seg = this.segments[x];
 
                 // Check image has loaded so a property such as height has a value.
-                if (seg && seg.imgData && seg.imgData.height) {
+                if (seg.imgData.height) {
                     // Work out the correct X and Y to draw the image at which depends on the direction of the image.
                     // Images can be created in 4 directions. North, South, East, West.
                     // North: Outside at top, inside at bottom. Sits evenly over the 0 degrees angle.
@@ -537,8 +538,7 @@ Winwheel.prototype.drawSegmentImages = function()
                     // Get scaled width and height of the segment image.
                     let scaledWidth = (seg.imgData.width * this.scaleFactor);
                     let scaledHeight = (seg.imgData.height * this.scaleFactor);
-                    scaledHeight = 30;
-                    scaledWidth = 30;
+
                     if (seg.imageDirection !== null) {
                         imageDirection = seg.imageDirection;
                     } else {
@@ -596,7 +596,7 @@ Winwheel.prototype.drawSegmentImages = function()
                     // So math here is the rotation angle of the wheel plus half way between the start and end angle of the segment.
                     this.ctx.rotate(this.degToRad(this.rotationAngle + imageAngle));
                     this.ctx.translate(-centerX, -centerY);
-                    imageTop = imageTop + 60;
+
                     // Draw the image passing the scaled width and height so that it can be responsive.
                     this.ctx.drawImage(seg.imgData, imageLeft, imageTop, scaledWidth, scaledHeight);
 

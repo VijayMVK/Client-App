@@ -146,9 +146,6 @@ export class ViewOrdersComponent implements OnInit {
         type: 'orderStatus',
         id: 'status',
         sortable: true,
-        displayColor: true,
-        displayColorId: 'statusColor',
-        options: AppconstantsService.orderStatus
       },
       {
         name: 'Account Type',
@@ -158,7 +155,7 @@ export class ViewOrdersComponent implements OnInit {
       },
       {
         name: 'Date Created',
-        type: 'string',
+        type: 'date',
         id: 'dateCreated',
         sortable: true
       },
@@ -177,22 +174,69 @@ export class ViewOrdersComponent implements OnInit {
 
   setTableData(data: any, gridModel: any) {
     console.log(data);
-    this.OrdersTableConfig.data = this.sampleData;
-    this.OrdersTableConfig.totalRows = this.sampleData.length;
+    this.OrdersTableConfig.data = data.rows;
+    this.OrdersTableConfig.totalRows = data.totalRows;
   }
 
   getDatFromServer(gridModel: any) {
     this.OrdersTableConfig.currentPageSize = gridModel.limit;
-    this.http.post(AppconstantsService.OrderAPIS.GetOrderList + "/" + this.filterIndex, gridModel).then((data: any) => {
+    var updatedData = {
+      rows:[],
+      totalRows: 0
+    };
+    this.http.get(AppconstantsService.OrderAPIS.GetOrderList + "/" + this.filterIndex).then((data: any) => {
       if (data) {
-        for (var i = 0; i < data.rows.length; i++) {
-          data.rows[i].subCatExist = "add_circle";
-          data.rows[i].statusColor = this.getStatusColor(data.rows[i].OrderStatus);
+        updatedData.totalRows = data.length;
+        for (var i = 0; i < data.length; i++) {
+          var row = data[i];
+          updatedData.rows.push({
+            user: {
+              displayName: ((row.FirstName)?row.FirstName:'')+' '+((row.MiddleName)?row.MiddleName:''),
+              image: "./assets/img/default_avatar.png",
+              id: ((row.Mobile)?row.Mobile:''),
+              city:((row.City)?row.City:''),
+              country: row.country,
+              email:row.email,
+              address:row.AddressLine1+', '+row.AddressLine2,
+              isNew: row.OrderStatus==1
+            },
+            reference: row.OrderRef,
+            total: row.Total,
+            qty: row.TotalQuandity,
+            orderNumber: row.OrderID,
+            deviceUsed: row.DeviceName,
+            status: {
+              status: row.OrderStatus,
+              statusIcon: this.getOrderStatsImage(row.OrderStatus),
+              type: row.OrderStatusName,
+              fontColor:'white',
+              bgColor: 'blue'
+            },
+            accountType: row.OrderTransactionType,
+            dateCreated: row.CreateAt,
+            isHover: false
+          })
         };
-        this.setTableData(data, gridModel);
+        this.setTableData(updatedData, gridModel);
       }
     }
       , (error: any) => { })
+  }
+
+  getOrderStatsImage(status): string {
+    var statusImage = './assets/img/orderStatus/ordered.png';
+    if(status == 2) {
+      statusImage = './assets/img/orderStatus/pending.png'
+    } else  if(status == 9) {
+      statusImage = './assets/img/orderStatus/cancelled.png'
+    } else  if(status == 11) {
+      statusImage = './assets/img/orderStatus/processing.png'
+    } else  if(status == 4) {
+      statusImage = './assets/img/orderStatus/ready-pickup.png'
+    } else  if(status == 10) {
+      statusImage = './assets/img/orderStatus/rejected.png'
+    }
+    return statusImage;
   }
 
   addOrderClick(e: any) {
@@ -205,15 +249,15 @@ export class ViewOrdersComponent implements OnInit {
 
 
   addOrderDetailsToTable(categoryId: any, index: number) {
-    if (this.OrdersTableConfig.data[index].OrderDetails) {
-      var details = {
-        isHtml: true,
-        value: this.getContent(this.OrdersTableConfig.data[index].OrderDetails)
-      };
-      this.OrdersTableConfig.data.splice(index + 1, 0, details);
-    }
-    else {
-      this.http.get(AppconstantsService.OrderAPIS.GetOrderDetail + "/" + this.OrdersTableConfig.data[index].OrderID).then((data) => {
+    // if (this.OrdersTableConfig.data[index].OrderDetails) {
+    //   var details = {
+    //     isHtml: true,
+    //     value: this.getContent(this.OrdersTableConfig.data[index].OrderDetails)
+    //   };
+    //   this.OrdersTableConfig.data.splice(index + 1, 0, details);
+    // }
+    // else {
+      this.http.get(AppconstantsService.OrderAPIS.GetOrderDetail + "/" +"247").then((data) => {
         if (data) {
           this.OrdersTableConfig.data[index].OrderDetails = data[0];
           var details = {
@@ -223,8 +267,8 @@ export class ViewOrdersComponent implements OnInit {
           this.OrdersTableConfig.data.splice(index + 1, 0, details);
         }
       }, (e) => { });
-    }
-    this.OrdersTableConfig.data[index].subCatExist = "remove_circle";
+    // }
+    // this.OrdersTableConfig.data[index].subCatExist = "remove_circle";
   }
 
   getContent(data: any) {
@@ -336,6 +380,7 @@ export class ViewOrdersComponent implements OnInit {
       case 'rowSelected':
         this.selectedOrderIndex = e.index;
         this.currentOrder = e.row;
+        // this.addOrderDetailsToTable(categoryId, e.index);
         break;
       case "click":
         var categoryId = e.row.CategoryId;

@@ -1,6 +1,6 @@
 
 table.mat-table {
-    border-spacing: 0;
+    border-spacing: 15px 0px
 }
 tr.mat-header-row {
     height: 56px;
@@ -149,7 +149,6 @@ tr.selected {
     text-align: center;
     padding: 5px;
 }
-
 .img-top{
     margin-top: -70px;
     border: 2px solid #fff

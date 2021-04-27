@@ -10,7 +10,9 @@ import { HttpUtilityService } from 'src/app/service/httputility.service';
 })
 export class OrderDetailComponent implements OnInit {
 
-  @Input('currentOrder') row: {};
+  @Input('currentOrder') row: any;
+  statusList = [];
+  deliveryManList = [];
   step = 0;
   orderFields: any[] = [
     {
@@ -215,8 +217,15 @@ export class OrderDetailComponent implements OnInit {
     this.getDatFromServer(gridModel);
   }
 
+  getItemDetails() {
+    this.http.get(AppconstantsService.OrderAPIS.GetOrderDetail + '190').then((data: any) => {
+      console.log(data);
+    });
+  }
+
   ngOnInit(): void {
     console.log(this.row);
+    this.getItemDetails();
   }
 
   setStep(index: number) {
