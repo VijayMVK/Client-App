@@ -4,7 +4,7 @@
             <div fxLayoutAlign="start center" fxFlex="70">
                 <div fxLayoutAlign="center center" fxFlex="20" fxLayout="column">
                     <div fxFlex="100" fxLayoutAlign="center center">
-                        <img class="user-image" src="{{row.user.image}}"
+                        <img class="user-image" src="{{row?.user?.image}}"
                             onerror="this.src='./assets/img/noImg_placeholder.jpeg';this.onerror='';" height="125"
                             width="125">
                     </div>
@@ -23,8 +23,8 @@
                     <table style="margin-left: 10px;">
                         <tr>
                             <td colspan="2" style="font-weight: bold;font-size: large;">
-                                <span>{{row.user.displayName}}</span>
-                                <span>({{row.user.id}})</span>
+                                <span>{{row?.user?.displayName}}</span>
+                                <span>({{row?.user?.id}})</span>
                             </td>
                         </tr>
                         <tr>
@@ -32,21 +32,21 @@
                                     <mat-icon fontSet="fontawesome" fontIcon="fa-envelope" style="color: midnightblue;">
                                     </mat-icon>Email
                                 </span></td>
-                            <td>: abcd@abcd.com</td>
+                            <td>: {{row?.user?.email}}</td>
                         </tr>
                         <tr>
                             <td> <span style="font-weight: bold;">
                                     <mat-icon fontSet="fontawesome" fontIcon="fa-map" style="color: midnightblue;">
                                     </mat-icon>City
                                 </span></td>
-                            <td>: New York</td>
+                            <td>: {{row?.user?.city}}</td>
                         </tr>
                         <tr>
                             <td> <span style="font-weight: bold;">
                                     <mat-icon fontSet="fontawesome" fontIcon="fa-globe" style="color: midnightblue;">
                                     </mat-icon>Country
                                 </span></td>
-                            <td>: USA</td>
+                            <td>: {{row?.user?.country}}</td>
                         </tr>
                         <tr>
                             <td> <span style="font-weight: bold;">
@@ -54,7 +54,7 @@
                                         style="color: midnightblue;">
                                     </mat-icon>Address
                                 </span></td>
-                            <td>: E-112, Austin Street, New York, USA</td>
+                            <td>: {{row?.user?.address}}</td>
                         </tr>
                     </table>
                 </div>
@@ -65,13 +65,13 @@
                         <div fxFlex="100">
                             <div class="mat-card">
                                 <div><span>Order Number</span></div>
-                                <div><b>50</b></div>
+                                <div><b>{{row.orderNumber}}</b></div>
                             </div>
                         </div>
                         <div fxFlex="100">
                             <div class="mat-card">
                                 <div><span>Device Used</span></div>
-                                <div><b>Android</b></div>
+                                <div><b>{{row.deviceUsed}}</b></div>
                             </div>
                         </div>
                     </div>
@@ -79,7 +79,7 @@
                         <div fxFlex="100">
                             <div class="mat-card">
                                 <div><span>Order Creation</span></div>
-                                <div><b>15/Mar/2021 02:07:59 PM</b></div>
+                                <div><b>{{row.dateCreated}}</b></div>
                             </div>
                         </div>
                         <div fxFlex="100">
