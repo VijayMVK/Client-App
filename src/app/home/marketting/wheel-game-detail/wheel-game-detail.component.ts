@@ -350,7 +350,7 @@ export class WheelGameDetailComponent implements OnInit {
   openWheel(model: any) {
     this.isMaximize = true;
     this.action = undefined;
-    this.modalService.open(model, { size: 'lg', backdrop: 'static', centered: true, windowClass: 'cont' });
+    this.modalService.open(model, { size: 'lg', backdrop: 'static', centered: true, windowClass : "customModalClass"  });
   }
 
   closeModel() {

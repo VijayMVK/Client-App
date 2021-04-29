@@ -2,16 +2,15 @@ import { Component, Input, OnInit, EventEmitter } from '@angular/core';
 import { GridModel } from 'src/app/models/grid.model';
 import { AppconstantsService } from 'src/app/service/appconstants.service';
 import { HttpUtilityService } from 'src/app/service/httputility.service';
-import { FileUploader } from 'ng2-file-upload';
 import { HelperService } from 'src/app/service/helper.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-supplier',
-  templateUrl: './supplier.component.html',
-  styleUrls: ['./supplier.component.scss']
+  selector: 'app-customer-detail',
+  templateUrl: './customer-detail.component.html',
+  styleUrls: ['./customer-detail.component.scss']
 })
-export class SupplierComponent implements OnInit {
+export class CustomerDetailComponent implements OnInit {
   step = 0;
   @Input('currentOrder') row: {};
   expiryCount: number = 150;
@@ -51,6 +50,37 @@ export class SupplierComponent implements OnInit {
       card_color: "warn-bg"
     }
   ];
+  team: Object[] = [{
+		name: 'Isabela Phelaps',
+		photo: 'assets/img/user-1.jpg',
+		post: 'Sr.Manager',
+    purchase: '4'
+	}, {
+		name: 'Trevor Hansen',
+		photo: 'assets/img/user-2.jpg',
+		post: 'Manager',
+    purchase: '6'
+	}, {
+		name: 'Sandra Adams',
+		photo: 'assets/img/user-3.jpg',
+		post: 'Engineer',
+    purchase: '5'
+	},{
+		name: 'Sandy Smith',
+		photo: 'assets/img/user-4.jpg',
+		post: 'Engineer',
+    purchase: '10'
+	},{
+		name: 'Rosy Wonn',
+		photo: 'assets/img/user-5.jpg',
+		post: 'Jr.Engineer',
+    purchase: '7'
+	},{
+		name: 'Alex Roddy',
+		photo: 'assets/img/user-6.jpg',
+		post: 'Jr.Engineer',
+    purchase: '2'
+	}];
   uploadTable: any = [];
   sampleData: any[] = [
     {
@@ -72,6 +102,7 @@ export class SupplierComponent implements OnInit {
       price: '10.24',
       total: '1',
       qty: 5,
+      reply: 'reply',
       orderNumber: "40",
       deviceUsed: "Android",
       status: {
@@ -99,6 +130,7 @@ export class SupplierComponent implements OnInit {
       image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg",
       reference: '70d4d7d0',
       uom: 'KG',
+      reply: 'reply',
       price: '24.62',
       total: '1',
       qty: 5,
@@ -132,6 +164,7 @@ export class SupplierComponent implements OnInit {
       price: '49.29',
       total: '1',
       qty: 5,
+      reply: 'reply',
       orderNumber: "60",
       deviceUsed: "Android",
       status: {
@@ -182,9 +215,14 @@ export class SupplierComponent implements OnInit {
         options: AppconstantsService.orderStatus
       },
       {
-        name: 'Action',
-        type: 'orderAction'
-      }
+        name:'Action',
+        type:'button',
+        id:'reply',
+        iconClass:'reply',
+        compareVal:'false',
+        activeClass:'cc',
+        usedefaultIcon:false
+      },
     ],
     data: [],
     currentPageSize: 20,
@@ -193,90 +231,6 @@ export class SupplierComponent implements OnInit {
     sortCol: 'CreateAt',
     sortOrder: 1
   };
-  FileUploadConfig: GridModel = {
-    EnableSearch: false,
-    tableHeader: 'Suppliers',
-    enablePagination: true,
-    columns: [] = [
-      {
-        name: 'Checkbox',
-        type: 'checkbox',
-        id: 'checkbox'
-      },
-      {
-        name: 'File',
-        type: 'user',
-        id: 'user',
-        sortable: true
-      },
-      {
-        name: 'Document Number',
-        type: 'string',
-        id: 'reference',
-        sortable: true
-      },
-      {
-        name: 'Document Type',
-        type: 'string',
-        id: 'accountType',
-        sortable: true
-      },
-      {
-        name: 'Status',
-        type: 'orderStatus',
-        id: 'status',
-        sortable: true,
-        displayColor: true,
-        displayColorId: 'statusColor',
-        options: AppconstantsService.orderStatus
-      },
-      {
-        name: 'Action',
-        type: 'orderAction'
-      }
-    ],
-    data: [],
-    currentPageSize: 20,
-    tableToolbar: false,
-    totalRows: 0,
-    sortCol: 'CreateAt',
-    sortOrder: 1
-  };
-  uploadDetails = [
-    {
-      fieldId: "documentNumber",
-      label: "Document Number",
-      fieldValue: "",
-      type: "text",
-      isValid: true,
-      errorMesg: "Please provide document number",
-      required: true
-    },
-    {
-      fieldId: "documentType",
-      label: "Document Type *",
-      fieldValue: "",
-      type: "select",
-      isValid: true,
-      errorMesg: "Please provide document type",
-      required: true,
-      options: [
-        { value: 'Passport', label: 'Passport' },
-        { value: 'Digital', label: 'Digital' },
-      ]
-    },
-    {
-      fieldId: "document",
-      label: "Document",
-      fieldValue: null,
-      type: "file",
-      isValid: true,
-      errorMesg: "Please provide document",
-      required: true
-    }
-  ];
-  uploader: FileUploader = new FileUploader({});
-  hasBaseDropZoneOver = false;
 
   constructor(private helper: HelperService, private modalService: NgbModal, private http: HttpUtilityService) {
     let gridModel = {
@@ -301,18 +255,11 @@ export class SupplierComponent implements OnInit {
     console.log(data);
     this.OrderDetailsConfig.data = this.sampleData;
     this.OrderDetailsConfig.totalRows = this.sampleData.length;
-    this.FileUploadConfig.data = this.uploadTable;
-    this.FileUploadConfig.totalRows = this.uploadTable.length;
   }
 
   getDatFromServer(gridModel: any) {
     this.OrderDetailsConfig.currentPageSize = gridModel.limit;
-    this.FileUploadConfig.currentPageSize = gridModel.limit;
     this.setTableData(this.sampleData, gridModel);
-  }
-
-  fileOverBase(e: any): void {
-    this.hasBaseDropZoneOver = e;
   }
 
   openModel(model: any) {
@@ -329,107 +276,6 @@ export class SupplierComponent implements OnInit {
     // To calculate the no. of days between two dates
     this.expiryCount = Math.round(this.expiryCount / (1000 * 3600 * 24));
     this.closeModel();
-  }
-
-  public onFileSelected(event: EventEmitter<File[]>) {
-    const file: File = event[0];
-    this.readBase64(file)
-      .then((data) => {
-        this.uploadDetails[2].fieldValue = data;
-      })
-  }
-
-  CreateClicked() {
-    if (this.helper.isFormValid(this.uploadDetails)) {
-      let uploadInfo = {
-        user: {
-          displayName: this.uploader.queue[0].file?.name,
-          image: this.uploadDetails[2].fieldValue,
-          city: "New York",
-          country: "USA",
-          email: "abcd@abcd.com",
-          address: "E-112, Austin Street, New York, USA",
-          isNew: true
-        },
-        id: this.uploadTable.length ? parseInt(this.uploadTable[this.uploadTable.length - 1].id) + 1 : 1,
-        reference: this.uploadDetails[0].fieldValue,
-        uom: 'PCS',
-        price: '10.24',
-        total: '1',
-        qty: 5,
-        orderNumber: "40",
-        deviceUsed: "Android",
-        status: {
-          status: 'Order In Progress',
-          statusIcon: './assets/img/orderStatus/ordered.png',
-          type: 'Silver'
-        },
-        accountType: this.uploadDetails[1].fieldValue,
-        dateCreated: '2018/04/25 02:07:59',
-        isHover: false
-      };
-      this.uploadTable.push(uploadInfo);
-      this.clear();
-    }
-    else {
-      this.helper.showErrorTostMessage("Please fill all mandatory data.");
-    }
-  }
-
-  clear() {
-    this.uploader = new FileUploader({
-      allowedFileType: ['image']
-    });
-    this.uploadDetails.map(x => x.fieldValue = null);
-  }
-
-  readBase64(file): Promise<any> {
-    var reader = new FileReader();
-    var future = new Promise((resolve, reject) => {
-      reader.addEventListener("load", function () {
-        resolve(reader.result);
-      }, false);
-
-      reader.addEventListener("error", function (event) {
-        reject(event);
-      }, false);
-
-      reader.readAsDataURL(file);
-    });
-    return future;
-  }
-
-  getStatusColor(status) {
-    switch (status) {
-      case 0: return "#879193";
-        break;
-      case 1: return "#bddf57";
-        break;
-      case 2: return "#4a6fb3";
-        break;
-      case 3: return "#fccb05";
-        break;
-      case 4: return "#000";
-        break;
-      case 5: return "#7f5f3c";
-        break;
-      case 6: return "#ff9000";
-        break;
-      case 7: return "#bddf57";
-        break;
-      case 8: return "#cd3101";
-        break;
-      case 9: return "#fccb05";
-        break;
-      case 10: return "#72cdfa";
-        break;
-      case 11: return "#e7a0ae";
-        break;
-      case 12: return "#96f";
-        break;
-      case 13: return "#fccb05";
-        break;
-    }
   }
 
 }

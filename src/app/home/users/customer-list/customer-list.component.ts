@@ -1,19 +1,17 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { GridModel } from 'src/app/models/grid.model';
 import { AppconstantsService } from 'src/app/service/appconstants.service';
 import { HttpUtilityService } from 'src/app/service/httputility.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-view-orders',
-  templateUrl: './view-orders.component.html',
-  styleUrls: ['./view-orders.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  selector: 'app-customer-list',
+  templateUrl: './customer-list.component.html',
+  styleUrls: ['./customer-list.component.scss']
 })
 
-export class ViewOrdersComponent implements OnInit {
+export class CustomerListComponent implements OnInit {
 
-  constructor(private http: HttpUtilityService, private modalService: NgbModal) {
+  constructor(private http: HttpUtilityService) {
     let gridModel = {
       start: 0,
       limit: this.OrdersTableConfig.currentPageSize,
@@ -38,23 +36,26 @@ export class ViewOrdersComponent implements OnInit {
         displayName: "Steven Gonzalez",
         image: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg",
         id: "0565898186",
-        city: "New York",
+        city:"New York",
         country: "USA",
-        email: "abcd@abcd.com",
-        address: "E-112, Austin Street, New York, USA",
+        email:"abcd@abcd.com",
+        address:"E-112, Austin Street, New York, USA",
         isNew: true
       },
-      reference: '70d4d7d0',
+      backgroundImage: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg",
+      displayName: "Steven Gonzalez",
+      email:"abcd@abcd.com",
+      title: 'Spin the Wheel to get Price of the Week',
       total: 'AED 501',
       qty: 5,
       orderNumber: "40",
       deviceUsed: "Android",
       status: {
         status: 'Processing',
-        statusIcon: './assets/img/orderStatus/processing.png',
+        statusIcon: './assets/img/orderStatus/pending.png',
         type: 'Platinum'
       },
-      accountType: 'Credit Card',
+      type: 'Credit Card',
       dateCreated: '2018/04/25 02:07:59',
       isHover: false
     },
@@ -63,13 +64,16 @@ export class ViewOrdersComponent implements OnInit {
         displayName: "Josephine Goodman",
         image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg",
         id: "0565898186",
-        city: "New York",
+        city:"New York",
         country: "USA",
-        email: "abcd@abcd.com",
-        address: "E-112, Austin Street, New York, USA",
+        email:"abcd@abcd.com",
+        address:"E-112, Austin Street, New York, USA",
         isNew: true
       },
-      reference: '70d4d7d0',
+      backgroundImage: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg",
+      displayName: "Josephine Goodman",
+      email:"abcd@abcd.com",
+      title: 'Get Ramadan Deal, Are You ready to Spin?',
       total: 'AED 501',
       qty: 5,
       orderNumber: "50",
@@ -79,7 +83,7 @@ export class ViewOrdersComponent implements OnInit {
         statusIcon: './assets/img/orderStatus/ready-pickup.png',
         type: 'Gold'
       },
-      accountType: 'Credit Card',
+      type: 'Credit Card',
       dateCreated: '2018/04/25 02:07:59',
       isHover: false
     },
@@ -88,13 +92,16 @@ export class ViewOrdersComponent implements OnInit {
         displayName: "Mario Harmon",
         image: "https://wp.zillowstatic.com/8/Chris-Morrison-97ef0b-300x300.jpg",
         id: "0565898186",
-        city: "New York",
+        city:"New York",
         country: "USA",
-        email: "abcd@abcd.com",
-        address: "E-112, Austin Street, New York, USA",
+        email:"abcd@abcd.com",
+        address:"E-112, Austin Street, New York, USA",
         isNew: false
       },
-      reference: '70d4d7d0',
+      backgroundImage: "https://wp.zillowstatic.com/8/Chris-Morrison-97ef0b-300x300.jpg",
+      email:"abcd@abcd.com",
+      displayName: "Mario Harmon",
+      title: 'Spin the Wheel to get Price of the Week',
       total: 'AED 501',
       qty: 5,
       orderNumber: "60",
@@ -104,7 +111,7 @@ export class ViewOrdersComponent implements OnInit {
         statusIcon: './assets/img/orderStatus/ordered.png',
         type: 'Silver'
       },
-      accountType: 'Credit Card',
+      type: 'Credit Card',
       dateCreated: '2018/04/25 02:07:59',
       isHover: false
     }
@@ -121,26 +128,38 @@ export class ViewOrdersComponent implements OnInit {
         id: 'checkbox'
       },
       {
-        name: 'User',
+        name: 'Supplier Name',
         type: 'user',
-        id: 'user',
+        id: 'user'
+      },
+      {
+        name: 'Email Id',
+        type: 'string',
+        id: 'email',
         sortable: true
       },
       {
-        name: 'Reference',
+        name: 'Registration Date',
         type: 'string',
-        id: 'reference'
-      },
-      {
-        name: 'Total',
-        type: 'string',
-        id: 'total',
+        id: 'dateCreated',
         sortable: true
       },
       {
-        name: 'Qty',
+        name: 'Validity From',
         type: 'string',
-        id: 'qty',
+        id: 'dateCreated',
+        sortable: true
+      },
+      {
+        name: 'Validity To',
+        type: 'string',
+        id: 'dateCreated',
+        sortable: true
+      },
+      {
+        name: 'Payment Mode',
+        type: 'string',
+        id: 'type',
         sortable: true
       },
       {
@@ -148,18 +167,9 @@ export class ViewOrdersComponent implements OnInit {
         type: 'orderStatus',
         id: 'status',
         sortable: true,
-      },
-      {
-        name: 'Account Type',
-        type: 'string',
-        id: 'accountType',
-        sortable: true
-      },
-      {
-        name: 'Date Created',
-        type: 'date',
-        id: 'dateCreated',
-        sortable: true
+        displayColor: true,
+        displayColorId: 'statusColor',
+        options: AppconstantsService.orderStatus
       },
       {
         name: 'Action',
@@ -176,69 +186,23 @@ export class ViewOrdersComponent implements OnInit {
 
   setTableData(data: any, gridModel: any) {
     console.log(data);
-    this.OrdersTableConfig.data = data.rows;
-    this.OrdersTableConfig.totalRows = data.totalRows;
+    this.OrdersTableConfig.data = this.sampleData;
+    this.OrdersTableConfig.totalRows = this.sampleData.length;
   }
 
   getDatFromServer(gridModel: any) {
     this.OrdersTableConfig.currentPageSize = gridModel.limit;
-    var updatedData = {
-      rows: [],
-      totalRows: 0
-    };
-    this.http.get(AppconstantsService.OrderAPIS.GetOrderList + "/" + this.filterIndex).then((data: any) => {
-      if (data) {
-        updatedData.totalRows = data.length;
-        for (var i = 0; i < data.length; i++) {
-          var row = data[i];
-          updatedData.rows.push({
-            user: {
-              displayName: ((row.FirstName)?row.FirstName:'')+' '+((row.MiddleName)?row.MiddleName:''),
-              image: "./assets/img/default_avatar.png",
-              id: ((row.Mobile)?row.Mobile:''),
-              city:((row.City)?row.City:''),
-              country: row.country,
-              email:row.email,
-              address:row.AddressLine1+', '+row.AddressLine2,
-              isNew: row.OrderStatus==1
-            },
-            reference: row.OrderRef,
-            total: row.Total,
-            qty: row.TotalQuandity,
-            orderNumber: row.OrderID,
-            deviceUsed: row.DeviceName,
-            status: {
-              status: row.OrderStatus,
-              statusIcon: this.getOrderStatsImage(row.OrderStatus),
-              type: row.OrderStatusName,
-              fontColor:'white',
-              bgColor: 'blue'
-            },
-            accountType: row.OrderTransactionType,
-            dateCreated: row.CreateAt,
-            isHover: false
-          })
-        };
-        this.setTableData(updatedData, gridModel);
-      }
-    }
-      , (error: any) => { })
-  }
-
-  getOrderStatsImage(status): string {
-    var statusImage = './assets/img/orderStatus/ordered.png';
-    if (status == 2) {
-      statusImage = './assets/img/orderStatus/pending.png'
-    } else if (status == 9) {
-      statusImage = './assets/img/orderStatus/cancelled.png'
-    } else if (status == 11) {
-      statusImage = './assets/img/orderStatus/processing.png'
-    } else if (status == 4) {
-      statusImage = './assets/img/orderStatus/ready-pickup.png'
-    } else if (status == 10) {
-      statusImage = './assets/img/orderStatus/rejected.png'
-    }
-    return statusImage;
+    this.setTableData(this.sampleData, gridModel);
+    // this.http.post(AppconstantsService.OrderAPIS.GetOrderList + "/" + this.filterIndex, gridModel).then((data: any) => {
+    //   if (data) {
+    //     for (var i = 0; i < data.rows.length; i++) {
+    //       data.rows[i].subCatExist = "add_circle";
+    //       data.rows[i].statusColor = this.getStatusColor(data.rows[i].OrderStatus);
+    //     };
+    //     this.setTableData(data, gridModel);
+    //   }
+    // }
+    //   , (error: any) => { })
   }
 
   addOrderClick(e: any) {
@@ -251,26 +215,26 @@ export class ViewOrdersComponent implements OnInit {
 
 
   addOrderDetailsToTable(categoryId: any, index: number) {
-    // if (this.OrdersTableConfig.data[index].OrderDetails) {
-    //   var details = {
-    //     isHtml: true,
-    //     value: this.getContent(this.OrdersTableConfig.data[index].OrderDetails)
-    //   };
-    //   this.OrdersTableConfig.data.splice(index + 1, 0, details);
-    // }
-    // else {
-    this.http.get(AppconstantsService.OrderAPIS.GetOrderDetail + "/" + "247").then((data) => {
-      if (data) {
-        this.OrdersTableConfig.data[index].OrderDetails = data[0];
-        var details = {
-          isHtml: true,
-          value: this.getContent(data[0])
-        };
-        this.OrdersTableConfig.data.splice(index + 1, 0, details);
-      }
-    }, (e) => { });
-    // }
-    // this.OrdersTableConfig.data[index].subCatExist = "remove_circle";
+    if (this.OrdersTableConfig.data[index].OrderDetails) {
+      var details = {
+        isHtml: true,
+        value: this.getContent(this.OrdersTableConfig.data[index].OrderDetails)
+      };
+      this.OrdersTableConfig.data.splice(index + 1, 0, details);
+    }
+    else {
+      this.http.get(AppconstantsService.OrderAPIS.GetOrderDetail + "/" + this.OrdersTableConfig.data[index].OrderID).then((data) => {
+        if (data) {
+          this.OrdersTableConfig.data[index].OrderDetails = data[0];
+          var details = {
+            isHtml: true,
+            value: this.getContent(data[0])
+          };
+          this.OrdersTableConfig.data.splice(index + 1, 0, details);
+        }
+      }, (e) => { });
+    }
+    this.OrdersTableConfig.data[index].subCatExist = "remove_circle";
   }
 
   getContent(data: any) {
@@ -376,15 +340,12 @@ export class ViewOrdersComponent implements OnInit {
     this.OrdersTableConfig.data[index].subCatExist = "add_circle";
   }
 
-  onAnyAction(e: any, modal: any) {
+  onAnyAction(e: any) {
     console.log(e);
     switch (e.action) {
       case 'rowSelected':
-        if (!this.modalService.hasOpenModals()) {
-          this.selectedOrderIndex = e.index;
-          this.currentOrder = e.row;
-        }
-        // this.addOrderDetailsToTable(categoryId, e.index);
+        this.selectedOrderIndex = e.index;
+        this.currentOrder = e.row;
         break;
       case "click":
         var categoryId = e.row.CategoryId;
@@ -403,18 +364,8 @@ export class ViewOrdersComponent implements OnInit {
         }
         break;
       case "edit":
-        // this.currentOrder = e.row;
-        // this.openModel(modal);
         break;
     }
-  }
-
-  openModel(model: any) {
-    this.modalService.open(model, { size: 'lg', backdrop: 'static', centered: true, windowClass : "customModalClass" });
-  }
-
-  closeModel() {
-    this.modalService.dismissAll();
   }
 
   getStatusColor(status) {

@@ -12,4 +12,7 @@
         </mat-tab>
     </mat-tab-group>
 </div>
-<app-wheel-game-detail *ngIf="selectedOrderIndex != -1" [currentOrder]="currentOrder"></app-wheel-game-detail>
+<div class="mat-card" *ngIf="selectedOrderIndex != -1">
+    <span><a (click)="selectedOrderIndex = -1" class="navigationHome">Wheel Game Setup</a> > Wheel Detail</span>
+    <app-wheel-game-detail [currentOrder]="currentOrder"></app-wheel-game-detail>
+</div>

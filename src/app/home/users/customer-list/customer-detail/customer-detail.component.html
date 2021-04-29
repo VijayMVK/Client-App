@@ -78,10 +78,16 @@
                     <div fxLayout="column" fxFlex="42">
                         <div fxFlex="100">
                             <div class="mat-card">
-                                <div><span>Expiry Date</span></div>
-                                <div><b>{{expiryCount}}</b>
-                                    <mat-icon class="fa-md" fontSet="fontawesome" style="cursor: pointer"
-                                        (click)="openModel(expiryDateModel)" fontIcon="fa-pencil"></mat-icon>
+                                <div><span>Is Supplier ?</span></div>
+                                <div><img class="img-circle" src="{{row.status.statusIcon}}"
+                                        onerror="this.src='./assets/img/noImg_placeholder.jpeg';this.onerror='';"
+                                        height="30" width="30">
+                                    <mat-icon
+                                        *ngIf="row.status.statusIcon == './assets/img/orderStatus/ordered.png'; else elseBlock"
+                                        class="edit-person" fontSet="fontawesome" fontIcon="fa-pencil"></mat-icon>
+                                    <ng-template #elseBlock>
+                                        <mat-icon class="add-person">person_add</mat-icon>
+                                    </ng-template>
                                 </div>
                             </div>
                         </div>
@@ -103,82 +109,10 @@
     </div>
 </div>
 <div fxLayout="row wrap" fxLayoutAlign="start start">
-    <div fxLayout="column" fxFlex="60%">
-        <div fxFlex="100">
-            <mat-accordion>
-                <mat-expansion-panel class="m-15 mrgn-t-md" [expanded]="step === 0" (opened)="setStep(0)">
-                    <mat-expansion-panel-header>
-                        <mat-panel-title>
-                            <svg class="cash" viewBox="0 0 24 24">
-                                <path fill="currentColor"
-                                    d="M3,6H21V18H3V6M12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9M7,8A2,2 0 0,1 5,10V14A2,2 0 0,1 7,16H17A2,2 0 0,1 19,14V10A2,2 0 0,1 17,8H7Z" />
-                            </svg>
-                            <b>Supplier Details (3)</b>
-                        </mat-panel-title>
-                    </mat-expansion-panel-header>
-                    <app-table [config]="OrderDetailsConfig"></app-table>
-                </mat-expansion-panel>
-
-                <mat-expansion-panel class="m-15" [expanded]="step === 1" (opened)="setStep(1)">
-                    <mat-expansion-panel-header>
-                        <mat-panel-title>
-                            <svg class="cash" viewBox="0 0 24 24">
-                                <path fill="currentColor"
-                                    d="M3,6H21V18H3V6M12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9M7,8A2,2 0 0,1 5,10V14A2,2 0 0,1 7,16H17A2,2 0 0,1 19,14V10A2,2 0 0,1 17,8H7Z" />
-                            </svg>
-                            <b>File Upload</b>
-                        </mat-panel-title>
-                    </mat-expansion-panel-header>
-                    <div class="gene-card-content">
-                        <div fxLayout="row wrap" fxLayoutAlign="space-between center">
-                            <div fxFlex.gt-sm="49" fxFlex.gt-xs="49" fxFlex="100">
-                                <app-select [config]="uploadDetails[1]"></app-select>
-                            </div>
-                            <div fxFlex.gt-sm="49" fxFlex.gt-xs="49" fxFlex="100">
-                                <app-input [config]="uploadDetails[0]"></app-input>
-                            </div>
-                            <div fxFlex.gt-sm="49" fxFlex.gt-xs="49" fxFlex="100">
-                                <input type="file" ng2FileSelect [uploader]="uploader"
-                                    (onFileSelected)="onFileSelected($event)" /> OR
-                            </div>
-                            <div fxFlex.gt-sm="49" fxFlex.gt-xs="49" fxFlex="100">
-                                <h6>Select files</h6>
-                                <div class="file-type" ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
-                                    (onFileDrop)="onFileSelected($event)" (fileOver)="fileOverBase($event)"
-                                    [uploader]="uploader">Base drop zone
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <mat-card-actions class="mat-pad-none margin-none mrgn-b-md">
-                        <button mat-raised-button mat-button-sm color="primary" (click)="CreateClicked()">ADD</button>
-                        <button mat-raised-button mat-button-sm color="warn" (click)="clear()">Delete</button>
-                    </mat-card-actions>
-                    <app-table [config]="FileUploadConfig"></app-table>
-                </mat-expansion-panel>
-
-                <mat-expansion-panel class="m-15" [expanded]="step === 2" (opened)="setStep(2)">
-                    <mat-expansion-panel-header>
-                        <mat-panel-title>
-                            <svg class="cash" viewBox="0 0 24 24">
-                                <path fill="currentColor"
-                                    d="M3,6H21V18H3V6M12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9M7,8A2,2 0 0,1 5,10V14A2,2 0 0,1 7,16H17A2,2 0 0,1 19,14V10A2,2 0 0,1 17,8H7Z" />
-                            </svg>
-                            <b>Payment</b>
-                        </mat-panel-title>
-                    </mat-expansion-panel-header>
-                    <mat-form-field>
-                        <mat-label>Date</mat-label>
-                        <input matInput type="number" min="1">
-                    </mat-form-field>
-                </mat-expansion-panel>
-            </mat-accordion>
-        </div>
-    </div>
-    <div fxFlex.gt-sm="40" fxFlex.gt-xs="100" fxFlex="100">
+    <div fxLayout="column" fxFlex="60">
         <div class="crypto-progress">
             <div fxLayout="row wrap" fxLayoutAlign="start start">
-                <div fxFlex.gt-sm="100" fxFlex.gt-md="50" fxFlex.gt-xs="100" fxFlex="100"
+                <div fxFlex.gt-sm="25" fxFlex.gt-md="25" fxFlex.gt-xs="25" fxFlex="25"
                     *ngFor="let content of progress;let i = index">
                     <mat-card class="{{content.card_color}} mat-card">
                         <div class="mrgn-b-xs" mat-card-widget fxLayout="row" fxLayoutAlign="space-between center">
@@ -196,34 +130,102 @@
                 </div>
             </div>
         </div>
-
-        <div class="bank-details">
-            <mat-card>
-                <div class="sec-title mrgn-b-md">
-                    <h4>{{'Bank Details'}}</h4>
+        <div fxFlex="100">
+            <mat-accordion>
+                <mat-expansion-panel class="m-15 mrgn-t-md" [expanded]="step === 0" (opened)="setStep(0)">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <svg class="cash" viewBox="0 0 24 24">
+                                <path fill="currentColor"
+                                    d="M3,6H21V18H3V6M12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9M7,8A2,2 0 0,1 5,10V14A2,2 0 0,1 7,16H17A2,2 0 0,1 19,14V10A2,2 0 0,1 17,8H7Z" />
+                            </svg>
+                            <b>Customer Details (3)</b>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <app-table [config]="OrderDetailsConfig"></app-table>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+    </div>
+    <div fxFlex.gt-sm="40" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card class="card-full-height">
+            <div class="gene-card-title">
+                <div fxLayout="row" fxLayoutAlign="start start">
+                    <div fxLayout="column">
+                        <h4 class="warn-text">Favourite Product</h4>
+                    </div> <span fxFlex></span>
+                    <h4>No# Time Purchased</h4>
                 </div>
-                <div class="mrgn-b-xs" mat-card-widget fxLayout="row wrap" fxLayoutAlign="space-between start"
-                    fxLayoutGap="15px">
-                    <div fxFlex.gt-sm="calc(100% - 180px)" fxFlex.gt-xs="100" fxFlex="100">
-                        <div class="bank-detail mrgn-b-md">
-                            <div class="font-bold mrgn-b-sm inline-block">{{'Rich Earnand'}}</div>
-                            <h4 class="font-normal"><span
-                                    class="fa fa-university primary-text mrgn-r-xs inline-block"></span>Central Bank Of
-                                Lorem</h4>
-                            <h5 class="verified-status success-text"><span class="fa fa-check mrgn-r-xs"></span> KYC
-                                Verified</h5>
-                        </div>
-                        <div class="font-bold">
-                            <div class="mrgn-b-xs">{{'Account'}} : <span class="font-normal">XXXXXXXXX73823</span></div>
-                            <div>{{'Phone'}} : <span class="font-normal">XXXXXXXX1234</span></div>
+                <mat-divider></mat-divider>
+            </div>
+            <div class="gene-card-content msg-wrapper">
+                <perfect-scrollbar class=" set-list-scroll">
+                    <div *ngFor=" let item of team">
+                        <div fxLayout="row" fxLayoutAlign="start start" class="mrgn-b-md gene-relative msg-wrap-list">
+                            <div class="dash-thumb gene-relative" fxFlex.gt-sm="50px" fxFlex.gt-xs="50px" fxFlex="50px">
+                                <img class="img-circle" src="{{item.photo}}" alt="User Image" width="50" height="50">
+                            </div>
+                            <div class="pad-wrap dash-content" fxFlex.gt-sm="calc(100% - 50px)"
+                                fxFlex.gt-xs="calc(100% - 50px)" fxFlex="100">
+                                <div class="border-rad-base">
+                                    <span class="font-bold">{{item.name}}</span>
+                                    <p class="margin-none">{{item.post}}</p>
+                                </div>
+                                <a class="gene-absolute black-text">
+                                    <span class="font-bold">{{item.purchase}}</span>
+                                </a>
+                            </div>
+                            <span fxFlex></span>
                         </div>
                     </div>
+                </perfect-scrollbar>
+            </div>
+        </mat-card>
+        <mat-card class="card-full-height">
+            <div class="gene-card-title">
+                <div fxLayout="row" fxLayoutAlign="start start">
+                    <div fxLayout="column">
+                        <h4 class="warn-text">Product Orders</h4>
+                    </div> <span fxFlex></span>
+                    <h4>No# Time Purchased</h4>
+                </div>
+                <mat-divider></mat-divider>
+            </div>
+            <div class="gene-card-content msg-wrapper">
+                <perfect-scrollbar class=" set-list-scroll">
+                    <div *ngFor=" let item of team">
+                        <div fxLayout="row" fxLayoutAlign="start start" class="mrgn-b-md gene-relative msg-wrap-list">
+                            <div class="dash-thumb gene-relative" fxFlex.gt-sm="50px" fxFlex.gt-xs="50px" fxFlex="50px">
+                                <img class="img-circle" src="{{item.photo}}" alt="User Image" width="50" height="50">
+                            </div>
+                            <div class="pad-wrap dash-content" fxFlex.gt-sm="calc(100% - 50px)"
+                                fxFlex.gt-xs="calc(100% - 50px)" fxFlex="100">
+                                <div class="border-rad-base">
+                                    <span class="font-bold">{{item.name}}</span>
+                                    <p class="margin-none">{{item.post}}</p>
+                                </div>
+                                <a class="gene-absolute black-text">
+                                    <span class="font-bold">{{item.purchase}}</span>
+                                </a>
+                            </div>
+                            <span fxFlex></span>
+                        </div>
+                    </div>
+                </perfect-scrollbar>
+            </div>
+        </mat-card>
+        <mat-card class="card-full-height">
+            <div class="gene-card-title">
+                <div fxLayout="row" fxLayoutAlign="start start">
+                    <div fxLayout="column">
+                        <h4>Total Spending</h4>
+                    </div> <span fxFlex></span>
                     <div class="price-wrap" fxFlex.gt-sm="160px" fxFlex.gt-xs="100" fxFlex="100">
                         <h3 class="price text-right">$9783862</h3>
                     </div>
                 </div>
-            </mat-card>
-        </div>
+            </div>
+        </mat-card>
     </div>
 </div>
 

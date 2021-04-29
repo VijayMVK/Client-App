@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SupplierComponent } from './supplier/supplier.component';
 import { SupplierListComponent } from './supplier-list/supplier-list.component';
+import { CustomerListComponent } from './customer-list/customer-list.component';
+import { SupplierDetailComponent } from './supplier-list/supplier-detail/supplier-detail.component';
+import { CustomerDetailComponent } from './customer-list/customer-detail/customer-detail.component';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -25,13 +27,14 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTableModule } from '@angular/material/table';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatListModule } from '@angular/material/list';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FileUploadModule } from 'ng2-file-upload';
 
 @NgModule({
-    declarations: [SupplierComponent, SupplierListComponent],
+    declarations: [SupplierDetailComponent, SupplierListComponent,CustomerListComponent,CustomerDetailComponent],
     imports: [
         CommonModule,
         RouterModule,
@@ -59,6 +62,7 @@ import { FileUploadModule } from 'ng2-file-upload';
         MatSliderModule,
         ColorPickerModule,
         MatCardModule,
+        MatListModule,
         MatDatepickerModule,
         FileUploadModule
     ]

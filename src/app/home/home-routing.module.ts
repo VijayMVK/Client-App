@@ -29,6 +29,7 @@ import { BannersComponent } from './marketting/banners/banners.component';
 import { CouponcodeComponent } from './marketting/couponcode/couponcode.component';
 import { WheelGameComponent } from './marketting/wheel-game/wheel-game.component';
 import { SupplierListComponent } from './users/supplier-list/supplier-list.component';
+import { CustomerListComponent } from './users/customer-list/customer-list.component';
 
 const routes: Routes = [
   {
@@ -101,6 +102,10 @@ const routes: Routes = [
           {
             path: 'supplier',
             component: SupplierListComponent
+          },
+          {
+            path: 'customer',
+            component: CustomerListComponent
           }
         ]
       },
