@@ -1,17 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { GridModel } from 'src/app/models/grid.model';
 import { AppconstantsService } from 'src/app/service/appconstants.service';
 import { HttpUtilityService } from 'src/app/service/httputility.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-view-orders',
   templateUrl: './view-orders.component.html',
-  styleUrls: ['./view-orders.component.scss']
+  styleUrls: ['./view-orders.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class ViewOrdersComponent implements OnInit {
 
-  constructor(private http: HttpUtilityService) {
+  constructor(private http: HttpUtilityService, private modalService: NgbModal) {
     let gridModel = {
       start: 0,
       limit: this.OrdersTableConfig.currentPageSize,
@@ -36,10 +38,10 @@ export class ViewOrdersComponent implements OnInit {
         displayName: "Steven Gonzalez",
         image: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg",
         id: "0565898186",
-        city:"New York",
+        city: "New York",
         country: "USA",
-        email:"abcd@abcd.com",
-        address:"E-112, Austin Street, New York, USA",
+        email: "abcd@abcd.com",
+        address: "E-112, Austin Street, New York, USA",
         isNew: true
       },
       reference: '70d4d7d0',
@@ -61,10 +63,10 @@ export class ViewOrdersComponent implements OnInit {
         displayName: "Josephine Goodman",
         image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg",
         id: "0565898186",
-        city:"New York",
+        city: "New York",
         country: "USA",
-        email:"abcd@abcd.com",
-        address:"E-112, Austin Street, New York, USA",
+        email: "abcd@abcd.com",
+        address: "E-112, Austin Street, New York, USA",
         isNew: true
       },
       reference: '70d4d7d0',
@@ -86,10 +88,10 @@ export class ViewOrdersComponent implements OnInit {
         displayName: "Mario Harmon",
         image: "https://wp.zillowstatic.com/8/Chris-Morrison-97ef0b-300x300.jpg",
         id: "0565898186",
-        city:"New York",
+        city: "New York",
         country: "USA",
-        email:"abcd@abcd.com",
-        address:"E-112, Austin Street, New York, USA",
+        email: "abcd@abcd.com",
+        address: "E-112, Austin Street, New York, USA",
         isNew: false
       },
       reference: '70d4d7d0',
@@ -181,7 +183,7 @@ export class ViewOrdersComponent implements OnInit {
   getDatFromServer(gridModel: any) {
     this.OrdersTableConfig.currentPageSize = gridModel.limit;
     var updatedData = {
-      rows:[],
+      rows: [],
       totalRows: 0
     };
     this.http.get(AppconstantsService.OrderAPIS.GetOrderList + "/" + this.filterIndex).then((data: any) => {
@@ -225,15 +227,15 @@ export class ViewOrdersComponent implements OnInit {
 
   getOrderStatsImage(status): string {
     var statusImage = './assets/img/orderStatus/ordered.png';
-    if(status == 2) {
+    if (status == 2) {
       statusImage = './assets/img/orderStatus/pending.png'
-    } else  if(status == 9) {
+    } else if (status == 9) {
       statusImage = './assets/img/orderStatus/cancelled.png'
-    } else  if(status == 11) {
+    } else if (status == 11) {
       statusImage = './assets/img/orderStatus/processing.png'
-    } else  if(status == 4) {
+    } else if (status == 4) {
       statusImage = './assets/img/orderStatus/ready-pickup.png'
-    } else  if(status == 10) {
+    } else if (status == 10) {
       statusImage = './assets/img/orderStatus/rejected.png'
     }
     return statusImage;
@@ -257,16 +259,16 @@ export class ViewOrdersComponent implements OnInit {
     //   this.OrdersTableConfig.data.splice(index + 1, 0, details);
     // }
     // else {
-      this.http.get(AppconstantsService.OrderAPIS.GetOrderDetail + "/" +"247").then((data) => {
-        if (data) {
-          this.OrdersTableConfig.data[index].OrderDetails = data[0];
-          var details = {
-            isHtml: true,
-            value: this.getContent(data[0])
-          };
-          this.OrdersTableConfig.data.splice(index + 1, 0, details);
-        }
-      }, (e) => { });
+    this.http.get(AppconstantsService.OrderAPIS.GetOrderDetail + "/" + "247").then((data) => {
+      if (data) {
+        this.OrdersTableConfig.data[index].OrderDetails = data[0];
+        var details = {
+          isHtml: true,
+          value: this.getContent(data[0])
+        };
+        this.OrdersTableConfig.data.splice(index + 1, 0, details);
+      }
+    }, (e) => { });
     // }
     // this.OrdersTableConfig.data[index].subCatExist = "remove_circle";
   }
@@ -374,12 +376,14 @@ export class ViewOrdersComponent implements OnInit {
     this.OrdersTableConfig.data[index].subCatExist = "add_circle";
   }
 
-  onAnyAction(e: any) {
+  onAnyAction(e: any, modal: any) {
     console.log(e);
     switch (e.action) {
       case 'rowSelected':
-        this.selectedOrderIndex = e.index;
-        this.currentOrder = e.row;
+        if (!this.modalService.hasOpenModals()) {
+          this.selectedOrderIndex = e.index;
+          this.currentOrder = e.row;
+        }
         // this.addOrderDetailsToTable(categoryId, e.index);
         break;
       case "click":
@@ -399,8 +403,18 @@ export class ViewOrdersComponent implements OnInit {
         }
         break;
       case "edit":
+        this.currentOrder = e.row;
+        this.openModel(modal);
         break;
     }
+  }
+
+  openModel(model: any) {
+    this.modalService.open(model, { size: 'lg', backdrop: 'static', centered: true, windowClass : "customModalClass" });
+  }
+
+  closeModel() {
+    this.modalService.dismissAll();
   }
 
   getStatusColor(status) {

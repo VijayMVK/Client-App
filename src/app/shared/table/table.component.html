@@ -153,15 +153,15 @@
                         <div *ngSwitchCase="'action'">
                            <button (click)="setActionRow(row, columnHeader,i)" mat-icon-button
                               [matMenuTriggerFor]="menu">
-                              <mat-icon class="mat-icon-grey gene-text-xl">more_vert</mat-icon>
+                              <mat-icon class="mat-icon-grey gene-text-xl pointer">more_vert</mat-icon>
                            </button>
                         </div>
                         <div *ngSwitchCase="'orderAction'">
-                           <mat-icon class="mat-icon gene-text-xl" (click)="setActionRow(row, columnHeader,i)">edit
+                           <mat-icon class="mat-icon gene-text-xl pointer" (click)="setActionRow(row,columnHeader,i,'edit')">edit
                            </mat-icon>
-                           <mat-icon class="mat-icon gene-text-xl" (click)="setActionRow(row, columnHeader,i)">print
+                           <mat-icon class="mat-icon gene-text-xl pointer" (click)="setActionRow(row,columnHeader,i,'print')">print
                            </mat-icon>
-                           <mat-icon class="mat-icon gene-text-xl" (click)="setActionRow(row, columnHeader,i)">delete
+                           <mat-icon class="mat-icon gene-text-xl pointer" (click)="setActionRow(row,columnHeader,i,'delete')">delete
                            </mat-icon>
                         </div>
                      </td>
@@ -215,11 +215,11 @@
                      <div style="font-weight: bold;">Date Created</div>
                      <div>{{row.dateCreated}}</div>
                      <div class="actionDiv" *ngIf="row.isHover">
-                        <mat-icon class="mat-icon gene-text-xl" (click)="setActionRow(row, columnHeader,i)">edit
+                        <mat-icon class="mat-icon gene-text-xl pointer" (click)="setActionRow(row,columnHeader,i,'edit')">edit
                         </mat-icon>
-                        <mat-icon class="mat-icon gene-text-xl" (click)="setActionRow(row, columnHeader,i)">print
+                        <mat-icon class="mat-icon gene-text-xl pointer" (click)="setActionRow(row,columnHeader,i,'print')">print
                         </mat-icon>
-                        <mat-icon class="mat-icon gene-text-xl" (click)="setActionRow(row, columnHeader,i)">delete
+                        <mat-icon class="mat-icon gene-text-xl pointer" (click)="setActionRow(row,columnHeader,i,'delete')">delete
                         </mat-icon>
                      </div>
                   </div>
@@ -295,11 +295,11 @@
                            <div style="font-weight: bold;">Date Created</div>
                            <div>{{row.dateCreated}}</div>
                            <div class="actionIcon" *ngIf="row.isHover">
-                              <mat-icon class="mat-icon gene-text-xl" (click)="setActionRow(row, columnHeader,i)">edit
+                              <mat-icon class="mat-icon gene-text-xl pointer" (click)="setActionRow(row,columnHeader,i,'edit')">edit
                               </mat-icon>
-                              <mat-icon class="mat-icon gene-text-xl" (click)="setActionRow(row, columnHeader,i)">print
+                              <mat-icon class="mat-icon gene-text-xl pointer" (click)="setActionRow(row,columnHeader,i,'print')">print
                               </mat-icon>
-                              <mat-icon class="mat-icon gene-text-xl" (click)="setActionRow(row, columnHeader,i)">delete
+                              <mat-icon class="mat-icon gene-text-xl pointer" (click)="setActionRow(row,columnHeader,i,'delete')">delete
                               </mat-icon>
                            </div>
                         </div>

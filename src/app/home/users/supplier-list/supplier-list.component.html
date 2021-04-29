@@ -1,15 +1,9 @@
-<div class="mat-card" *ngIf="selectedOrderIndex == -1">
-    <mat-tab-group (selectedTabChange)="onTabSelected($event.index)" mat-align-tabs="start">
-        <mat-tab class="active" (click)="onTabSelected(1)" label="Supplier">
-            <app-table (onAnyAction)="onAnyAction($event)" (addClick)="addOrderClick($event)"
-                (deleteClick)="deleteOrderClicked($event)" (reloadData)="getDatFromServer($event)"
-                [config]="OrdersTableConfig" showBackgroundImage=true></app-table>
-        </mat-tab>
-        <mat-tab (click)="onTabSelected(2)" label="All Kind">
-            <app-table (onAnyAction)="onAnyAction($event)" (addClick)="addOrderClick($event)"
-                (deleteClick)="deleteOrderClicked($event)" (reloadData)="getDatFromServer($event)"
-                [config]="OrdersTableConfig"></app-table>
-        </mat-tab>
-    </mat-tab-group>
+<div class="mat-card">
+    <app-table *ngIf="selectedOrderIndex == -1" (onAnyAction)="onAnyAction($event)" (addClick)="addOrderClick($event)"
+        (deleteClick)="deleteOrderClicked($event)" (reloadData)="getDatFromServer($event)" [config]="OrdersTableConfig"
+        showBackgroundImage=true></app-table>
+    <div *ngIf="selectedOrderIndex != -1">
+        <span><span (click)="selectedOrderIndex != -1" class="navigationHome">Supplier</span> > Supplier Detail</span>
+        <app-supplier [currentOrder]="currentOrder"></app-supplier>
+    </div>
 </div>
-<app-supplier *ngIf="selectedOrderIndex != -1" [currentOrder]="currentOrder"></app-supplier>
