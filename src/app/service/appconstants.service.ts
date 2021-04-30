@@ -320,7 +320,9 @@ export class AppconstantsService {
 
   public static OrderAPIS = {
     GetOrderList: 'order/GetOrderlist',
-    GetOrderDetail: 'order/GetOrderDetailWithSupplierInfo/',
+    GetOrderDetail: 'order/GetOrderDetail/',
+    GetOrderStatus: '',
+    GetOrderTransactions:''
   }
 
   public static CustomerApis = {
