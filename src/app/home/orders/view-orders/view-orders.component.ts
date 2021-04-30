@@ -175,7 +175,6 @@ export class ViewOrdersComponent implements OnInit {
   };
 
   setTableData(data: any, gridModel: any) {
-    console.log(data);
     this.OrdersTableConfig.data = data.rows;
     this.OrdersTableConfig.totalRows = data.totalRows;
   }
