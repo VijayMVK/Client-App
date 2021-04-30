@@ -38,8 +38,8 @@ export class OrderDetailComponent implements OnInit {
   ];
   displayedColumns: string[] = ['id', 'accountType', 'amount', 'dateCreated'];
   dataSource: any[] = [
-    { id: '289tyrV', accountType: 'Credit Card', amount: 166.0079, dateCreated: '2018/04/25 02:07:59' },
-    { id: '2789VbU', accountType: 'Credit Card', amount: 48.0026, dateCreated: '2018/04/25 02:07:59' }
+    {id: '289tyrV', accountType: 'Credit Card', amount: 166.0079, dateCreated: '2018/04/25 02:07:59'},
+    {id: '2789VbU', accountType: 'Credit Card', amount: 48.0026, dateCreated: '2018/04/25 02:07:59'}
   ];;
   sampleData: any[] = [
     {
@@ -52,7 +52,7 @@ export class OrderDetailComponent implements OnInit {
         address: "E-112, Austin Street, New York, USA",
         isNew: true
       },
-      id: 1,
+      id:1,
       displayName: "BarCode : 123456789",
       image: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg",
       reference: '70d4d7d0',
@@ -81,7 +81,7 @@ export class OrderDetailComponent implements OnInit {
         address: "E-112, Austin Street, New York, USA",
         isNew: true
       },
-      id: 2,
+      id:2,
       displayName: "BarCode : 123456789",
       image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg",
       reference: '70d4d7d0',
@@ -110,7 +110,7 @@ export class OrderDetailComponent implements OnInit {
         address: "E-112, Austin Street, New York, USA",
         isNew: false
       },
-      id: 3,
+      id:3,
       displayName: "BarCode : 123456789",
       image: "https://wp.zillowstatic.com/8/Chris-Morrison-97ef0b-300x300.jpg",
       reference: '70d4d7d0',
@@ -218,7 +218,7 @@ export class OrderDetailComponent implements OnInit {
   }
 
   getItemDetails() {
-    this.http.get(AppconstantsService.OrderAPIS.GetOrderDetail + this.row.orderNumber).then((data: any) => {
+    this.http.get(AppconstantsService.OrderAPIS.GetOrderDetail + '190').then((data: any) => {
       console.log(data);
     });
   }
