@@ -18,7 +18,7 @@
    </div>
    <div fxLayoutAlign="start center" style="width: 50%;" *ngIf="config.EnableSearch == true">
       <mat-form-field style="width: 100%;margin-top: 10px;">
-         <input [(ngModel)]="searchVal" matInput placeholder="Search Here">
+         <input [(ngModel)]="searchVal" matInput placeholder="Search Here" (input)="searchInput()">
       </mat-form-field>
       <button mat-raised-button mat-button-sm color="primary" (click)="searchColumn()" class="mrgn-l-sm"
          style="margin-top: 10px;">Search</button>

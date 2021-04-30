@@ -6,7 +6,7 @@ import { GridModel } from 'src/app/models/grid.model';
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })
-export class TableComponent implements OnInit, AfterContentInit {
+export class TableComponent implements OnInit {
 
   @Output("reloadData") onDataReload: EventEmitter<any> = new EventEmitter();
   @Output("addClick") onAdd: EventEmitter<any> = new EventEmitter();
@@ -67,11 +67,22 @@ export class TableComponent implements OnInit, AfterContentInit {
     }
   }
 
+   searchInput() {
+    var searchValue = this.searchVal;
+    if(searchValue.length == 1){
+      this.allRows = this.config.data;
+    }
+  }
+
   searchColumn() {
     var searchValue = this.searchVal;
-    console.log(searchValue);
-    let lea = this.filter(this.config.data, searchValue);
-    console.log(lea);
+    if(searchValue == "") {
+      this.tableRefresh();
+      return;
+    }
+    this.config.data = this.filter(this.allRows, searchValue);
+    this.page = 0;
+    this.config.totalRows = this.config.data.length;
   }
 
   filter(data: any, inputValue: string) {
@@ -129,11 +140,6 @@ export class TableComponent implements OnInit, AfterContentInit {
   }
 
   ngOnInit(): void {
-  }
-
-  ngAfterContentInit(): void {
-    this.allRows = this.config.data;
-    console.log(this.allRows.length);
   }
 
   getDate(date) {

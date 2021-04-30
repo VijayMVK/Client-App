@@ -218,7 +218,7 @@ export class OrderDetailComponent implements OnInit {
   }
 
   getItemDetails() {
-    this.http.get(AppconstantsService.OrderAPIS.GetOrderDetail + '190').then((data: any) => {
+    this.http.get(AppconstantsService.OrderAPIS.GetOrderDetail +  this.row.orderNumber).then((data: any) => {
       console.log(data);
     });
   }
