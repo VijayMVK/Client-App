@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import { ViewOrdersComponent } from './view-orders/view-orders.component';
 import { AddOrderComponent } from './add-order/add-order.component';
 import { ExportOrdersComponent } from './export-orders/export-orders.component';
@@ -11,6 +12,8 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatTabsModule } from '@angular/material/tabs';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
+import { EditOrderComponent } from './edit-order/edit-order.component';
+
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
@@ -29,25 +32,28 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTableModule } from '@angular/material/table';
-
+import { MatCardModule } from '@angular/material/card';
+import { MatStepperModule } from '@angular/material/stepper';
 
 @NgModule({
   declarations: [
-     ViewOrdersComponent, 
-     AddOrderComponent,
-     ExportOrdersComponent, 
-     DraftOrdersComponent, 
-     TrackingNumbersComponent, 
-     GiftCertificatesComponent, 
-     OrderStatusComponent,
-     OrderDetailComponent],
+    ViewOrdersComponent,
+    AddOrderComponent,
+    ExportOrdersComponent,
+    DraftOrdersComponent,
+    TrackingNumbersComponent,
+    GiftCertificatesComponent,
+    OrderStatusComponent,
+    OrderDetailComponent,
+    EditOrderComponent
+  ],
   imports: [
     CommonModule,
     RouterModule,
     SharedModule,
     MatGridListModule,
     MatIconModule,
-    FlexLayoutModule ,
+    FlexLayoutModule,
     MatTabsModule,
     MatFormFieldModule,
     MatDividerModule,
@@ -58,12 +64,14 @@ import { MatTableModule } from '@angular/material/table';
     MatInputModule,
     PerfectScrollbarModule,
     NgbModule,
-    MatSelectModule, 
+    MatSelectModule,
     MatRadioModule,
     MatButtonModule,
     MatDialogModule,
     MatExpansionModule,
-    MatTableModule
+    MatTableModule,
+    MatCardModule,
+    MatStepperModule
   ]
 })
 export class OrdersModule { }

@@ -199,10 +199,11 @@ export class TableComponent implements OnInit {
     }
   }
 
-  setActionRow(row: any, columnHeader: any, i: number) {
+  setActionRow(row: any, columnHeader: any, i: number, action: string = '') {
     this.actionRow = row;
     this.actionHeader = columnHeader;
     this.selectedRowId = i;
+    this.onAnyAction.emit({ row: row, action: action, index: i });
   }
 
   actionBtnClick(action: string) {

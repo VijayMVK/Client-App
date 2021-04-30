@@ -329,7 +329,7 @@
         <button mat-fab-button mat-button-sm color="warn" class="close" (click)="closeModel()">x</button>
     </div>
     <mat-dialog-content>
-        <app-wheel *ngIf="isMaximize" [segmentData]="dataSource" width="500" height="500"
+        <app-wheel class="center-wheel" *ngIf="isMaximize" [segmentData]="dataSource" width="650" height="650"
             [segment]="wheelConfig.segment" [textSize]="wheelConfig.textSize" [repeat]="wheelConfig.repeat"
             [action]="action" [numSegments]="dataSource.length" [spinTime]="wheelConfig.spinTime"
             [fairMode]="wheelConfig.fairMode" (result)="wheelResult($event)"></app-wheel>

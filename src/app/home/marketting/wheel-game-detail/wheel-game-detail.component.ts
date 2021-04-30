@@ -256,6 +256,7 @@ export class WheelGameDetailComponent implements OnInit {
     this.textColors.splice(16, 0, { code: 'brush', value: true });
     this.bgColors = JSON.parse(JSON.stringify(this.textColors));
     this.mainImgPath = this.formData.image;
+    this.wheelConfig.segment = this.dataSource.length ? this.dataSource[0].name : null;
   }
 
   previewImage(src: string) {
@@ -279,7 +280,7 @@ export class WheelGameDetailComponent implements OnInit {
     let fileReader = new FileReader();
     fileReader.onload = (e) => {
       if (fileReader.result) {
-        this.formData.image = fileReader.result.toString();
+        this.formData.image = fileReader.result;
         this.selectedImage = fileReader.result;
       }
     }
@@ -349,7 +350,7 @@ export class WheelGameDetailComponent implements OnInit {
   openWheel(model: any) {
     this.isMaximize = true;
     this.action = undefined;
-    this.modalService.open(model, { size: 'lg', backdrop: 'static', centered: true, windowClass: 'cont' });
+    this.modalService.open(model, { size: 'lg', backdrop: 'static', centered: true, windowClass : "customModalClass"  });
   }
 
   closeModel() {

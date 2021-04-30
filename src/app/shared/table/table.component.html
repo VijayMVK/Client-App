@@ -224,17 +224,25 @@
                         <div class="actionDiv" *ngIf="row.isHover">
                            <mat-icon class="mat-icon gene-text-xl" (click)="setActionRow(row, columnHeader,i)">edit
                            </mat-icon>
-                           <mat-icon class="mat-icon gene-text-xl" (click)="setActionRow(row, columnHeader,i)">print
+                           <mat-icon class="mat-icon gene-text-xl pointer" (click)="setActionRow(row,columnHeader,i,'print')">print
                            </mat-icon>
-                           <mat-icon class="mat-icon gene-text-xl" (click)="setActionRow(row, columnHeader,i)">delete
+                           <mat-icon class="mat-icon gene-text-xl pointer" (click)="setActionRow(row,columnHeader,i,'delete')">delete
                            </mat-icon>
                         </div>
                      </div>
-                  </mat-card-content>
-               </mat-card>
-            </div>
-         </div>
-         <div *ngIf="!config.data || config.data.length == 0" style="text-align:center;padding:10px">No Data Available
+                     <div style="font-weight: bold;">Date Created</div>
+                     <div>{{row.dateCreated}}</div>
+                     <div class="actionDiv" *ngIf="row.isHover">
+                        <mat-icon class="mat-icon gene-text-xl pointer" (click)="setActionRow(row,columnHeader,i,'edit')">edit
+                        </mat-icon>
+                        <mat-icon class="mat-icon gene-text-xl pointer" (click)="setActionRow(row,columnHeader,i,'print')">print
+                        </mat-icon>
+                        <mat-icon class="mat-icon gene-text-xl pointer" (click)="setActionRow(row,columnHeader,i,'delete')">delete
+                        </mat-icon>
+                     </div>
+                  </div>
+               </mat-card-content>
+            </mat-card>
          </div>
       </div>
       <div class="pagination" *ngIf="config.enablePagination">
@@ -292,28 +300,29 @@
                               <div>QTY: {{row.qty}}</div>
                               <div>Account Type: {{row.accountType}}</div>
                            </div>
-                           <div style="display: inline-block;text-align: right;width: 40%;vertical-align: top;">
-                              <span>Status</span>
-                              <div class="progress">
-                                 <img class="img-circle" src="{{row.status.statusIcon}}"
-                                    onerror="this.src='./assets/img/noImg_placeholder.jpeg';this.onerror='';"
-                                    height="30" width="30">
-                                 <span
-                                    style="padding: 2px 10px 2px 10px;background: royalblue;color: white;border-radius: 6px;margin-left: 5px;">{{row.status.type}}</span>
-                              </div>
-                              <div style="font-weight: bold;">Date Created</div>
-                              <div>{{row.dateCreated}}</div>
-                              <div class="actionIcon" *ngIf="row.isHover">
-                                 <mat-icon class="mat-icon gene-text-xl" (click)="setActionRow(row, columnHeader,i)">
-                                    edit
-                                 </mat-icon>
-                                 <mat-icon class="mat-icon gene-text-xl" (click)="setActionRow(row, columnHeader,i)">
-                                    print
-                                 </mat-icon>
-                                 <mat-icon class="mat-icon gene-text-xl" (click)="setActionRow(row, columnHeader,i)">
-                                    delete
-                                 </mat-icon>
-                              </div>
+                           <div>Reference: {{row.reference}}</div>
+                           <div>Total: {{row.total}}</div>
+                           <div>QTY: {{row.qty}}</div>
+                           <div>Account Type: {{row.accountType}}</div>
+                        </div>
+                        <div style="display: inline-block;text-align: right;width: 40%;vertical-align: top;">
+                           <span>Status</span>
+                           <div class="progress">
+                              <img class="img-circle" src="{{row.status.statusIcon}}"
+                                 onerror="this.src='./assets/img/noImg_placeholder.jpeg';this.onerror='';" height="30"
+                                 width="30">
+                              <span
+                                 style="padding: 2px 10px 2px 10px;background: royalblue;color: white;border-radius: 6px;margin-left: 5px;">{{row.status.type}}</span>
+                           </div>
+                           <div style="font-weight: bold;">Date Created</div>
+                           <div>{{row.dateCreated}}</div>
+                           <div class="actionIcon" *ngIf="row.isHover">
+                              <mat-icon class="mat-icon gene-text-xl pointer" (click)="setActionRow(row,columnHeader,i,'edit')">edit
+                              </mat-icon>
+                              <mat-icon class="mat-icon gene-text-xl pointer" (click)="setActionRow(row,columnHeader,i,'print')">print
+                              </mat-icon>
+                              <mat-icon class="mat-icon gene-text-xl pointer" (click)="setActionRow(row,columnHeader,i,'delete')">delete
+                              </mat-icon>
                            </div>
                         </mat-card-content>
                      </div>
