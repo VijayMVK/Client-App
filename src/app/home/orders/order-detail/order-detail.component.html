@@ -199,9 +199,11 @@
                     <mat-divider></mat-divider>
                 </div>
                 <div class="gene-card-content">
-                    <div fxLayout="row" fxLayoutAlign="start start">
-                        <app-select [config]="orderFields[0]"></app-select>
-                        <div class="mat-pad-none margin-none mrgn-l-md mrgn-t-md">
+                    <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+                        <div fxFlex.gt-sm="49" fxFlex.gt-xs="49" fxFlex="100">
+                            <app-select [config]="orderFields[0]"></app-select>
+                        </div>
+                        <div fxFlex.gt-sm="49" fxFlex.gt-xs="49" fxFlex="100">
                             <button mat-raised-button mat-button-sm color="primary">Update Status</button>
                         </div>
                     </div>
@@ -222,9 +224,11 @@
                     <mat-divider></mat-divider>
                 </div>
                 <div class="gene-card-content">
-                    <div fxLayout="row" fxLayoutAlign="start start">
-                        <app-select [config]="orderFields[1]"></app-select>
-                        <div class="mat-pad-none margin-none mrgn-l-md mrgn-t-md">
+                    <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+                        <div fxFlex.gt-sm="49" fxFlex.gt-xs="49" fxFlex="100">
+                            <app-select [config]="orderFields[1]"></app-select>
+                        </div>
+                        <div fxFlex.gt-sm="49" fxFlex.gt-xs="49" fxFlex="100">
                             <button mat-raised-button mat-button-sm color="primary">Assign Delivery Men</button>
                         </div>
                     </div>

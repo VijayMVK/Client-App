@@ -2,8 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SupplierListComponent } from './supplier-list/supplier-list.component';
 import { CustomerListComponent } from './customer-list/customer-list.component';
+import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { SupplierDetailComponent } from './supplier-list/supplier-detail/supplier-detail.component';
 import { CustomerDetailComponent } from './customer-list/customer-detail/customer-detail.component';
+import { EmployeeDetailComponent } from './employee-list/employee-detail/employee-detail.component';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -32,9 +34,17 @@ import { ColorPickerModule } from 'ngx-color-picker';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FileUploadModule } from 'ng2-file-upload';
+import { BarRatingModule } from "ngx-bar-rating";
 
 @NgModule({
-    declarations: [SupplierDetailComponent, SupplierListComponent,CustomerListComponent,CustomerDetailComponent],
+    declarations: [
+        SupplierListComponent,
+        CustomerListComponent,
+        EmployeeListComponent,
+        SupplierDetailComponent,
+        CustomerDetailComponent,
+        EmployeeDetailComponent
+    ],
     imports: [
         CommonModule,
         RouterModule,
@@ -64,7 +74,8 @@ import { FileUploadModule } from 'ng2-file-upload';
         MatCardModule,
         MatListModule,
         MatDatepickerModule,
-        FileUploadModule
+        FileUploadModule,
+        BarRatingModule
     ]
 })
 export class UsersModule { }

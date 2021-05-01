@@ -30,6 +30,7 @@ import { CouponcodeComponent } from './marketting/couponcode/couponcode.componen
 import { WheelGameComponent } from './marketting/wheel-game/wheel-game.component';
 import { SupplierListComponent } from './users/supplier-list/supplier-list.component';
 import { CustomerListComponent } from './users/customer-list/customer-list.component';
+import { EmployeeListComponent } from './users/employee-list/employee-list.component';
 
 const routes: Routes = [
   {
@@ -106,6 +107,10 @@ const routes: Routes = [
           {
             path: 'customer',
             component: CustomerListComponent
+          },
+          {
+            path: 'employee',
+            component: EmployeeListComponent
           }
         ]
       },

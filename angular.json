@@ -31,7 +31,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/scss/style.scss"
+              "src/scss/style.scss",
+              "node_modules/ngx-bar-rating/themes/br-default-theme.scss"
             ],
             "scripts": [
               "src/assets/js/Winwheel.js",
@@ -87,7 +88,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/scss/style.scss"
+              "src/scss/style.scss",
+              "node_modules/ngx-bar-rating/themes/br-default-theme.scss"
             ],
             "scripts": []
           }

@@ -109,7 +109,7 @@
     </div>
 </div>
 <div fxLayout="row wrap" fxLayoutAlign="start start">
-    <div fxLayout="column" fxFlex="60">
+    <div fxLayout="column" fxFlex="60%">
         <div class="crypto-progress">
             <div fxLayout="row wrap" fxLayoutAlign="start start">
                 <div fxFlex.gt-sm="25" fxFlex.gt-md="25" fxFlex.gt-xs="25" fxFlex="25"
@@ -139,7 +139,7 @@
                                 <path fill="currentColor"
                                     d="M3,6H21V18H3V6M12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9M7,8A2,2 0 0,1 5,10V14A2,2 0 0,1 7,16H17A2,2 0 0,1 19,14V10A2,2 0 0,1 17,8H7Z" />
                             </svg>
-                            <b>Customer Details (3)</b>
+                            <b>Order Details (3)</b>
                         </mat-panel-title>
                     </mat-expansion-panel-header>
                     <app-table [config]="OrderDetailsConfig"></app-table>
@@ -147,7 +147,7 @@
             </mat-accordion>
         </div>
     </div>
-    <div fxFlex.gt-sm="40" fxFlex.gt-xs="100" fxFlex="100">
+    <div fxLayout="column" fxFlex="40%">
         <mat-card class="card-full-height">
             <div class="gene-card-title">
                 <div fxLayout="row" fxLayoutAlign="start start">
