@@ -126,7 +126,8 @@
         </div>
         <div fxFlex="100">
             <mat-accordion>
-                <mat-expansion-panel  *ngIf="isDeliveryMan" class="m-15 mrgn-t-md" [expanded]="step === 0" (opened)="setStep(0)">
+                <mat-expansion-panel *ngIf="isDeliveryMan" class="m-15 mrgn-t-md" [expanded]="step === 0"
+                    (opened)="setStep(0)">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
                             <svg class="cash" viewBox="0 0 24 24">
@@ -160,9 +161,7 @@
                             <div fxFlex.gt-sm="24" fxFlex.gt-xs="24" fxFlex="100">
                                 <input type="file" ng2FileSelect [uploader]="uploader"
                                     (onFileSelected)="onFileSelected($event)" />
-                            </div>
-                            <div fxFlex.gt-sm="4" fxFlex.gt-xs="1" fxFlex="100">
-                                <span class="or">OR</span>
+                                <span>OR</span>
                             </div>
                             <div fxFlex.gt-sm="24" fxFlex.gt-xs="24" fxFlex="100">
                                 <h6>Select files</h6>
