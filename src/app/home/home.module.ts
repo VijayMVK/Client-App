@@ -4,6 +4,7 @@ import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { UsersComponent } from './users/users.component';
 import { OrdersComponent } from './orders/orders.component';
 import { CustomersComponent } from './customers/customers.component';
@@ -13,10 +14,12 @@ import { StoresetupComponent } from './storesetup/storesetup.component';
 import { AdvSettingsComponent } from './adv-settings/adv-settings.component';
 import { AccSettingsComponent } from './acc-settings/acc-settings.component';
 import { ProfileComponent } from './profile/profile.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { SharedModule } from '../shared/shared.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -25,8 +28,9 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatListModule } from '@angular/material/list';
-import { MatSelectModule } from '@angular/material/select';;
-import { MatTableModule } from '@angular/material/table';;
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ProductsModule } from './products/products.module';
 import { ProductsComponent } from './products/products.component';
@@ -39,11 +43,16 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { MatRadioModule } from '@angular/material/radio';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
+import { ChartsModule } from 'ng2-charts';
+import { BarRatingModule } from "ngx-bar-rating";
+import { MatStepperModule } from '@angular/material/stepper';
+import { NgxEchartsModule } from 'ngx-echarts';
+import * as echarts from 'echarts';
 
 @NgModule({
   declarations: [HomeComponent, UsersComponent,  
     CustomersComponent, StorefrontComponent, MarkettingComponent, StoresetupComponent,
-     AdvSettingsComponent, AccSettingsComponent, ProfileComponent,  
+     AdvSettingsComponent, AccSettingsComponent, ProfileComponent, DashboardComponent,
      ProductsComponent,OrdersComponent],
   imports: [
     CommonModule,
@@ -62,7 +71,9 @@ import { FormsModule } from '@angular/forms';
     MatCardModule,
     MatGridListModule,
     MatListModule,
+    MatSlideToggleModule,
     MatTableModule,
+    MatTabsModule,
     MatSelectModule,
     MatPaginatorModule,
     ProductsModule,
@@ -70,6 +81,7 @@ import { FormsModule } from '@angular/forms';
     UsersModule,
     MarkettingModule,
     MatButtonModule, 
+    MatStepperModule,
     MatInputModule, 
     PerfectScrollbarModule,
     MatRadioModule,
@@ -77,7 +89,13 @@ import { FormsModule } from '@angular/forms';
     MatSelectModule,
     MatRadioModule,
     MatButtonModule,
-    FormsModule
+    FormsModule,
+    FlexLayoutModule,
+    ChartsModule,
+    BarRatingModule,
+    NgxEchartsModule.forRoot({
+			echarts,
+		}),
   //  MatDatepickerModule, 
   //  MatNativeDateModule, 
   //  MatProgressSpinnerModule,

@@ -20,6 +20,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "chart.js",
+              "echarts"
+            ],
             "progress": false,
             "outputPath": "dist",
             "index": "src/index.html",
@@ -32,12 +36,14 @@
             ],
             "styles": [
               "src/scss/style.scss",
+              "src/assets/fonts/data-table/icons.css",
               "node_modules/ngx-bar-rating/themes/br-default-theme.scss"
             ],
             "scripts": [
               "src/assets/js/Winwheel.js",
               "node_modules/gsap/src/minified/TimelineMax.min.js",
-              "node_modules/gsap/src/minified/TweenMax.min.js"
+              "node_modules/gsap/src/minified/TweenMax.min.js",
+              "node_modules/chart.js/dist/Chart.bundle.min.js"
             ]
           },
           "configurations": {
@@ -89,9 +95,12 @@
             ],
             "styles": [
               "src/scss/style.scss",
+              "src/assets/fonts/data-table/icons.css",
               "node_modules/ngx-bar-rating/themes/br-default-theme.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/chart.js/dist/Chart.bundle.min.js"
+            ]
           }
         },
         "lint": {

@@ -31,6 +31,7 @@ import { WheelGameComponent } from './marketting/wheel-game/wheel-game.component
 import { SupplierListComponent } from './users/supplier-list/supplier-list.component';
 import { CustomerListComponent } from './users/customer-list/customer-list.component';
 import { EmployeeListComponent } from './users/employee-list/employee-list.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
   {
@@ -143,8 +144,10 @@ const routes: Routes = [
             component: UserLogoutComponent
           }
         ]
+      },
+      {
+        path: 'dashboard', component: DashboardComponent
       }
-
     ]
   },
 ]
