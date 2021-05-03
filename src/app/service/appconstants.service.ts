@@ -321,8 +321,8 @@ export class AppconstantsService {
   public static OrderAPIS = {
     GetOrderList: 'order/GetOrderlist',
     GetOrderDetail: 'order/GetOrderDetail/',
-    GetOrderStatus: '',
-    GetOrderTransactions:''
+    GetOrderStatusList: 'order/GetOrderStatus',
+    GetDeliveryManList:'order/GeDeliveryManDetails'
   }
 
   public static CustomerApis = {

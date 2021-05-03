@@ -38,8 +38,8 @@ export class OrderDetailComponent implements OnInit {
   ];
   displayedColumns: string[] = ['id', 'accountType', 'amount', 'dateCreated'];
   dataSource: any[] = [
-    {id: '289tyrV', accountType: 'Credit Card', amount: 166.0079, dateCreated: '2018/04/25 02:07:59'},
-    {id: '2789VbU', accountType: 'Credit Card', amount: 48.0026, dateCreated: '2018/04/25 02:07:59'}
+    { id: '289tyrV', accountType: 'Credit Card', amount: 166.0079, dateCreated: '2018/04/25 02:07:59' },
+    { id: '2789VbU', accountType: 'Credit Card', amount: 48.0026, dateCreated: '2018/04/25 02:07:59' }
   ];;
   sampleData: any[] = [
     {
@@ -52,7 +52,7 @@ export class OrderDetailComponent implements OnInit {
         address: "E-112, Austin Street, New York, USA",
         isNew: true
       },
-      id:1,
+      id: 1,
       displayName: "BarCode : 123456789",
       image: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg",
       reference: '70d4d7d0',
@@ -81,7 +81,7 @@ export class OrderDetailComponent implements OnInit {
         address: "E-112, Austin Street, New York, USA",
         isNew: true
       },
-      id:2,
+      id: 2,
       displayName: "BarCode : 123456789",
       image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg",
       reference: '70d4d7d0',
@@ -110,7 +110,7 @@ export class OrderDetailComponent implements OnInit {
         address: "E-112, Austin Street, New York, USA",
         isNew: false
       },
-      id:3,
+      id: 3,
       displayName: "BarCode : 123456789",
       image: "https://wp.zillowstatic.com/8/Chris-Morrison-97ef0b-300x300.jpg",
       reference: '70d4d7d0',
@@ -207,6 +207,10 @@ export class OrderDetailComponent implements OnInit {
   };
 
   constructor(private http: HttpUtilityService) {
+  }
+
+  ngOnInit(): void {
+    console.log(this.row);
     let gridModel = {
       start: 0,
       limit: this.OrderDetailsConfig.currentPageSize,
@@ -214,18 +218,32 @@ export class OrderDetailComponent implements OnInit {
       sortOrder: 1,
       searchVal: ''
     };
-    this.getDatFromServer(gridModel);
+    this.getDatFromServer(this.row.orderNumber, gridModel);
+    this.getOrderStatusList(this.row.status.id);
+    this.getDeliveryManList(this.row.deliveryMan);
   }
 
-  getItemDetails() {
-    this.http.get(AppconstantsService.OrderAPIS.GetOrderDetail +  this.row.orderNumber).then((data: any) => {
-      console.log(data);
+  getDeliveryManList(deliveryManId: any) {
+    var deliveryManList = [];
+    this.http.get(AppconstantsService.OrderAPIS.GetDeliveryManList).then((data: any) => {
+      data.forEach((element: any) => {
+        deliveryManList.push({ value: element.id, label: element.userName });
+      });
+      console.log(deliveryManList);
+      this.orderFields[1].options = deliveryManList;
+      this.orderFields[1].fieldValue = deliveryManId;
     });
   }
 
-  ngOnInit(): void {
-    console.log(this.row);
-    this.getItemDetails();
+  getOrderStatusList(orderStatusId: any) {
+    var orderStatusList = [];
+    this.http.get(AppconstantsService.OrderAPIS.GetOrderStatusList).then((data: any) => {
+      data.forEach((element: any) => {
+        orderStatusList.push({ value: element.OrderStatusID, label: element.OrderStatusName });
+      });
+      this.orderFields[0].options = orderStatusList;
+      this.orderFields[0].fieldValue = orderStatusId;
+    });
   }
 
   setStep(index: number) {
@@ -234,13 +252,60 @@ export class OrderDetailComponent implements OnInit {
 
   setTableData(data: any, gridModel: any) {
     console.log(data);
-    this.OrderDetailsConfig.data = this.sampleData;
-    this.OrderDetailsConfig.totalRows = this.sampleData.length;
+    this.OrderDetailsConfig.data = data;
+    this.OrderDetailsConfig.totalRows = data.length;
   }
 
-  getDatFromServer(gridModel: any) {
+  getDatFromServer(orderNumber, gridModel: any) {
     this.OrderDetailsConfig.currentPageSize = gridModel.limit;
-    this.setTableData(this.sampleData, gridModel);
+    this.http.get(AppconstantsService.OrderAPIS.GetOrderDetail + orderNumber).then((data: any) => {
+      console.log(data);
+      var updatedData = {
+        rows: [],
+        totalRows: 0
+      };
+      if (data) {
+        updatedData.totalRows = data.length;
+        for (var i = 0; i < data.length; i++) {
+          var row = data[i];
+          updatedData.rows.push({
+            id: row.ItemId,
+            image: row.image_url,
+            displayName: row.itemName,
+            supplierName: row.suppName,
+            orderNumber: row.SubOrderNumber,
+            uom: row.UOM_Name,
+            qty: row.Quantity,
+            price: row.Price,
+            total: (row.Quantity * row.Price),
+            status: {
+              status: row.OrderItemStatus,
+              statusIcon: this.getOrderStatsImage(row.OrderItemStatus),
+              type: row.OrderItemStatus,
+              fontColor: 'white',
+              bgColor: 'blue'
+            },
+          });
+        }
+        this.setTableData(updatedData.rows, gridModel);
+      }
+    });
+  }
+
+  getOrderStatsImage(status): string {
+    var statusImage = './assets/img/orderStatus/ordered.png';
+    if (status == 2) {
+      statusImage = './assets/img/orderStatus/pending.png'
+    } else if (status == 9) {
+      statusImage = './assets/img/orderStatus/cancelled.png'
+    } else if (status == 11) {
+      statusImage = './assets/img/orderStatus/processing.png'
+    } else if (status == 4) {
+      statusImage = './assets/img/orderStatus/ready-pickup.png'
+    } else if (status == 10) {
+      statusImage = './assets/img/orderStatus/rejected.png'
+    }
+    return statusImage;
   }
 
   getStatusColor(status) {
