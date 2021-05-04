@@ -1,41 +1,42 @@
-<div class="mat-card" *ngIf="config && config.tableToolbar==true">
-   <div fxLayout="row wrap" fxLayoutAlign="space-between" class="listView_toolBar" style="background: white;">
-      <div fxLayoutAlign="start center" fxflex="60" fxflex.xs="100" fxflex.sm="100" fxflex.md="50" fxflex.lg="60">
-         <mat-card-actions class="mat-pad-none margin-none">
-            <button mat-raised-button mat-button-sm color="primary" (click)="addNewRow()">ADD</button>
-            <button mat-raised-button mat-button-sm color="warn" (click)="onDeleteClick()">REJECT</button>
-         </mat-card-actions>
-         <!-- <div class="mrgn-l-sm mrgn-r-sm mr-2">
-              <mat-form-field>
-                 <mat-select placeholder="More">
-                    <mat-option value="Remove">Bulk Edit</mat-option>
-                    <mat-option value="Edit">List These Products on eBay...</mat-option>
-                    <mat-option value="Recently">Export These Products...</mat-option>
-                 </mat-select>
-              </mat-form-field>
-              <button mat-raised-button mat-button-sm color="default" class="mrgn-l-sm" (click)="addNewRow()">Confirm</button>
-           </div> -->
-      </div>
-      <div fxLayoutAlign="start center" style="width: 50%;" *ngIf="config.EnableSearch == true">
-         <mat-form-field style="width: 100%;margin-top: 10px;">
-            <input [(ngModel)]="searchVal" matInput placeholder="Search Here" (input)="searchInput()">
-         </mat-form-field>
-         <button mat-raised-button mat-button-sm color="primary" (click)="searchColumn()" class="mrgn-l-sm"
-            style="margin-top: 10px;">Search</button>
-         <div class="product-icon">
-            <mat-card class="switcher-wrap pad-x-xs pad-y-xs" fxLayoutAlign="space-between stretch">
-               <i class="material-icons inline-block grid-icon" id="grid" (click)="productShowType('grid')"
-                  [class.active]="showType=='grid'" title="Card View">apps</i>
-               <mat-divider [vertical]="true"></mat-divider>
-               <i class="material-icons inline-block mrgn-r-none mrgn-l-xs list-icon active" id="list"
-                  (click)="productShowType('list')" [class.active]="showType=='list'" title="List View">list</i>
-            </mat-card>
+<div *ngIf="config && config.tableToolbar==true">
+   <mat-card class="pad-all-lg mrgn-b-lg">
+      <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+         <div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="30" fxFlex.lg="30" fxFlex.xl="30">
+            <div class="pad-r-md">
+               <mat-card-actions class="mat-pad-none margin-none">
+                  <button mat-raised-button color="primary" (click)="addNewRow()">ADD</button>
+                  <button mat-raised-button color="warn" (click)="onDeleteClick()">REJECT</button>
+               </mat-card-actions>
+            </div>
          </div>
-         <div class="mrgn-r-sm" style="margin-top: 10px;">
-            <mat-icon class="mat-icon-grey cursor-pointer" (click)="tableRefresh()">loop</mat-icon>
+         <div *ngIf="config.EnableSearch == true" fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="70" fxFlex.lg="70"
+            fxFlex.xl="70">
+            <div fxLayout="row wrap">
+               <div class="form-group pad-r-md" fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="calc(100% - 300px)"
+                  fxFlex.lg="calc(100% - 300px)" fxFlex.xl="calc(100% - 300px)">
+                  <mat-form-field class="full-wid" floatLabel="never">
+                     <input [(ngModel)]="searchVal" matInput placeholder="Search Here" (input)="searchInput()">
+                  </mat-form-field>
+               </div>
+               <div class="contact-btn" fxLayoutAlign="start center" fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="300px"
+                  fxFlex.lg="300px" fxFlex.xl="300px">
+                  <button (click)="searchColumn()" class="mrgn-r-sm" mat-raised-button color="primary">Search</button>
+                  <div class="product-icon">
+                     <mat-card class="switcher-wrap pad-x-xs pad-y-xs" fxLayoutAlign="space-between stretch">
+                        <i class="material-icons inline-block grid-icon" id="grid" (click)="productShowType('grid')"
+                           [class.active]="showType=='grid'" title="Card View">apps</i>
+                        <mat-divider [vertical]="true"></mat-divider>
+                        <i class="material-icons inline-block mrgn-r-none mrgn-l-xs list-icon active" id="list"
+                           (click)="productShowType('list')" [class.active]="showType=='list'"
+                           title="List View">list</i>
+                     </mat-card>
+                  </div>
+                  <mat-icon class="mat-icon-grey cursor-pointer" (click)="tableRefresh()">loop</mat-icon>
+               </div>
+            </div>
          </div>
       </div>
-   </div>
+   </mat-card>
 </div>
 <div class="mat-card">
    <div fxLayout="row wrap table_view" fxLayoutAlign="start stretch" *ngIf="showType == 'list'">
@@ -89,11 +90,11 @@
                                     height="50" width="50">
                               </div>
                               <div style="float: left;margin-left: 5px;">
-                                 <span
-                                    style="font-weight: bold;font-size: medium;">{{row[columnHeader.id].displayName}}</span><br />
-                                 <span style="font-weight: bold;">({{row[columnHeader.id].id}})</span><span
-                                    *ngIf="row[columnHeader.id].isNew"
+                                 <h5 class="mrgn-b-xs">{{row[columnHeader.id].displayName}}</h5>
+                                 <h5 class="mrgn-b-xs mat-text-muted">({{row[columnHeader.id].id}})
+                                    <span *ngIf="row[columnHeader.id].isNew"
                                     style="padding: 2px 10px 2px 10px;background: royalblue;color: white;border-radius: 6px;margin-left: 5px;">New</span>
+                                 </h5>
                               </div>
                            </div>
 
@@ -160,13 +161,13 @@
                               </button>
                            </div>
                            <div *ngSwitchCase="'orderAction'">
-                              <mat-icon class="mat-icon gene-text-xl pointer"
+                              <mat-icon class="mat-icon-grey gene-text-lg pointer"
                                  (click)="setActionRow(row,columnHeader,i,'edit')">edit
                               </mat-icon>
-                              <mat-icon class="mat-icon gene-text-xl pointer"
+                              <mat-icon class="mat-icon-grey gene-text-lg pointer"
                                  (click)="setActionRow(row,columnHeader,i,'print')">print
                               </mat-icon>
-                              <mat-icon class="mat-icon gene-text-xl pointer"
+                              <mat-icon class="mat-icon-grey gene-text-lg pointer"
                                  (click)="setActionRow(row,columnHeader,i,'delete')">delete
                               </mat-icon>
                            </div>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GridModel } from 'src/app/models/grid.model';
 import { AppconstantsService } from 'src/app/service/appconstants.service';
 import { HttpUtilityService } from 'src/app/service/httputility.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-wheel-game',
@@ -11,7 +12,7 @@ import { HttpUtilityService } from 'src/app/service/httputility.service';
 
 export class WheelGameComponent implements OnInit {
 
-  constructor(private http: HttpUtilityService) {
+  constructor(public http: HttpUtilityService, private route: Router) {
     let gridModel = {
       start: 0,
       limit: this.OrdersTableConfig.currentPageSize,
@@ -341,8 +342,8 @@ export class WheelGameComponent implements OnInit {
     console.log(e);
     switch (e.action) {
       case 'rowSelected':
-        this.selectedOrderIndex = e.index;
-        this.currentOrder = e.row;
+        this.http.detailPageData = e.row;
+        this.route.navigate(["/home/marketting/wheel-game/wheel-game-detail"]);
         break;
       case "click":
         var categoryId = e.row.CategoryId;

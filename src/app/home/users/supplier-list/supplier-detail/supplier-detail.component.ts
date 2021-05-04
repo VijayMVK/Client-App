@@ -1,19 +1,20 @@
-import { Component, Input, OnInit, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, EventEmitter, OnDestroy } from '@angular/core';
 import { GridModel } from 'src/app/models/grid.model';
 import { AppconstantsService } from 'src/app/service/appconstants.service';
 import { HttpUtilityService } from 'src/app/service/httputility.service';
 import { FileUploader } from 'ng2-file-upload';
 import { HelperService } from 'src/app/service/helper.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-supplier-detail',
   templateUrl: './supplier-detail.component.html',
   styleUrls: ['./supplier-detail.component.scss']
 })
-export class SupplierDetailComponent implements OnInit {
+export class SupplierDetailComponent implements OnInit, OnDestroy {
   step = 0;
-  @Input('currentOrder') row: {};
+  row = {};
   expiryCount: number = 150;
   expiryDate: Date = new Date();
   minDate: Date = new Date();
@@ -278,7 +279,7 @@ export class SupplierDetailComponent implements OnInit {
   uploader: FileUploader = new FileUploader({});
   hasBaseDropZoneOver = false;
 
-  constructor(private helper: HelperService, private modalService: NgbModal, private http: HttpUtilityService) {
+  constructor(private helper: HelperService, private modalService: NgbModal, public http: HttpUtilityService, private route: Router) {
     let gridModel = {
       start: 0,
       limit: this.OrderDetailsConfig.currentPageSize,
@@ -290,7 +291,10 @@ export class SupplierDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.row = this.sampleData[0];
+    if(this.http.detailPageData)
+    this.row = this.http.detailPageData;
+    else
+    this.route.navigate(["/home/user/supplier"]);
   }
 
   setStep(index: number) {
@@ -430,6 +434,10 @@ export class SupplierDetailComponent implements OnInit {
       case 13: return "#fccb05";
         break;
     }
+  }
+
+  ngOnDestroy() {
+    this.http.detailPageData = null;
   }
 
 }

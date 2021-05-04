@@ -1,16 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { GridModel } from 'src/app/models/grid.model';
 import { AppconstantsService } from 'src/app/service/appconstants.service';
 import { HttpUtilityService } from 'src/app/service/httputility.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-order-detail',
   templateUrl: './order-detail.component.html',
   styleUrls: ['./order-detail.component.scss']
 })
-export class OrderDetailComponent implements OnInit {
+export class OrderDetailComponent implements OnInit, OnDestroy {
 
-  @Input('currentOrder') row: any;
+  row: any;
   statusList = [];
   deliveryManList = [];
   step = 0;
@@ -206,7 +207,7 @@ export class OrderDetailComponent implements OnInit {
     sortOrder: 1
   };
 
-  constructor(private http: HttpUtilityService) {
+  constructor(public http: HttpUtilityService, private route: Router) {
   }
 
   ngOnInit(): void {
@@ -221,6 +222,10 @@ export class OrderDetailComponent implements OnInit {
     this.getDatFromServer(this.row.orderNumber, gridModel);
     this.getOrderStatusList(this.row.status.id);
     this.getDeliveryManList(this.row.deliveryMan);
+    if (this.http.detailPageData)
+      this.row = this.http.detailPageData;
+    else
+      this.route.navigate(["/home/orders/view"]);
   }
 
   getDeliveryManList(deliveryManId: any) {
@@ -339,6 +344,10 @@ export class OrderDetailComponent implements OnInit {
       case 13: return "#fccb05";
         break;
     }
+  }
+
+  ngOnDestroy() {
+    this.http.detailPageData = null;
   }
 
 }

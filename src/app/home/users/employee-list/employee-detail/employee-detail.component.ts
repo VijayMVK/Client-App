@@ -1,24 +1,20 @@
-import { Component, Input, OnInit, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, EventEmitter, OnDestroy } from '@angular/core';
 import { GridModel } from 'src/app/models/grid.model';
 import { AppconstantsService } from 'src/app/service/appconstants.service';
 import { HttpUtilityService } from 'src/app/service/httputility.service';
 import { FileUploader } from 'ng2-file-upload';
 import { HelperService } from 'src/app/service/helper.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-employee-detail',
   templateUrl: './employee-detail.component.html',
   styleUrls: ['./employee-detail.component.scss']
 })
-export class EmployeeDetailComponent implements OnInit {
+export class EmployeeDetailComponent implements OnInit, OnDestroy {
   step = 0;
   row;
-  @Input() set currentOrder (value: Object) {
-    this.row = value;
-    this.isDeliveryMan = this.row.role && this.row.role == 'Delivery Man' ?  true : false;
-    this.step = this.isDeliveryMan ? 0 : 1;
-  }
   expiryCount: number = 150;
   expiryDate: Date = new Date();
   minDate: Date = new Date();
@@ -191,13 +187,13 @@ export class EmployeeDetailComponent implements OnInit {
         options: AppconstantsService.orderStatus
       },
       {
-        name:'Action',
-        type:'button',
-        id:'reply',
-        iconClass:'reply',
-        compareVal:'false',
-        activeClass:'cc',
-        usedefaultIcon:false
+        name: 'Action',
+        type: 'button',
+        id: 'reply',
+        iconClass: 'reply',
+        compareVal: 'false',
+        activeClass: 'cc',
+        usedefaultIcon: false
       },
     ],
     data: [],
@@ -304,7 +300,7 @@ export class EmployeeDetailComponent implements OnInit {
   uploader: FileUploader = new FileUploader({});
   hasBaseDropZoneOver = false;
 
-  constructor(private helper: HelperService, private modalService: NgbModal, private http: HttpUtilityService) {
+  constructor(private helper: HelperService, private modalService: NgbModal, public http: HttpUtilityService, private route: Router) {
     let gridModel = {
       start: 0,
       limit: this.OrderDetailsConfig.currentPageSize,
@@ -316,7 +312,13 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.row = this.sampleData[0];
+    if (this.http.detailPageData) {
+      this.row = this.http.detailPageData;
+      this.isDeliveryMan = this.row.role && this.row.role == 'Delivery Man' ? true : false;
+      this.step = this.isDeliveryMan ? 0 : 1;
+    }
+    else
+      this.route.navigate(["/home/user/employee"]);
   }
 
   setStep(index: number) {
@@ -456,6 +458,10 @@ export class EmployeeDetailComponent implements OnInit {
       case 13: return "#fccb05";
         break;
     }
+  }
+
+  ngOnDestroy() {
+    this.http.detailPageData = null;
   }
 
 }

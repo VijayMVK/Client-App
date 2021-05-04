@@ -31,6 +31,11 @@ import { WheelGameComponent } from './marketting/wheel-game/wheel-game.component
 import { SupplierListComponent } from './users/supplier-list/supplier-list.component';
 import { CustomerListComponent } from './users/customer-list/customer-list.component';
 import { EmployeeListComponent } from './users/employee-list/employee-list.component';
+import { SupplierDetailComponent } from './users/supplier-list/supplier-detail/supplier-detail.component';
+import { CustomerDetailComponent } from './users/customer-list/customer-detail/customer-detail.component';
+import { EmployeeDetailComponent } from './users/employee-list/employee-detail/employee-detail.component';
+import { WheelGameDetailComponent } from './marketting/wheel-game-detail/wheel-game-detail.component';
+import { OrderDetailComponent } from './orders/order-detail/order-detail.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
@@ -41,6 +46,11 @@ const routes: Routes = [
       {
         path: 'products', component: ProductsComponent,
         children: [
+          {
+            path: '',
+            redirectTo: 'view',
+            pathMatch: 'full'
+          },
           {
             path: 'view', component: ViewComponent,
           },
@@ -76,7 +86,18 @@ const routes: Routes = [
         path: 'orders', component: OrdersComponent,
         children: [
           {
+            path: '',
+            redirectTo: 'view',
+            pathMatch: 'full'
+          },
+          {
             path: 'view', component: ViewOrdersComponent,
+            children: [
+              {
+                path: 'order-detail',
+                component: OrderDetailComponent
+              }
+            ]
           },
           {
             path: 'add', component: AddOrderComponent,
@@ -102,16 +123,39 @@ const routes: Routes = [
         path: 'user', component: UsersComponent,
         children: [
           {
+            path: '',
+            redirectTo: 'customer',
+            pathMatch: 'full'
+          },
+          {
             path: 'supplier',
-            component: SupplierListComponent
+            component: SupplierListComponent,
+            children: [
+              {
+                path: 'supplier-detail',
+                component: SupplierDetailComponent
+              }
+            ]
           },
           {
             path: 'customer',
-            component: CustomerListComponent
+            component: CustomerListComponent,
+            children: [
+              {
+                path: 'customer-detail',
+                component: CustomerDetailComponent
+              }
+            ]
           },
           {
             path: 'employee',
-            component: EmployeeListComponent
+            component: EmployeeListComponent,
+            children: [
+              {
+                path: 'employee-detail',
+                component: EmployeeDetailComponent
+              }
+            ]
           }
         ]
       },
@@ -119,8 +163,19 @@ const routes: Routes = [
         path: 'marketting', component: MarkettingComponent,
         children: [
           {
+            path: '',
+            redirectTo: 'wheel-game',
+            pathMatch: 'full'
+          },
+          {
             path: 'wheel-game',
-            component: WheelGameComponent
+            component: WheelGameComponent,
+            children: [
+              {
+                path: 'wheel-game-detail',
+                component: WheelGameDetailComponent
+              }
+            ]
           },
           {
             path: 'banners',
@@ -147,6 +202,11 @@ const routes: Routes = [
       },
       {
         path: 'dashboard', component: DashboardComponent
+      },
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
       }
     ]
   },

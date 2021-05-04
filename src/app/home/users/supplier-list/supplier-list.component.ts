@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GridModel } from 'src/app/models/grid.model';
 import { AppconstantsService } from 'src/app/service/appconstants.service';
 import { HttpUtilityService } from 'src/app/service/httputility.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-supplier-list',
@@ -11,7 +12,7 @@ import { HttpUtilityService } from 'src/app/service/httputility.service';
 
 export class SupplierListComponent implements OnInit {
 
-  constructor(private http: HttpUtilityService) {
+  constructor(public http: HttpUtilityService, private route: Router) {
     let gridModel = {
       start: 0,
       limit: this.OrdersTableConfig.currentPageSize,
@@ -36,15 +37,15 @@ export class SupplierListComponent implements OnInit {
         displayName: "Steven Gonzalez",
         image: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg",
         id: "0565898186",
-        city:"New York",
+        city: "New York",
         country: "USA",
-        email:"abcd@abcd.com",
-        address:"E-112, Austin Street, New York, USA",
+        email: "abcd@abcd.com",
+        address: "E-112, Austin Street, New York, USA",
         isNew: true
       },
       backgroundImage: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg",
       displayName: "Steven Gonzalez",
-      email:"abcd@abcd.com",
+      email: "abcd@abcd.com",
       title: 'Spin the Wheel to get Price of the Week',
       total: 'AED 501',
       qty: 5,
@@ -64,15 +65,15 @@ export class SupplierListComponent implements OnInit {
         displayName: "Josephine Goodman",
         image: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg",
         id: "0565898186",
-        city:"New York",
+        city: "New York",
         country: "USA",
-        email:"abcd@abcd.com",
-        address:"E-112, Austin Street, New York, USA",
+        email: "abcd@abcd.com",
+        address: "E-112, Austin Street, New York, USA",
         isNew: true
       },
       backgroundImage: "https://cultivatedculture.com/wp-content/uploads/2019/12/LinkedIn-Profile-Picture-Example-Madeline-Mann.jpeg",
       displayName: "Josephine Goodman",
-      email:"abcd@abcd.com",
+      email: "abcd@abcd.com",
       title: 'Get Ramadan Deal, Are You ready to Spin?',
       total: 'AED 501',
       qty: 5,
@@ -92,14 +93,14 @@ export class SupplierListComponent implements OnInit {
         displayName: "Mario Harmon",
         image: "https://wp.zillowstatic.com/8/Chris-Morrison-97ef0b-300x300.jpg",
         id: "0565898186",
-        city:"New York",
+        city: "New York",
         country: "USA",
-        email:"abcd@abcd.com",
-        address:"E-112, Austin Street, New York, USA",
+        email: "abcd@abcd.com",
+        address: "E-112, Austin Street, New York, USA",
         isNew: false
       },
       backgroundImage: "https://wp.zillowstatic.com/8/Chris-Morrison-97ef0b-300x300.jpg",
-      email:"abcd@abcd.com",
+      email: "abcd@abcd.com",
       displayName: "Mario Harmon",
       title: 'Spin the Wheel to get Price of the Week',
       total: 'AED 501',
@@ -345,7 +346,8 @@ export class SupplierListComponent implements OnInit {
     switch (e.action) {
       case 'rowSelected':
         this.selectedOrderIndex = e.index;
-        this.currentOrder = e.row;
+        this.http.detailPageData = e.row;
+        this.route.navigate(["/home/user/supplier/supplier-detail"]);
         break;
       case "click":
         var categoryId = e.row.CategoryId;

@@ -1,11 +1,8 @@
-<app-table *ngIf="selectedOrderIndex == -1" (onAnyAction)="onAnyAction($event, editOrder)"
+<app-table *ngIf="!http.detailPageData" (onAnyAction)="onAnyAction($event, editOrder)"
     (addClick)="addOrderClick($event)" (deleteClick)="deleteOrderClicked($event)"
     (reloadData)="getDatFromServer($event)" [config]="OrdersTableConfig">
 </app-table>
-<div *ngIf="selectedOrderIndex != -1">
-    <span><span (click)="selectedOrderIndex = -1" class="navigationHome">Order</span> > Order Detail</span>
-    <app-order-detail [currentOrder]="currentOrder"></app-order-detail>
-</div>
+<router-outlet></router-outlet>
 
 <ng-template #editOrder let-d="dismiss">
     <div class="mrgn-b-xs cont" id="editOrder">

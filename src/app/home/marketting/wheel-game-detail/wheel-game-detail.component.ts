@@ -1,9 +1,10 @@
-import { Component, Input, OnInit, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ElementRef, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { GridModel } from 'src/app/models/grid.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppconstantsService } from 'src/app/service/appconstants.service';
 import { HttpUtilityService } from 'src/app/service/httputility.service';
 import { CodeValueModel, WheelModel, WheelConfigModel, WheelActionModel, ActionItems } from '../marketting.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-wheel-game-detail',
@@ -11,8 +12,8 @@ import { CodeValueModel, WheelModel, WheelConfigModel, WheelActionModel, ActionI
   styleUrls: ['./wheel-game-detail.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class WheelGameDetailComponent implements OnInit {
-  @Input('currentOrder') row: {};
+export class WheelGameDetailComponent implements OnInit, OnDestroy {
+  row: {};
   imagePath: any = "./assets/img/noImg_placeholder.jpeg";
   @ViewChild('fileToUpload') fileUploaded?: ElementRef<HTMLElement>;
   File: any;
@@ -239,7 +240,7 @@ export class WheelGameDetailComponent implements OnInit {
     sortOrder: 1
   };
 
-  constructor(private http: HttpUtilityService, private modalService: NgbModal) {
+  constructor(public http: HttpUtilityService, private route: Router, private modalService: NgbModal) {
     let gridModel = {
       start: 0,
       limit: this.OrderDetailsConfig.currentPageSize,
@@ -257,6 +258,10 @@ export class WheelGameDetailComponent implements OnInit {
     this.bgColors = JSON.parse(JSON.stringify(this.textColors));
     this.mainImgPath = this.formData.image;
     this.wheelConfig.segment = this.dataSource.length ? this.dataSource[0].name : null;
+    if (this.http.detailPageData)
+      this.row = this.http.detailPageData;
+    else
+      this.route.navigate(["/home/marketting/wheel-game"]);
   }
 
   previewImage(src: string) {
@@ -350,7 +355,7 @@ export class WheelGameDetailComponent implements OnInit {
   openWheel(model: any) {
     this.isMaximize = true;
     this.action = undefined;
-    this.modalService.open(model, { size: 'lg', backdrop: 'static', centered: true, windowClass : "customModalClass"  });
+    this.modalService.open(model, { size: 'lg', backdrop: 'static', centered: true, windowClass: "customModalClass" });
   }
 
   closeModel() {
@@ -428,6 +433,10 @@ export class WheelGameDetailComponent implements OnInit {
       case 13: return "#fccb05";
         break;
     }
+  }
+
+  ngOnDestroy() {
+    this.http.detailPageData = null;
   }
 
 }

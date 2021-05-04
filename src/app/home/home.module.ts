@@ -48,24 +48,25 @@ import { BarRatingModule } from "ngx-bar-rating";
 import { MatStepperModule } from '@angular/material/stepper';
 import { NgxEchartsModule } from 'ngx-echarts';
 import * as echarts from 'echarts';
+import { Ng5BreadcrumbModule, BreadcrumbService } from 'ng5-breadcrumb';
 
 @NgModule({
-  declarations: [HomeComponent, UsersComponent,  
+  declarations: [HomeComponent, UsersComponent,
     CustomersComponent, StorefrontComponent, MarkettingComponent, StoresetupComponent,
-     AdvSettingsComponent, AccSettingsComponent, ProfileComponent, DashboardComponent,
-     ProductsComponent,OrdersComponent],
+    AdvSettingsComponent, AccSettingsComponent, ProfileComponent, DashboardComponent,
+    ProductsComponent, OrdersComponent],
   imports: [
     CommonModule,
     HomeRoutingModule,
     BrowserAnimationsModule,
     LoadingBarRouterModule,
     SharedModule,
-    MatMenuModule, 
-    MatToolbarModule, 
-    MatIconModule, 
+    MatMenuModule,
+    MatToolbarModule,
+    MatIconModule,
     MatBadgeModule,
     MatFormFieldModule,
-    MatSidenavModule, 
+    MatSidenavModule,
     MatCheckboxModule,
     MatChipsModule,
     MatCardModule,
@@ -80,9 +81,9 @@ import * as echarts from 'echarts';
     OrdersModule,
     UsersModule,
     MarkettingModule,
-    MatButtonModule, 
+    MatButtonModule,
     MatStepperModule,
-    MatInputModule, 
+    MatInputModule,
     PerfectScrollbarModule,
     MatRadioModule,
     NgbModule,
@@ -94,19 +95,21 @@ import * as echarts from 'echarts';
     ChartsModule,
     BarRatingModule,
     NgxEchartsModule.forRoot({
-			echarts,
-		}),
-  //  MatDatepickerModule, 
-  //  MatNativeDateModule, 
-  //  MatProgressSpinnerModule,
-  //  MatExpansionModule, 
-  //   MatSnackBarModule, 
-  //   MatTooltipModule, 
-  //   MatTabsModule, 
-  //   MatProgressBarModule,
-  //   MatSliderModule,
-  //   MatRadioModule,
-  //   MatDialogModule,
-  ]
+      echarts,
+    }),
+    Ng5BreadcrumbModule.forRoot()
+    //  MatDatepickerModule, 
+    //  MatNativeDateModule, 
+    //  MatProgressSpinnerModule,
+    //  MatExpansionModule, 
+    //   MatSnackBarModule, 
+    //   MatTooltipModule, 
+    //   MatTabsModule, 
+    //   MatProgressBarModule,
+    //   MatSliderModule,
+    //   MatRadioModule,
+    //   MatDialogModule,
+  ],
+  providers: [BreadcrumbService]
 })
 export class HomeModule { }

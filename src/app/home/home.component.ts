@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../service/auth.service';
 import { HelperService } from '../service/helper.service';
 import { MenuItems } from '../shared/menu/menu-items/menu-items';
+import { BreadcrumbService } from 'ng5-breadcrumb';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class HomeComponent implements OnInit {
 
@@ -114,19 +116,54 @@ export class HomeComponent implements OnInit {
   constructor(
     public menuItems: MenuItems,
     private router: Router,
+    private breadcrumbService: BreadcrumbService,
     private authService: AuthService,
     private routes: Router, private helper: HelperService) {
     var data = this.helper.getDataFromStorageDetails("BranchInfo");
     if (data) {
       data = JSON.parse(data);
       this.branchInfo = data.BranchInfo;
-      this.branchInfo.BranchAvatar ="https://localhost:5001/assets/img/logo.jpeg"
+      this.branchInfo.BranchAvatar = "https://localhost:5001/assets/img/logo.jpeg"
     }
     this.menuList = menuItems.getAll();
+    breadcrumbService.addFriendlyNameForRoute('/home', 'Home');
+    breadcrumbService.addFriendlyNameForRoute('/home/dashboard', 'Dashboard');
+    breadcrumbService.addFriendlyNameForRoute('/home/orders', 'Orders');
+    breadcrumbService.addFriendlyNameForRoute('/home/products', 'Products');
+    breadcrumbService.addFriendlyNameForRoute('/home/user', 'User');
+    breadcrumbService.addFriendlyNameForRoute('/home/marketting', 'Marketting');
+    breadcrumbService.addFriendlyNameForRoute('/home/profile', 'Profile');
+    breadcrumbService.addFriendlyNameForRoute('/home/orders/view', 'View');
+    breadcrumbService.addFriendlyNameForRoute('/home/orders/view/order-detail', 'Order Detail');
+    breadcrumbService.addFriendlyNameForRoute('/home/orders/add', 'Add');
+    breadcrumbService.addFriendlyNameForRoute('/home/orders/export', 'Export');
+    breadcrumbService.addFriendlyNameForRoute('/home/orders/import', 'Import');
+    breadcrumbService.addFriendlyNameForRoute('/home/orders/draftOrders', 'Draft Orders');
+    breadcrumbService.addFriendlyNameForRoute('/home/orders/orderStatuses', 'Order Statuses');
+    breadcrumbService.addFriendlyNameForRoute('/home/products/view', 'View');
+    breadcrumbService.addFriendlyNameForRoute('/home/products/add', 'Add');
+    breadcrumbService.addFriendlyNameForRoute('/home/products/export', 'Export');
+    breadcrumbService.addFriendlyNameForRoute('/home/products/import', 'Import');
+    breadcrumbService.addFriendlyNameForRoute('/home/products/quickAdd', 'Quick Add');
+    breadcrumbService.addFriendlyNameForRoute('/home/products/detailedAdd', 'Detailed Add');
+    breadcrumbService.addFriendlyNameForRoute('/home/products/productCategories', 'Product Categories');
+    breadcrumbService.addFriendlyNameForRoute('/home/products/categoriesSupplier', 'Categories Supplier');
+    breadcrumbService.addFriendlyNameForRoute('/home/products/brands', 'Brands');
+    breadcrumbService.addFriendlyNameForRoute('/home/user/customer', 'Customer');
+    breadcrumbService.addFriendlyNameForRoute('/home/user/supplier', 'Supplier');
+    breadcrumbService.addFriendlyNameForRoute('/home/user/employee', 'Employee');
+    breadcrumbService.addFriendlyNameForRoute('/home/marketting/wheel-game', 'Wheel Game Setup');
+    breadcrumbService.addFriendlyNameForRoute('/home/user/customer/customer-detail', 'Customer Detail');
+    breadcrumbService.addFriendlyNameForRoute('/home/user/supplier/supplier-detail', 'Supplier Detail');
+    breadcrumbService.addFriendlyNameForRoute('/home/user/employee/employee-detail', 'Employee Detail');
+    breadcrumbService.addFriendlyNameForRoute('/home/marketting/wheel-game/wheel-game-detail', 'Wheel Game Detail');
+    breadcrumbService.addFriendlyNameForRoute('/home/marketting/couponcode', 'Coupon Code');
+    breadcrumbService.addFriendlyNameForRoute('/home/profile/profile', 'Profile');
+
   }
 
   ngOnInit() {
-  // this.header = this.menuList[1].name;
+    // this.header = this.menuList[1].name;
   }
 
   ngOnDestroy() {

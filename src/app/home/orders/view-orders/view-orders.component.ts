@@ -3,6 +3,7 @@ import { GridModel } from 'src/app/models/grid.model';
 import { AppconstantsService } from 'src/app/service/appconstants.service';
 import { HttpUtilityService } from 'src/app/service/httputility.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-orders',
@@ -13,7 +14,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 export class ViewOrdersComponent implements OnInit {
 
-  constructor(private http: HttpUtilityService, private modalService: NgbModal) {
+  constructor(public http: HttpUtilityService, private route: Router, private modalService: NgbModal) {
     let gridModel = {
       start: 0,
       limit: this.OrdersTableConfig.currentPageSize,
@@ -308,11 +309,8 @@ export class ViewOrdersComponent implements OnInit {
     console.log(e);
     switch (e.action) {
       case 'rowSelected':
-        if (!this.modalService.hasOpenModals()) {
-          this.selectedOrderIndex = e.index;
-          this.currentOrder = e.row;
-        }
-        // this.addOrderDetailsToTable(categoryId, e.index);
+        this.http.detailPageData = e.row;
+        this.route.navigate(["/home/orders/view/order-detail"]);
         break;
       case "click":
         var categoryId = e.row.CategoryId;

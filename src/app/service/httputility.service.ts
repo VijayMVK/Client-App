@@ -10,6 +10,7 @@ import { environment } from './../../environments/environment';
 export class HttpUtilityService {
 
     uploadObsr: Subscription = new Subscription();
+    detailPageData;
 
     constructor(private http: HttpClient, private helper: HelperService) {
     }

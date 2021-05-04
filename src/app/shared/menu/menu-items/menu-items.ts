@@ -101,10 +101,10 @@ const MENUITEMS = [
     icon: 'account_balance_wallet',
     children: [
       {
-        state: 'affliate', name: 'Affiliate Marketing'
+        state: 'wheel-game', name: 'Wheel Game Setup'
       },
       {
-        state: 'wheel-game', name: 'Wheel Game Setup'
+        state: 'affliate', name: 'Affiliate Marketing'
       },
       {
         state: 'couponcode', name: 'Coupon Codes'

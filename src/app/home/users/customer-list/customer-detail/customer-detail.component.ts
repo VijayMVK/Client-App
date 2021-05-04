@@ -1,18 +1,19 @@
-import { Component, Input, OnInit, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { GridModel } from 'src/app/models/grid.model';
 import { AppconstantsService } from 'src/app/service/appconstants.service';
 import { HttpUtilityService } from 'src/app/service/httputility.service';
 import { HelperService } from 'src/app/service/helper.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-customer-detail',
   templateUrl: './customer-detail.component.html',
   styleUrls: ['./customer-detail.component.scss']
 })
-export class CustomerDetailComponent implements OnInit {
+export class CustomerDetailComponent implements OnInit, OnDestroy {
   step = 0;
-  @Input('currentOrder') row: {};
+  row: {};
   expiryCount: number = 150;
   expiryDate: Date = new Date();
   minDate: Date = new Date();
@@ -51,36 +52,36 @@ export class CustomerDetailComponent implements OnInit {
     }
   ];
   team: Object[] = [{
-		name: 'Isabela Phelaps',
-		photo: 'assets/img/user-1.jpg',
-		post: 'Sr.Manager',
+    name: 'Isabela Phelaps',
+    photo: 'assets/img/user-1.jpg',
+    post: 'Sr.Manager',
     purchase: '4'
-	}, {
-		name: 'Trevor Hansen',
-		photo: 'assets/img/user-2.jpg',
-		post: 'Manager',
+  }, {
+    name: 'Trevor Hansen',
+    photo: 'assets/img/user-2.jpg',
+    post: 'Manager',
     purchase: '6'
-	}, {
-		name: 'Sandra Adams',
-		photo: 'assets/img/user-3.jpg',
-		post: 'Engineer',
+  }, {
+    name: 'Sandra Adams',
+    photo: 'assets/img/user-3.jpg',
+    post: 'Engineer',
     purchase: '5'
-	},{
-		name: 'Sandy Smith',
-		photo: 'assets/img/user-4.jpg',
-		post: 'Engineer',
+  }, {
+    name: 'Sandy Smith',
+    photo: 'assets/img/user-4.jpg',
+    post: 'Engineer',
     purchase: '10'
-	},{
-		name: 'Rosy Wonn',
-		photo: 'assets/img/user-5.jpg',
-		post: 'Jr.Engineer',
+  }, {
+    name: 'Rosy Wonn',
+    photo: 'assets/img/user-5.jpg',
+    post: 'Jr.Engineer',
     purchase: '7'
-	},{
-		name: 'Alex Roddy',
-		photo: 'assets/img/user-6.jpg',
-		post: 'Jr.Engineer',
+  }, {
+    name: 'Alex Roddy',
+    photo: 'assets/img/user-6.jpg',
+    post: 'Jr.Engineer',
     purchase: '2'
-	}];
+  }];
   uploadTable: any = [];
   sampleData: any[] = [
     {
@@ -215,13 +216,13 @@ export class CustomerDetailComponent implements OnInit {
         options: AppconstantsService.orderStatus
       },
       {
-        name:'Action',
-        type:'button',
-        id:'reply',
-        iconClass:'reply',
-        compareVal:'false',
-        activeClass:'cc',
-        usedefaultIcon:false
+        name: 'Action',
+        type: 'button',
+        id: 'reply',
+        iconClass: 'reply',
+        compareVal: 'false',
+        activeClass: 'cc',
+        usedefaultIcon: false
       },
     ],
     data: [],
@@ -232,7 +233,7 @@ export class CustomerDetailComponent implements OnInit {
     sortOrder: 1
   };
 
-  constructor(private helper: HelperService, private modalService: NgbModal, private http: HttpUtilityService) {
+  constructor(private helper: HelperService, private modalService: NgbModal, public http: HttpUtilityService, private route: Router) {
     let gridModel = {
       start: 0,
       limit: this.OrderDetailsConfig.currentPageSize,
@@ -244,7 +245,10 @@ export class CustomerDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.row = this.sampleData[0];
+    if (this.http.detailPageData)
+      this.row = this.http.detailPageData;
+    else
+      this.route.navigate(["/home/user/customer"]);
   }
 
   setStep(index: number) {
@@ -276,6 +280,10 @@ export class CustomerDetailComponent implements OnInit {
     // To calculate the no. of days between two dates
     this.expiryCount = Math.round(this.expiryCount / (1000 * 3600 * 24));
     this.closeModel();
+  }
+
+  ngOnDestroy() {
+    this.http.detailPageData = null;
   }
 
 }
