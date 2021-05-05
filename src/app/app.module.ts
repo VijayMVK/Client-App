@@ -13,6 +13,7 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { QuillModule } from 'ngx-quill';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
+import { Ng5BreadcrumbModule, BreadcrumbService } from 'ng5-breadcrumb';
 
 @NgModule({
   declarations: [
@@ -30,9 +31,10 @@ import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
     HttpClientModule,
     MatSnackBarModule,
     MatIconModule,
-    QuillModule.forRoot()
+    QuillModule.forRoot(),
+    Ng5BreadcrumbModule.forRoot()
   ],
-  providers: [HttpClient],
+  providers: [HttpClient, BreadcrumbService],
   bootstrap: [AppComponent]
 })
 export class AppModule { 

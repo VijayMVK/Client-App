@@ -97,7 +97,7 @@ import { Ng5BreadcrumbModule, BreadcrumbService } from 'ng5-breadcrumb';
     NgxEchartsModule.forRoot({
       echarts,
     }),
-    Ng5BreadcrumbModule.forRoot()
+    Ng5BreadcrumbModule
     //  MatDatepickerModule, 
     //  MatNativeDateModule, 
     //  MatProgressSpinnerModule,
